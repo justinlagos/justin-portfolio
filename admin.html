@@ -877,7 +877,7 @@
         // Supabase initialization
         const SUPABASE_URL = 'https://cgzqnnssbijfpuymnoqe.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNnenFubnNzYmlqZnB1eW1ub3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMjIyODEsImV4cCI6MjA4OTc5ODI4MX0.eUpWahjSdumf7nOLXemgi_Qc6JrXHdR6fPoLfd-0r60';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // State
         let currentUser = null;
@@ -916,7 +916,7 @@
             try {
                 let data, error;
                 if (isSignUp) {
-                    ({ data, error } = await supabase.auth.signUp({ email, password }));
+                    ({ data, error } = await sb.auth.signUp({ email, password }));
                     if (error) throw error;
                     if (data.user && !data.user.identities?.length) {
                         showToast('An account with this email already exists. Try signing in instead.', 'error');
@@ -929,7 +929,7 @@
                     btn.disabled = false;
                     return;
                 } else {
-                    ({ data, error } = await supabase.auth.signInWithPassword({ email, password }));
+                    ({ data, error } = await sb.auth.signInWithPassword({ email, password }));
                 }
 
                 if (error) throw error;
@@ -949,7 +949,7 @@
         });
 
         document.getElementById('logoutBtn').addEventListener('click', async () => {
-            await supabase.auth.signOut();
+            await sb.auth.signOut();
             currentUser = null;
             location.reload();
         });
@@ -1023,13 +1023,13 @@
                 const timestamp = Date.now();
                 const filename = `${timestamp}-${Math.random().toString(36).substr(2, 9)}-${file.name}`;
 
-                const { data, error } = await supabase.storage
+                const { data, error } = await sb.storage
                     .from('portfolio-images')
                     .upload(filename, file);
 
                 if (error) throw error;
 
-                const { data: publicUrl } = supabase.storage
+                const { data: publicUrl } = sb.storage
                     .from('portfolio-images')
                     .getPublicUrl(filename);
 
@@ -1111,9 +1111,9 @@
         async function loadDashboard() {
             try {
                 const [projects, credentials, clients] = await Promise.all([
-                    supabase.from('projects').select('id').limit(1).count('exact'),
-                    supabase.from('credentials').select('id').limit(1).count('exact'),
-                    supabase.from('clients').select('id').limit(1).count('exact')
+                    sb.from('projects').select('id').limit(1).count('exact'),
+                    sb.from('credentials').select('id').limit(1).count('exact'),
+                    sb.from('clients').select('id').limit(1).count('exact')
                 ]);
 
                 document.getElementById('projectCount').textContent = projects.count || 0;
@@ -1541,7 +1541,7 @@
         // Generic CRUD functions
         async function loadTableData(tableName, options = {}) {
             try {
-                const query = supabase.from(tableName).select('*');
+                const query = sb.from(tableName).select('*');
 
                 if (options.order) {
                     query.order(options.order.column, { ascending: options.order.ascending });
@@ -2076,7 +2076,7 @@
         }
 
         // Check auth state on load
-        supabase.auth.onAuthStateChange((event, session) => {
+        sb.auth.onAuthStateChange((event, session) => {
             if (session) {
                 currentUser = session.user;
                 showLoginUI();
