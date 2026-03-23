@@ -257,7 +257,13 @@
         .button-group {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            position: sticky;
+            bottom: 0;
+            background: #252525;
+            z-index: 1;
         }
 
         .button-group button {
@@ -387,8 +393,11 @@
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 2000;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
+            padding: 40px 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal.active {
@@ -398,14 +407,45 @@
         .modal-content {
             background-color: #252525;
             padding: 30px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
+            border-radius: 12px;
+            max-width: 640px;
+            width: 100%;
             border: 1px solid #404040;
+            margin: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         .modal-content h2 {
             margin-bottom: 20px;
+            padding-right: 40px;
+            font-size: 18px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: #333;
+            border: 1px solid #555;
+            color: #aaa;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+            transition: all 0.15s;
+        }
+
+        .modal-close:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: #fff;
         }
 
         .modal-buttons {
@@ -420,24 +460,30 @@
 
         .image-upload {
             border: 2px dashed #404040;
-            padding: 20px;
-            border-radius: 4px;
+            padding: 16px;
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            margin: 10px 0;
+            margin: 8px 0;
+            font-size: 13px;
+            color: #888;
         }
 
         .image-upload:hover {
             border-color: #C8622A;
             background-color: #2d2d2d;
+            color: #C8622A;
         }
 
         .image-preview {
-            margin-top: 10px;
+            margin-top: 8px;
             max-width: 100%;
-            max-height: 200px;
-            border-radius: 4px;
+            max-height: 120px;
+            border-radius: 6px;
+            object-fit: contain;
+            background: #1a1a1a;
+            padding: 4px;
         }
 
         .hidden-file-input {
@@ -562,6 +608,271 @@
             display: block;
         }
 
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top-color: #C8622A;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.4;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        /* Upload loading indicator */
+        .upload-loading {
+            display: none;
+            padding: 12px;
+            text-align: center;
+            color: #C8622A;
+            font-size: 13px;
+        }
+
+        .upload-loading.active {
+            display: block;
+        }
+
+        /* Better form section spacing in modal */
+        .modal-content .form-section {
+            border: none;
+            padding: 0;
+            margin-bottom: 0;
+            background: transparent;
+        }
+
+        .modal-content .form-row {
+            margin-bottom: 16px;
+        }
+
+        .modal-content .form-group {
+            margin-bottom: 0;
+        }
+
+        .modal-content label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #999;
+            margin-bottom: 6px;
+        }
+
+        .modal-content textarea {
+            min-height: 70px;
+        }
+
+        /* Checkbox group polish */
+        .modal-content .checkbox-group {
+            padding: 12px 0;
+        }
+
+        .modal-content .checkbox-group label {
+            text-transform: none;
+            letter-spacing: 0;
+            color: #ddd;
+            font-size: 14px;
+        }
+
+        /* Table improvements */
+        .table {
+            border-radius: 8px;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid #404040;
+        }
+
+        .table-wrapper .table {
+            border: none;
+        }
+
+        /* Header polish */
+        .header {
+            min-height: 64px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .view-site-btn {
+            padding: 10px 20px;
+            font-size: 13px;
+            background: transparent;
+            border: 1px solid #404040;
+            color: #ccc;
+        }
+
+        .view-site-btn:hover {
+            border-color: #C8622A;
+            color: #C8622A;
+            background: transparent;
+        }
+
+        /* Sidebar polish */
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+
+        .sidebar-label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            font-size: 13px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Section header with action */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            margin-bottom: 0;
+        }
+
+        /* Login polish */
+        .login-container {
+            border: 1px solid #333;
+        }
+
+        .login-container h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        /* Stat card hover */
+        .stat-card {
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: #555;
+            transform: translateY(-2px);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Focus ring for accessibility */
+        button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+            outline: 2px solid #C8622A;
+            outline-offset: 2px;
+        }
+
+        /* Settings section */
+        .settings-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .settings-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .settings-item .form-group {
+            flex: 1;
+        }
+
+        .settings-item button {
+            white-space: nowrap;
+            height: 42px;
+        }
+
+        /* Page tabs polish */
+        .tabs {
+            gap: 2px;
+        }
+
+        .tab {
+            font-size: 13px;
+            padding: 10px 16px;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .tab.active {
+            background: #252525;
+        }
+
+        /* Danger button better contrast */
+        button.danger {
+            background-color: transparent;
+            border: 1px solid #dc2626;
+            color: #dc2626;
+        }
+
+        button.danger:hover {
+            background-color: #dc2626;
+            color: #fff;
+        }
+
+        /* Add button styling */
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding: 10px 18px;
+        }
+
         @media (max-width: 1024px) {
             .sidebar {
                 width: 200px;
@@ -611,11 +922,46 @@
             }
 
             .content {
-                padding: 20px;
+                padding: 16px;
             }
 
             .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .modal {
+                padding: 20px 12px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-content .form-row {
                 grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .action-buttons button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .button-group {
+                flex-direction: column;
             }
         }
     </style>
@@ -668,7 +1014,10 @@
         <div class="main-content">
             <div class="header">
                 <h1 id="pageTitle">Dashboard</h1>
-                <button class="logout-btn secondary" id="logoutBtn">Sign Out</button>
+                <div class="header-actions">
+                    <a href="/" target="_blank" style="text-decoration:none;"><button type="button" class="view-site-btn">View Site</button></a>
+                    <button class="logout-btn secondary" id="logoutBtn">Sign Out</button>
+                </div>
             </div>
 
             <div class="content" id="content">
@@ -887,12 +1236,34 @@
         let allProjectSections = [];
 
         // Toast notification system
+        let _toastStack = [];
         function showToast(message, type = 'success') {
+            // Remove old toasts if stacking too many
+            if (_toastStack.length >= 3) {
+                const oldest = _toastStack.shift();
+                if (oldest.parentNode) oldest.remove();
+            }
+
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
+            toast.style.bottom = `${20 + _toastStack.length * 56}px`;
             document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            _toastStack.push(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                toast.style.transition = 'all 0.3s';
+                setTimeout(() => {
+                    toast.remove();
+                    _toastStack = _toastStack.filter(t => t !== toast);
+                    // Reposition remaining toasts
+                    _toastStack.forEach((t, i) => {
+                        t.style.bottom = `${20 + i * 56}px`;
+                    });
+                }, 300);
+            }, 3000);
         }
 
         // Auth handlers
@@ -1005,20 +1376,44 @@
         function openModal(title, html) {
             const modal = document.getElementById('editModal');
             const content = document.getElementById('modalContent');
-            content.innerHTML = `<h2>${title}</h2>${html}`;
+            content.innerHTML = `<button class="modal-close" onclick="closeModal()" title="Close (Esc)">&times;</button><h2>${title}</h2>${html}`;
             modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Focus the modal for keyboard access
+            content.focus();
         }
 
         function closeModal() {
             document.getElementById('editModal').classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         document.getElementById('editModal').addEventListener('click', (e) => {
             if (e.target.id === 'editModal') closeModal();
         });
 
+        // Escape key closes modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
         // Image upload handler
         async function uploadImage(file) {
+            // Validate file
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                showToast('File too large. Maximum size is 5MB.', 'error');
+                return null;
+            }
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+            if (!allowedTypes.includes(file.type)) {
+                showToast('Invalid file type. Use JPG, PNG, GIF, WebP, or SVG.', 'error');
+                return null;
+            }
+
+            showToast('Uploading image...', 'success');
+
             try {
                 const timestamp = Date.now();
                 const filename = `${timestamp}-${Math.random().toString(36).substr(2, 9)}-${file.name}`;
@@ -1033,6 +1428,7 @@
                     .from('portfolio-images')
                     .getPublicUrl(filename);
 
+                showToast('Image uploaded successfully');
                 return publicUrl.publicUrl;
             } catch (err) {
                 showToast('Image upload failed: ' + err.message, 'error');
@@ -1340,13 +1736,17 @@
 
         function renderProjectsTable() {
             const tbody = document.getElementById('projectsTableBody');
+            if (!allProjects.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#666;">No projects yet. Click "Add New Project" to create one.</td></tr>';
+                return;
+            }
             tbody.innerHTML = allProjects.map(project => `
                 <tr>
                     <td><span class="drag-handle">≡</span>${project.sort_order || 0}</td>
                     <td>${project.title}</td>
                     <td>${project.category || '-'}</td>
                     <td>${project.year || '-'}</td>
-                    <td>${project.is_featured ? 'Yes' : 'No'}</td>
+                    <td>${project.is_featured ? '<span style="color:#C8622A;">&#9733; Yes</span>' : '<span style="color:#666;">No</span>'}</td>
                     <td>${project.is_visible ? 'Yes' : 'No'}</td>
                     <td>
                         <div class="action-buttons">
@@ -1673,11 +2073,15 @@
 
         function renderTable(tableName, data, fields) {
             const tbody = document.getElementById(`${tableName}TableBody`);
+            if (!data.length) {
+                tbody.innerHTML = `<tr><td colspan="${fields.length + 2}" style="text-align:center;padding:40px;color:#666;">No ${tableName} yet.</td></tr>`;
+                return;
+            }
             tbody.innerHTML = data.map(item => {
                 let row = `<tr><td>${item.sort_order || 0}</td>`;
                 fields.forEach(field => {
                     if (field === 'is_visible') {
-                        row += `<td>${item.is_visible ? 'Yes' : 'No'}</td>`;
+                        row += `<td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>`;
                     } else {
                         row += `<td>${item[field] || '-'}</td>`;
                     }
@@ -1705,13 +2109,17 @@
 
         function renderProducts() {
             const tbody = document.getElementById('productsTableBody');
+            if (!allProducts.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#666;">No products yet.</td></tr>';
+                return;
+            }
             tbody.innerHTML = allProducts.map(item => `
                 <tr>
                     <td>${item.sort_order || 0}</td>
                     <td>${item.title}</td>
                     <td>${item.url || '-'}</td>
                     <td>${item.icon || '-'}</td>
-                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
                     <td>
                         <div class="action-buttons">
                             <button class="secondary" onclick="editProduct('${item.id}')">Edit</button>
@@ -1787,12 +2195,16 @@
 
         function renderClients() {
             const tbody = document.getElementById('clientsTableBody');
+            if (!allClients.length) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#666;">No clients yet.</td></tr>';
+                return;
+            }
             tbody.innerHTML = allClients.map(item => `
                 <tr>
                     <td>${item.sort_order || 0}</td>
                     <td>${item.name}</td>
                     <td>${item.logo_url ? `<img src="${item.logo_url}" alt="${item.name}" style="height:32px;max-width:80px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">` : 'No logo'}</td>
-                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
                     <td>
                         <div class="action-buttons">
                             <button class="secondary" onclick="editClient('${item.id}')">Edit</button>
@@ -1871,11 +2283,15 @@
 
         function renderCountries() {
             const tbody = document.getElementById('countriesTableBody');
+            if (!allCountries.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:#666;">No countries yet.</td></tr>';
+                return;
+            }
             tbody.innerHTML = allCountries.map(item => `
                 <tr>
                     <td>${item.sort_order || 0}</td>
                     <td>${item.name}</td>
-                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
                     <td>
                         <div class="action-buttons">
                             <button class="secondary" onclick="editCountry('${item.id}')">Edit</button>
@@ -1939,6 +2355,10 @@
 
         function renderStats() {
             const tbody = document.getElementById('statsTableBody');
+            if (!allStats.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:#666;">No stats yet.</td></tr>';
+                return;
+            }
             tbody.innerHTML = allStats.map(item => `
                 <tr>
                     <td>${item.sort_order || 0}</td>
@@ -2009,13 +2429,17 @@
 
         function renderSocial() {
             const tbody = document.getElementById('socialTableBody');
+            if (!allSocial.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#666;">No social links yet.</td></tr>';
+                return;
+            }
             tbody.innerHTML = allSocial.map(item => `
                 <tr>
                     <td>${item.sort_order || 0}</td>
                     <td>${item.platform}</td>
                     <td>${item.url || '-'}</td>
                     <td>${item.label || '-'}</td>
-                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
                     <td>
                         <div class="action-buttons">
                             <button class="secondary" onclick="editSocial('${item.id}')">Edit</button>
@@ -2091,19 +2515,21 @@
                 if (error) throw error;
 
                 const container = document.getElementById('settingsContainer');
-                container.innerHTML = data.map(setting => `
-                    <div class="form-section" style="margin-bottom: 15px;">
-                        <div class="form-row">
+                if (!data.length) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#9881;</div><p>No settings configured yet.</p></div>';
+                    return;
+                }
+                container.innerHTML = '<div class="settings-grid">' + data.map(setting => `
+                    <div class="form-section">
+                        <div class="settings-item">
                             <div class="form-group">
-                                <label>${setting.key}</label>
+                                <label>${setting.key.replace(/_/g, ' ')}</label>
                                 <input type="text" id="setting-${setting.id}" value="${setting.value || ''}" />
                             </div>
-                            <div style="display: flex; align-items: flex-end;">
-                                <button class="secondary" onclick="updateSetting('${setting.id}')">Save</button>
-                            </div>
+                            <button class="secondary" onclick="updateSetting('${setting.id}')">Save</button>
                         </div>
                     </div>
-                `).join('');
+                `).join('') + '</div>';
             } catch (err) {
                 showToast('Failed to load settings: ' + err.message, 'error');
             }
