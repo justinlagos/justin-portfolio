@@ -1111,15 +1111,15 @@
         async function loadDashboard() {
             try {
                 const [projects, credentials, clients] = await Promise.all([
-                    sb.from('projects').select('id').limit(1).count('exact'),
-                    sb.from('credentials').select('id').limit(1).count('exact'),
-                    sb.from('clients').select('id').limit(1).count('exact')
+                    sb.from('projects').select('*', { count: 'exact', head: true }),
+                    sb.from('credentials').select('*', { count: 'exact', head: true }),
+                    sb.from('clients').select('*', { count: 'exact', head: true })
                 ]);
 
-                document.getElementById('projectCount').textContent = projects.count || 0;
+                document.getElementById('projectCount').textContent = projects.count ?? 0;
                 document.getElementById('pageCount').textContent = '4';
-                document.getElementById('credentialCount').textContent = credentials.count || 0;
-                document.getElementById('clientCount').textContent = clients.count || 0;
+                document.getElementById('credentialCount').textContent = credentials.count ?? 0;
+                document.getElementById('clientCount').textContent = clients.count ?? 0;
             } catch (err) {
                 showToast('Failed to load dashboard: ' + err.message, 'error');
             }
@@ -1128,7 +1128,7 @@
         // Pages Management
         async function loadPages() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await sb
                     .from('pages')
                     .select('*')
                     .in('slug', ['home', 'work', 'about', 'contact']);
@@ -1287,14 +1287,14 @@
 
                 const page = allPages[slug];
                 if (page && page.id) {
-                    const { error } = await supabase
+                    const { error } = await sb
                         .from('pages')
                         .update(data)
                         .eq('id', page.id);
                     if (error) throw error;
                 } else {
                     data.slug = slug;
-                    const { error } = await supabase
+                    const { error } = await sb
                         .from('pages')
                         .insert([data]);
                     if (error) throw error;
@@ -1320,7 +1320,7 @@
         // Projects Management
         async function loadProjects() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await sb
                     .from('projects')
                     .select('*')
                     .order('sort_order', { ascending: true });
@@ -1361,7 +1361,7 @@
             try {
                 let project = null;
                 if (projectId) {
-                    const { data, error } = await supabase
+                    const { data, error } = await sb
                         .from('projects')
                         .select('*')
                         .eq('id', projectId)
@@ -1500,14 +1500,14 @@
                 };
 
                 if (projectId && projectId !== 'null') {
-                    const { error } = await supabase
+                    const { error } = await sb
                         .from('projects')
                         .update(data)
                         .eq('id', projectId);
                     if (error) throw error;
                 } else {
                     data.sort_order = allProjects.length;
-                    const { error } = await supabase
+                    const { error } = await sb
                         .from('projects')
                         .insert([data]);
                     if (error) throw error;
@@ -1525,7 +1525,7 @@
             if (!confirm('Are you sure you want to delete this project?')) return;
 
             try {
-                const { error } = await supabase
+                const { error } = await sb
                     .from('projects')
                     .delete()
                     .eq('id', projectId);
@@ -1560,13 +1560,13 @@
         async function saveTableItem(tableName, data, itemId) {
             try {
                 if (itemId) {
-                    const { error } = await supabase
+                    const { error } = await sb
                         .from(tableName)
                         .update(data)
                         .eq('id', itemId);
                     if (error) throw error;
                 } else {
-                    const { error } = await supabase
+                    const { error } = await sb
                         .from(tableName)
                         .insert([data]);
                     if (error) throw error;
@@ -1582,7 +1582,7 @@
 
         async function deleteTableItem(tableName, itemId) {
             try {
-                const { error } = await supabase
+                const { error } = await sb
                     .from(tableName)
                     .delete()
                     .eq('id', itemId);
@@ -2034,7 +2034,7 @@
         // Settings Management
         async function loadSettings() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await sb
                     .from('settings')
                     .select('*')
                     .order('key', { ascending: true });
@@ -2063,7 +2063,7 @@
         async function updateSetting(settingId) {
             try {
                 const value = document.getElementById(`setting-${settingId}`).value;
-                const { error } = await supabase
+                const { error } = await sb
                     .from('settings')
                     .update({ value })
                     .eq('id', settingId);
