@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work — Justin Ukaegbu Design Portfolio</title>
+  <meta name="description" content="Design leadership across brand, product, interaction, and educational technology. Portfolio spanning the United Kingdom, Nigeria, Dubai, and 50 countries.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-logo">Justin Ukaegbu</a>
+    <ul class="nav-links">
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" data-nav-toggle aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <ul>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+
+  <div class="menu-overlay" data-menu-overlay></div>
+
+  <!-- Page Hero Section -->
+  <section class="hero" style="padding: calc(var(--space-3xl) + 80px) 0 var(--space-3xl) 0; min-height: auto;">
+    <div class="container" style="max-width: 1280px; margin: 0 auto; padding: 0 var(--space-lg);">
+      <div data-hero-animate>
+        <span class="section-tag">Selected Work</span>
+      </div>
+      <div data-hero-animate>
+        <h1 class="section-title">Programmes of practice</h1>
+      </div>
+      <div data-hero-animate>
+        <p class="section-intro">Design leadership across brand, product, interaction, and educational technology. Work spanning the United Kingdom, Nigeria, Dubai, and 50 countries.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Buttons -->
+  <section style="padding: var(--space-2xl) 0;">
+    <div class="container" style="max-width: 1280px; margin: 0 auto; padding: 0 var(--space-lg);">
+      <div style="display: flex; gap: var(--space-md); flex-wrap: wrap; margin-bottom: var(--space-3xl);">
+        <button class="filter-btn active" data-filter="All" style="padding: var(--space-sm) var(--space-lg); border: 1px solid var(--rule); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: 500; background: transparent; cursor: pointer; transition: all var(--transition-base); color: var(--ink);">All</button>
+        <button class="filter-btn" data-filter="brand" style="padding: var(--space-sm) var(--space-lg); border: 1px solid var(--rule); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: 500; background: transparent; cursor: pointer; transition: all var(--transition-base); color: var(--ink);">Brand</button>
+        <button class="filter-btn" data-filter="product" style="padding: var(--space-sm) var(--space-lg); border: 1px solid var(--rule); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: 500; background: transparent; cursor: pointer; transition: all var(--transition-base); color: var(--ink);">Product</button>
+        <button class="filter-btn" data-filter="campaign" style="padding: var(--space-sm) var(--space-lg); border: 1px solid var(--rule); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: 500; background: transparent; cursor: pointer; transition: all var(--transition-base); color: var(--ink);">Campaign</button>
+      </div>
+
+      <!-- Work Grid -->
+      <div class="work-grid">
+
+        <!-- 1. Take Back The Mic -->
+        <a href="cases/tbtm.html" class="work-card reveal" data-work-card data-project="brand">
+          <div class="work-card-image" style="background-image: url('assets/projects/tbtm/social-1.png'); background-size: cover; background-position: center; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Take Back The Mic</div>
+            <div class="work-card-meta">Africa / Middle East / Global | 2021–2024</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Brand design lead across three seasons of Africa's largest cultural competition. Webby Award nominated.</div>
+          </div>
+        </a>
+
+        <!-- 2. Route to Zero -->
+        <a href="cases/route-to-zero.html" class="work-card reveal" data-work-card data-project="brand">
+          <div class="work-card-image" style="background-image: url('assets/projects/route-to-zero/web-1.png'); background-size: cover; background-position: center; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Route to Zero</div>
+            <div class="work-card-meta">United Kingdom | 2024–Present</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Brand identity, website, and communications for a UK government-level sustainability organisation.</div>
+          </div>
+        </a>
+
+        <!-- 3. Kavlr -->
+        <a href="cases/kavlr.html" class="work-card reveal" data-work-card data-project="product">
+          <div class="work-card-image" style="background-image: url('assets/projects/kavlr/landing-page.png'); background-size: cover; background-position: center; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Kavlr</div>
+            <div class="work-card-meta">UK / Nigeria | 2022–2024</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">UX/UI design lead for a multi-currency fintech platform with 60+ design pages.</div>
+          </div>
+        </a>
+
+        <!-- 4. Syntech Biofuel -->
+        <a href="cases/syntech.html" class="work-card reveal" data-work-card data-project="brand campaign">
+          <div class="work-card-image" style="background: #FF6600; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Syntech Biofuel</div>
+            <div class="work-card-meta">United Kingdom | 2024</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Brand, social media, racing livery, and AI-powered school outreach for a UK biofuel company.</div>
+          </div>
+        </a>
+
+        <!-- 5. Tryba -->
+        <a href="cases/tryba.html" class="work-card reveal" data-work-card data-project="product brand">
+          <div class="work-card-image" style="background-image: url('assets/projects/tryba/card-black.png'); background-size: cover; background-position: center; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Tryba</div>
+            <div class="work-card-meta">Nigeria | 2022–2023</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Digital banking platform — card system, mobile app, social media campaigns.</div>
+          </div>
+        </a>
+
+        <!-- 6. HashIT -->
+        <a href="cases/hashit.html" class="work-card reveal" data-work-card data-project="product">
+          <div class="work-card-image" style="background-image: url('assets/projects/hashit/app.png'); background-size: cover; background-position: center; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">HashIT</div>
+            <div class="work-card-meta">Nigeria | 2023–2024</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Head of Product Design. Fintech and social earning platform from concept to deployment.</div>
+          </div>
+        </a>
+
+        <!-- 7. EasyJet -->
+        <a href="cases/easyjet.html" class="work-card reveal" data-work-card data-project="campaign">
+          <div class="work-card-image" style="background: #FF6600; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">EasyJet</div>
+            <div class="work-card-meta">United Kingdom | 2024</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Out-of-home advertising campaign design across bus wraps, billboards, and digital displays.</div>
+          </div>
+        </a>
+
+        <!-- 8. Sparkle -->
+        <a href="cases/sparkle.html" class="work-card reveal" data-work-card data-project="campaign brand">
+          <div class="work-card-image" style="background: #4CAF50; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Sparkle</div>
+            <div class="work-card-meta">Nigeria | 2021–2022</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Social media design for Nigeria's lifestyle and financial ecosystem platform.</div>
+          </div>
+        </a>
+
+        <!-- 9. Polo Luxury -->
+        <a href="cases/polo-luxury.html" class="work-card reveal" data-work-card data-project="campaign brand">
+          <div class="work-card-image" style="background: #1a1a1a; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Polo Luxury</div>
+            <div class="work-card-meta">Nigeria | 2019–2021</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Social media and email design for West Africa's premier luxury retail brand.</div>
+          </div>
+        </a>
+
+        <!-- 10. Vulta -->
+        <a href="cases/vulta.html" class="work-card reveal" data-work-card data-project="product">
+          <div class="work-card-image" style="background: #1a0a2e; width: 100%; height: 100%;"></div>
+          <div class="work-card-content">
+            <div class="work-card-title">Vulta</div>
+            <div class="work-card-meta">Global | 2025</div>
+            <div style="font-size: var(--text-sm); color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm);">Complete UI/UX design for a multi-chain cryptocurrency wallet application.</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#design-leadership">Design Leadership</a></li>
+            <li><a href="#brand-design">Brand Design</a></li>
+            <li><a href="#product-design">Product Design</a></li>
+            <li><a href="#campaigns">Campaigns</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Regions</h4>
+          <ul>
+            <li><a href="#united-kingdom">United Kingdom</a></li>
+            <li><a href="#nigeria">Nigeria</a></li>
+            <li><a href="#global">Global</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@justinukaegbu.com">Email</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a></li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Justin Ukaegbu. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" data-back-to-top aria-label="Back to top" style="position: fixed; bottom: var(--space-lg); right: var(--space-lg); width: 48px; height: 48px; border-radius: 50%; background-color: var(--ink); color: var(--white); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: var(--z-sticky); opacity: 0; visibility: hidden; transition: all var(--transition-base); font-size: var(--text-xl);">
+    <span>↑</span>
+  </button>
+
+  <style>
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .filter-btn.active {
+      background-color: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .work-card.hidden {
+      display: none;
+    }
+
+    .work-card {
+      transition: all var(--transition-base);
+    }
+  </style>
+
+  <!-- Main JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
