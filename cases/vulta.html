@@ -1,170 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vulta | Justin Ukaegbu - Portfolio</title>
-    <meta name="description" content="Vulta case study: Complete UI/UX design for a multi-chain cryptocurrency wallet supporting Tron, Lisk, Solana, and Polygon networks.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vulta | Justin Ukaegbu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="../index.html" class="nav-logo">Justin Ukaegbu</a>
-            <div class="nav-menu">
-                <a href="../index.html" class="nav-link">Work</a>
-                <a href="../about.html" class="nav-link">About</a>
-                <a href="../contact.html" class="nav-link">Contact</a>
-            </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <a href="../index.html" class="mobile-menu-link">Work</a>
-        <a href="../about.html" class="mobile-menu-link">About</a>
-        <a href="../contact.html" class="mobile-menu-link">Contact</a>
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">Justin Ukaegbu</a>
+      <ul class="nav-links">
+        <li><a href="../work.html">Work</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </nav>
+  <div class="mobile-menu" data-mobile-menu aria-hidden="true">
+    <ul>
+      <li><a href="../work.html">Work</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div class="menu-overlay" data-menu-overlay aria-hidden="true"></div>
 
-    <!-- Case Hero -->
-    <section class="case-hero">
-        <div class="case-hero-content">
-            <span class="case-tag">Global | 2025</span>
-            <h1 class="case-title">Vulta</h1>
-            <p class="case-subtitle">Complete UI/UX design for a multi-chain cryptocurrency wallet — storing, sending, and receiving digital assets across Tron, Lisk, Solana, and Polygon networks with clarity and confidence.</p>
+  <section class="case-hero" style="background-color: #1a0a2e; color: white;">
+    <div class="case-hero-content">
+      <span class="eyebrow">PRODUCT</span>
+      <h1 class="case-hero-title">Vulta</h1>
+      <p class="case-hero-subtitle">Multi-chain crypto wallet making digital asset management accessible without dumbing it down</p>
+    </div>
+  </section>
+
+  <div class="case-wrapper">
+    <aside class="case-meta">
+      <div class="case-meta-item">
+        <h3>Client</h3>
+        <p>Vulta</p>
+      </div>
+      <div class="case-meta-item">
+        <h3>Role</h3>
+        <p>Product Designer</p>
+      </div>
+      <div class="case-meta-item">
+        <h3>Year</h3>
+        <p>2023</p>
+      </div>
+      <div class="case-meta-item">
+        <h3>Scope</h3>
+        <p>Mobile App Design, Onboarding UX, Wallet Interface, Transaction Flows, KYC Integration</p>
+      </div>
+    </aside>
+
+    <div class="case-content">
+      <section>
+        <h2>The Context</h2>
+        <p>Vulta is a digital wallet application for storing, sending, and receiving multiple cryptocurrencies across different blockchain networks. In a market where most crypto wallets overwhelm users with technical complexity, Vulta needed design that made multi-chain asset management feel as simple as checking a bank balance. The challenge was designing for two audiences simultaneously: crypto-native users who expected granular control, and newcomers who needed guided, confident interfaces.</p>
+      </section>
+
+      <section>
+        <h2>The Objective</h2>
+        <p>Design the complete mobile app experience from onboarding through to daily wallet management. Build an intuitive KYC (Know Your Customer) verification flow. Create transaction interfaces that handled the complexity of multi-network transfers without exposing unnecessary technical detail. Ensure the design communicated security and trust, critical for an app holding real financial assets.</p>
+      </section>
+
+      <section>
+        <h2>The Approach</h2>
+        <p>The interface used a dark theme, standard in crypto applications but executed here with restraint and sophistication rather than the neon-heavy aesthetic common in the space. The onboarding flow was designed as progressive disclosure: create account, set security passcode, verify identity, each step feeling like natural progression rather than a compliance burden. The wallet dashboard showed portfolio balance prominently with clear visual hierarchy: total value first, then individual token balances with network indicators. Transaction details were designed to be comprehensive but scannable.</p>
+      </section>
+
+      <section>
+        <h2>The Execution</h2>
+        <p>The complete onboarding flow from welcome screen through account creation, security setup, and passcode confirmation; the KYC verification experience with progressive status indicators (pending, reviewing, approved); the portfolio dashboard with real-time balance display, wallet search, and token-specific views; transaction history with detailed receipt views showing network, memo, and reference data; send and receive flows with network selection and address management; and the visual system with dark theme, purple accent colours, clean iconography, and clear status communication through colour coding (green for success, amber for pending, red for issues).</p>
+      </section>
+
+      <div class="case-metrics">
+        <div class="metric">
+          <span class="metric-value">Multi</span>
+          <span class="metric-label">Chain Support</span>
         </div>
-    </section>
-
-    <!-- Case Meta -->
-    <section class="case-meta">
-        <div class="case-container">
-            <div class="meta-grid">
-                <div class="meta-item">
-                    <span class="meta-label">Client</span>
-                    <p class="meta-value">Vulta</p>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Role</span>
-                    <p class="meta-value">UI/UX Designer</p>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Timeline</span>
-                    <p class="meta-value">2025</p>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Scope</span>
-                    <p class="meta-value">Mobile App Design, Onboarding UX, Wallet Interface, Transaction Flows, KYC Integration</p>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Networks</span>
-                    <p class="meta-value">Tron, Lisk, Solana, Polygon</p>
-                </div>
-            </div>
+        <div class="metric">
+          <span class="metric-value">Full</span>
+          <span class="metric-label">App Design</span>
         </div>
-    </section>
-
-    <!-- Case Content -->
-    <section class="case-content">
-        <div class="case-container">
-
-            <!-- The Context -->
-            <div class="case-section">
-                <h2>The Context</h2>
-                <p>Vulta is a digital wallet application for storing, sending, and receiving multiple cryptocurrencies across different blockchain networks. In a market where most crypto wallets overwhelm users with technical complexity, Vulta needed design that made multi-chain asset management feel as simple as checking a bank balance. The challenge was designing for two audiences simultaneously: crypto-native users who expected granular control, and newcomers who needed guided, confident interfaces.</p>
-            </div>
-
-            <!-- The Objective -->
-            <div class="case-section">
-                <h2>The Objective</h2>
-                <p>Design the complete mobile app experience from onboarding through to daily wallet management. Build an intuitive KYC (Know Your Customer) verification flow. Create transaction interfaces that handle the complexity of multi-network transfers without exposing unnecessary technical detail. Ensure the design communicated security and trust — critical for an app that holds real financial assets.</p>
-            </div>
-
-            <!-- The Approach -->
-            <div class="case-section">
-                <h2>The Approach</h2>
-                <p>The interface used a dark theme — standard in crypto applications, but executed here with restraint and sophistication rather than the neon-heavy aesthetic common in the space. The onboarding flow was designed as a progressive disclosure: create account, set security passcode, verify identity — each step feeling like a natural progression rather than a compliance burden. The wallet dashboard showed portfolio balance prominently with a clear visual hierarchy: total value first, then individual token balances with network indicators. Transaction details were designed to be comprehensive but scannable.</p>
-            </div>
-
-            <!-- The Execution -->
-            <div class="case-section">
-                <h2>The Execution</h2>
-                <p>Justin designed: the complete onboarding flow — from welcome screen through account creation, security setup, and passcode confirmation; the KYC verification experience with progressive status indicators (pending, reviewing, approved); the portfolio dashboard with real-time balance display, wallet search, and token-specific views; the transaction history with detailed receipt views showing network, memo, and reference data; the send and receive flows with network selection and address management; and the visual system — dark theme with purple accent colours, clean iconography, and clear status communication through colour coding (green for success, amber for pending, red for issues).</p>
-            </div>
-
-            <!-- Metrics -->
-            <div class="case-metrics">
-                <div class="metric">
-                    <span class="metric-value">Multi</span>
-                    <span class="metric-label">Chain Support</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">Full</span>
-                    <span class="metric-label">App Design</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">KYC</span>
-                    <span class="metric-label">Integrated Flow</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">4</span>
-                    <span class="metric-label">Networks Supported</span>
-                </div>
-            </div>
-
-            <!-- The Impact -->
-            <div class="case-section">
-                <h2>The Impact</h2>
-                <p>Vulta's design makes multi-chain cryptocurrency management accessible without dumbing it down. The progressive KYC flow reduces drop-off during a process that typically loses significant users. The clean dashboard design gives users immediate confidence in their portfolio status, while the detailed transaction views provide the transparency that crypto users demand. The design positions Vulta as a serious, trustworthy wallet in a market where too many competitors prioritise visual novelty over functional clarity.</p>
-            </div>
-
-            <!-- Pullquote -->
-            <blockquote class="case-pullquote">
-                "Accessible without dumbing it down."
-            </blockquote>
-
+        <div class="metric">
+          <span class="metric-value">KYC</span>
+          <span class="metric-label">Integrated Flow</span>
         </div>
-    </section>
-
-    <!-- Case Navigation -->
-    <section class="case-navigation">
-        <div class="case-container">
-            <nav class="case-nav-links">
-                <a href="polo-luxury.html" class="nav-link nav-link-prev">
-                    <span class="nav-label">Previous</span>
-                    <span class="nav-title">Polo Luxury</span>
-                </a>
-                <a href="../work.html" class="nav-link nav-link-next">
-                    <span class="nav-label">Back to</span>
-                    <span class="nav-title">All Work</span>
-                </a>
-            </nav>
+        <div class="metric">
+          <span class="metric-value">4</span>
+          <span class="metric-label">Networks Supported</span>
         </div>
-    </section>
+      </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <p>&copy; 2024 Justin Ukaegbu. All rights reserved.</p>
-                <ul class="footer-links">
-                    <li><a href="../index.html">Work</a></li>
-                    <li><a href="../about.html">About</a></li>
-                    <li><a href="../contact.html">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+      <section>
+        <h2>The Impact</h2>
+        <p>Vulta's design makes multi-chain cryptocurrency management accessible without dumbing it down. The progressive KYC flow reduces drop-off during a process that typically loses significant users. The clean dashboard design gives users immediate confidence in their portfolio status, while detailed transaction views provide the transparency that crypto users demand. The design positions Vulta as a serious, trustworthy wallet in a market where too many competitors prioritise visual novelty over functional clarity.</p>
+      </section>
 
-    <!-- Scripts -->
-    <script src="../js/main.js"></script>
+      <blockquote class="case-pullquote">
+        "Accessible without dumbing it down."
+      </blockquote>
+    </div>
+  </div>
+
+  <nav class="case-nav">
+    <a href="polo-luxury.html" class="case-nav-link case-nav-prev">
+      <span class="case-nav-label">Previous</span>
+      <span class="case-nav-title">Polo Luxury</span>
+    </a>
+    <a href="tbtm.html" class="case-nav-link case-nav-next">
+      <span class="case-nav-label">Next</span>
+      <span class="case-nav-title">TBTM</span>
+    </a>
+  </nav>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Justin Ukaegbu</h3>
+        <p>Brand, Product &amp; Interaction Design</p>
+      </div>
+      <div class="footer-section">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="../work.html">Work</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+      </div>
+    </div>
+  </footer>
+  <script src="../js/main.js"></script>
 </body>
 </html>

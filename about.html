@@ -3,64 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — Justin Ukaegbu</title>
+  <title>About  |  Justin Ukaegbu</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navigation -->
   <nav>
-    <a href="index.html" class="nav-logo">Justin Ukaegbu</a>
-    <ul class="nav-links">
-      <li><a href="work.html">Work</a></li>
-      <li><a href="about.html" class="active">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-    <button class="nav-toggle" data-nav-toggle aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Justin Ukaegbu</a>
+      <ul class="nav-links">
+        <li><a href="work.html">Work</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
-  <div class="mobile-menu" data-mobile-menu>
+  <div class="mobile-menu" data-mobile-menu aria-hidden="true">
     <ul>
       <li><a href="work.html">Work</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </div>
-  <div class="menu-overlay" data-menu-overlay></div>
+  <div class="menu-overlay" data-menu-overlay aria-hidden="true"></div>
 
   <!-- About Hero Section -->
-  <section class="hero about-hero">
+  <section class="about-hero">
     <div class="container">
-      <div class="section-tag">The Practice</div>
-      <h1 class="section-title">Design that <em>moves things</em></h1>
-      <blockquote class="pullquote">
-        "Not a designer who executes briefs. A designer who shapes programmes."
-      </blockquote>
+      <div class="hero-grid">
+        <div class="hero-image">
+          <img src="assets/about/justin-portrait.png" alt="Justin Ukaegbu" class="about-portrait">
+        </div>
+        <div class="hero-content">
+          <span class="eyebrow">ABOUT</span>
+          <h1>Justin Ukaegbu</h1>
+          <p>Designer working across brand, product, and interaction design. Twelve years of practice shaped across Nigeria, the UK, Dubai, and work in fifty countries.</p>
+          <p>Built platforms used by hundreds of thousands. Designed campaigns that reached 1.1 billion impressions. Led brand work for organisations operating at government level.</p>
+          <p>Now focused on building products that combine design, technology, and learning. Also running Art Director Studio, a platform for creative direction work.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Portrait + Story Section -->
+  <!-- Story Section -->
   <section class="about-story">
     <div class="container">
-      <div class="story-grid">
-        <!-- Left: Portrait -->
-        <div class="portrait-column">
-          <div class="portrait-frame">
-            <img src="assets/about/justin-portrait.png" alt="Justin Ukaegbu" class="portrait">
-          </div>
-        </div>
+      <h2>Design Practice</h2>
+      <div class="story-content">
+        <p>Started in Nigeria, studied in the UK, and worked across the Middle East and Europe. The work spans brand systems, digital product design, interaction design, and educational technology. Refuses to stay inside one discipline.</p>
 
-        <!-- Right: Story Text -->
-        <div class="story-column">
-          <p>Justin Ukaegbu operates at the intersection of brand, product, and technology. His work has influenced investor decisions, shaped platforms used by hundreds of thousands of people, and been recognised at the highest levels of the international digital industry.</p>
+        <p>Take Back The Mic was a defining project. The interactive festival design was nominated for a Webby Award in 2023. The digital card product work directly contributed to a multi-million dollar Mastercard partnership. The campaign reached 1.1 billion impressions across fifty countries.</p>
 
-          <p>Graduating with a Distinction from the MA Graphic Design programme at the University of Hertfordshire, Justin built a practice that refuses to stay inside one discipline. Brand systems, digital product design, interaction design, educational technology, AI-assisted workflows — all in active professional use.</p>
+        <p>In the UK, created the brand identity, website, and all communications for Route to Zero, a business-led membership organisation operating at government level. The design shapes how the organisation engages Westminster, industry leaders, and the British public on net zero policy.</p>
 
-          <p>His work at Take Back The Mic alone reached 1.1 billion impressions across 50 countries. The interactive festival he designed for TBTM was nominated for a Webby Award in 2023. His design work for TBTM's digital card product directly contributed to a multi-million dollar Mastercard partnership.</p>
-
-          <p>In the UK, Justin created the brand identity, website, and all communications for Route to Zero from the ground up — a business-led membership organisation operating at government level, with serving MPs, a CBE, and an MBE on its board. His design directly shapes how the organisation engages Westminster, industry leaders, and the British public on net zero policy.</p>
-
-          <p>Now building Draw in the Air — a gesture-based learning platform for children that uses computer vision for embodied early literacy education. A product that is also a research platform, and a research platform that is also a viable product.</p>
-        </div>
+        <p>Holds an MA in Graphic Design (Distinction) from the University of Hertfordshire and a B.Sc. in Computer Science and Education from Enugu University of Science and Technology. Member of the Chartered Society of Designers and the Design Research Society.</p>
       </div>
     </div>
   </section>
@@ -68,159 +68,108 @@
   <!-- Credentials Section -->
   <section class="credentials">
     <div class="container">
-      <h2 class="section-title">Credentials & Recognition</h2>
+      <h2>Recognition</h2>
       <div class="credentials-list">
         <div class="credential-item">
           <span class="credential-number">01</span>
           <div class="credential-content">
-            <h3>MA Graphic Design, Distinction</h3>
-            <p>University of Hertfordshire, 2022. Invited back as speaker to incoming MA cohorts.</p>
+            <h3>Webby Award Nomination, 2023</h3>
+            <p>TBTM Interactive Festival. Complete brand, environments, and UX design.</p>
           </div>
         </div>
 
         <div class="credential-item">
           <span class="credential-number">02</span>
           <div class="credential-content">
-            <h3>Member, Chartered Society of Designers</h3>
-            <p>UK's professional body for designers. Senior membership grade.</p>
+            <h3>Mastercard Partnership</h3>
+            <p>Digital card product design contributed to multi-million dollar strategic partnership.</p>
           </div>
         </div>
 
         <div class="credential-item">
           <span class="credential-number">03</span>
           <div class="credential-content">
-            <h3>Member, Design Research Society</h3>
-            <p>International community advancing design research and practice.</p>
+            <h3>1.1 Billion Impressions</h3>
+            <p>Campaign reach across fifty countries through Take Back The Mic work.</p>
           </div>
         </div>
 
         <div class="credential-item">
           <span class="credential-number">04</span>
           <div class="credential-content">
-            <h3>Webby Award Nomination, 2023</h3>
-            <p>TBTM Interactive Festivals. Design contribution: complete brand, environments, and UX.</p>
+            <h3>Government-Level Work</h3>
+            <p>Route to Zero brand and design shapes policy engagement at Westminster.</p>
           </div>
         </div>
 
         <div class="credential-item">
           <span class="credential-number">05</span>
           <div class="credential-content">
-            <h3>UNDP Certificate of Appreciation</h3>
-            <p>Design contribution to UN Sustainable Development Goals programme, SDG 4.</p>
+            <h3>Fintech Platforms</h3>
+            <p>Product design for payment systems serving hundreds of thousands of users.</p>
           </div>
         </div>
 
         <div class="credential-item">
           <span class="credential-number">06</span>
           <div class="credential-content">
-            <h3>B.Sc. Computer Science & Education</h3>
-            <p>Enugu University of Science and Technology, 2007. Dual discipline foundation.</p>
+            <h3>International Scope</h3>
+            <p>Practice spanning Nigeria, UK, Dubai, and design work across fifty countries.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Independent Products Section -->
-  <section class="independent-products">
+  <!-- Products Section -->
+  <section class="products-section">
     <div class="container">
-      <h2 class="section-title">Independent Products</h2>
+      <h2>Independent Products</h2>
       <div class="products-grid">
-        <!-- Product 1: Draw in the Air -->
         <div class="product-card">
           <div class="product-header">
-            <h3>Draw in the Air</h3>
-            <span class="product-category">EdTech / Interaction Design</span>
+            <h3><a href="https://artdirectorstudio.com" target="_blank" rel="noopener">Art Director Studio</a></h3>
           </div>
-          <p class="product-description">Gesture-based learning platform for children aged 3-7. Computer vision hand tracking for early literacy.</p>
-          <div class="product-status">
-            <span class="status-badge active">Active development</span>
-          </div>
+          <p>Platform for creative direction work. Tools for designers to explore, refine, and execute visual direction at scale.</p>
         </div>
 
-        <!-- Product 2: Art Director Studio -->
         <div class="product-card">
           <div class="product-header">
-            <h3>Art Director Studio</h3>
-            <span class="product-category">Creative AI / Design Tools</span>
+            <h3><a href="https://drawintheair.com" target="_blank" rel="noopener">Draw in the Air</a></h3>
           </div>
-          <p class="product-description">AI-powered platform for designers to analyse, regenerate, and create images. Multi-model integration.</p>
-          <div class="product-status">
-            <span class="status-badge testing">In testing</span>
-          </div>
-        </div>
-
-        <!-- Product 3: WithinAfrica -->
-        <div class="product-card">
-          <div class="product-header">
-            <h3>WithinAfrica</h3>
-            <span class="product-category">Travel Technology</span>
-          </div>
-          <p class="product-description">Live platform simplifying travel across Africa. Visa lookup, booking, Passport Power index.</p>
-          <div class="product-status">
-            <span class="status-badge live">Live</span>
-          </div>
+          <p>Gesture-based learning platform for children using computer vision. Built for early literacy education through embodied interaction.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Clients Bar Section -->
-  <section class="clients-bar">
-    <div class="container">
-      <h2 class="clients-title">Trusted by leading organisations</h2>
-      <div class="clients-grid">
-        <div class="client-logo">Take Back The Mic</div>
-        <div class="client-logo">Route to Zero</div>
-        <div class="client-logo">Mastercard</div>
-        <div class="client-logo">UNDP</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container">
-      <h2>Ready to work together?</h2>
-      <p>Let's discuss your next project or collaboration.</p>
-      <a href="contact.html" class="btn btn-primary">Get in Touch</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Justin Ukaegbu</h3>
-          <p>Designer at the intersection of brand, product, and technology.</p>
-        </div>
-        <div class="footer-section">
-          <h4>Pages</h4>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="work.html">Work</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Connect</h4>
-          <ul>
-            <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
-            <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
-            <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
-          </ul>
-        </div>
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Justin Ukaegbu</h3>
+        <p>Brand, Product &amp; Interaction Design</p>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Justin Ukaegbu. All rights reserved.</p>
+      <div class="footer-section">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
-
-  <!-- Back to Top Button -->
-  <button class="back-to-top" data-back-to-top aria-label="Back to top"></button>
 
   <script src="js/main.js"></script>
 </body>

@@ -1,158 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tryba — Justin Ukaegbu</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tryba | Justin Ukaegbu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="../index.html" class="logo">Justin Ukaegbu</a>
-            <button class="mobile-menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu">
-                <li><a href="../index.html">Work</a></li>
-                <li><a href="../about.html">About</a></li>
-                <li><a href="../contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+  <!-- Nav -->
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">Justin Ukaegbu</a>
+      <ul class="nav-links">
+        <li><a href="../work.html">Work</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" data-mobile-menu aria-hidden="true">
+    <ul>
+      <li><a href="../work.html">Work</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div class="menu-overlay" data-menu-overlay aria-hidden="true"></div>
 
-    <!-- Case Hero -->
-    <section class="case-hero">
-        <div class="case-hero-tag">Nigeria | 2022–2023</div>
-        <h1 class="case-hero-title">Tryba</h1>
-        <p class="case-hero-subtitle">End-to-end design for a digital banking platform — from Visa card systems and mobile app interfaces to social media campaigns that made fintech feel human.</p>
-    </section>
+  <!-- Case Hero -->
+  <section class="case-hero">
+    <div class="case-hero-content">
+      <span class="eyebrow">PRODUCT</span>
+      <h1 class="case-hero-title">Tryba</h1>
+      <p class="case-hero-subtitle">End-to-end design for a digital banking platform: Visa card systems, mobile app interfaces, and social media campaigns</p>
+    </div>
+  </section>
 
-    <!-- Case Meta -->
-    <section class="case-meta">
-        <div class="case-meta-item">
-            <h4>Client</h4>
-            <p>Tryba</p>
-        </div>
-        <div class="case-meta-item">
-            <h4>Role</h4>
-            <p>Lead Designer</p>
-        </div>
-        <div class="case-meta-item">
-            <h4>Timeline</h4>
-            <p>2022–2023</p>
-        </div>
-        <div class="case-meta-item">
-            <h4>Scope</h4>
-            <p>Card Design, Mobile App UI, Social Media, Brand Communications, mPOS Design</p>
-        </div>
-        <div class="case-meta-item">
-            <h4>Platform</h4>
-            <p>iOS & Android</p>
-        </div>
-    </section>
+  <!-- Case Body -->
+  <div class="case-wrapper">
+    <aside class="case-meta">
+      <div class="case-meta-item">
+        <h3>Client</h3>
+        <p>Tryba</p>
+      </div>
+      <div class="case-meta-item">
+        <h3>Role</h3>
+        <p>Product Designer</p>
+      </div>
+      <div class="case-meta-item">
+        <h3>Year</h3>
+        <p>2022</p>
+      </div>
+      <div class="case-meta-item">
+        <h3>Scope</h3>
+        <p>Card Design, Mobile App UI, Social Media, Brand Communications, mPOS Terminal</p>
+      </div>
+    </aside>
 
-    <!-- Main Content -->
-    <main class="case-body">
-        <!-- The Context -->
-        <section class="case-section">
-            <h2 class="case-section-title">The Context</h2>
-            <p>Tryba is a digital banking platform offering banking, business tools, and payment solutions to individuals and SMEs in Nigeria. In a market crowded with fintech startups all claiming to be 'the intelligent bank,' Tryba needed design that was both functionally rigorous and emotionally distinctive — a platform that looked as trustworthy as a traditional bank but felt as intuitive as the best consumer apps.</p>
-        </section>
+    <div class="case-content">
+      <section class="case-section">
+        <h2>The Context</h2>
+        <p>Tryba is a digital banking platform offering banking, business tools, and payment solutions to individuals and SMEs in Nigeria. In a market crowded with fintech startups all claiming to be intelligent banks, Tryba needed design that was both functionally rigorous and emotionally distinctive: a platform that looked as trustworthy as a traditional bank but felt as intuitive as the best consumer apps.</p>
+      </section>
 
-        <!-- The Objective -->
-        <section class="case-section">
-            <h2 class="case-section-title">The Objective</h2>
-            <p>Design the complete visual identity for Tryba's card products — both personal and business Visa cards. Create the mobile app UI for banking, payments, and mPOS (mobile point of sale) functionality. Develop a social media campaign system that could sustain daily content across multiple platforms while maintaining brand coherence.</p>
-        </section>
+      <section class="case-section">
+        <h2>The Challenge</h2>
+        <p>Design the complete visual identity for Tryba's card products: both personal and business Visa cards. Create the mobile app UI for banking, payments, and mPOS functionality. Develop a social media campaign system that could sustain daily content across multiple platforms while maintaining brand coherence.</p>
+      </section>
 
-        <!-- The Approach -->
-        <section class="case-section">
-            <h2 class="case-section-title">The Approach</h2>
-            <p>The card design was treated as a physical brand touchpoint — something users would carry in their wallets and show to others. The business card used a premium dark aesthetic with gold accents; the personal card used Tryba's signature blue with flowing gradients that suggested movement and progress. The app interface prioritised clarity: large readable balances, simple navigation, and a card-management flow that made complex banking operations feel effortless. Social media design used lifestyle photography with bold typography overlays — making banking feel aspirational rather than merely functional.</p>
-        </section>
+      <section class="case-section">
+        <h2>The Approach</h2>
+        <p>The card design was treated as a physical brand touchpoint: something users would carry in their wallets and show to others. The business card used a premium dark aesthetic with gold accents; the personal card used Tryba's signature blue with flowing gradients suggesting movement and progress. The app interface prioritized clarity: large readable balances, simple navigation, and a card-management flow that made complex banking operations feel effortless. Social media design used lifestyle photography with bold typography overlays, making banking feel aspirational rather than merely functional.</p>
+      </section>
 
-        <!-- Full-Width Image -->
-        <figure class="case-image">
-            <img src="../assets/projects/tryba/card-black.png" alt="Tryba Business Visa card with premium dark aesthetic and metallic finish">
-            <figcaption>Tryba Business Visa card — premium dark aesthetic with metallic finish</figcaption>
+      <figure class="case-figure">
+        <img src="../assets/projects/tryba/card-black.png" alt="Tryba Business Visa card with premium dark aesthetic" loading="lazy">
+        <figcaption>Tryba Business Visa card: premium dark aesthetic with metallic finish</figcaption>
+      </figure>
+
+      <section class="case-section">
+        <h2>The Execution</h2>
+        <p>The design work included: Tryba Business Visa card with premium black and gold treatment; Tryba Personal Visa card with signature blue gradients; mobile app interface including dashboard, transaction history, and card management; mPOS interface allowing merchants to accept in-person payments via QR code; social media campaign templates and content across multiple formats; brand communications including app store screenshots and launch materials; and card welcome pack with activation instructions and brand storytelling.</p>
+      </section>
+
+      <div class="case-metrics">
+        <div class="metric">
+          <span class="metric-value">2</span>
+          <span class="metric-label">Card Products Designed</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value">Full</span>
+          <span class="metric-label">App UI Design</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value">mPOS</span>
+          <span class="metric-label">Payment Interface</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value">Multi</span>
+          <span class="metric-label">Platform Campaigns</span>
+        </div>
+      </div>
+
+      <div class="case-grid">
+        <figure>
+          <img src="../assets/projects/tryba/card-green.png" alt="Tryba Personal Visa card design" loading="lazy">
         </figure>
-
-        <!-- The Execution -->
-        <section class="case-section">
-            <h2 class="case-section-title">The Execution</h2>
-            <p>Justin designed: the Tryba Business Visa card with premium black and gold treatment; the Tryba Personal Visa card with signature blue gradients; the mobile app interface including dashboard, transaction history, and card management; the mPOS (mobile point of sale) interface allowing merchants to accept in-person payments via QR code; social media campaign templates and content across multiple formats; brand communications including app store screenshots and launch materials; and the card welcome pack with activation instructions and brand storytelling.</p>
-        </section>
-
-        <!-- Metrics -->
-        <section class="case-metrics">
-            <div class="metric-item">
-                <span class="metric-value">2</span>
-                <span class="metric-label">Card Products Designed</span>
-            </div>
-            <div class="metric-item">
-                <span class="metric-value">Full</span>
-                <span class="metric-label">App UI Design</span>
-            </div>
-            <div class="metric-item">
-                <span class="metric-value">mPOS</span>
-                <span class="metric-label">Payment Interface</span>
-            </div>
-            <div class="metric-item">
-                <span class="metric-value">Multi</span>
-                <span class="metric-label">Platform Campaigns</span>
-            </div>
-        </section>
-
-        <!-- Image Grid -->
-        <figure class="case-image-grid">
-            <img src="../assets/projects/tryba/card-green.png" alt="Tryba Personal Visa card design">
-            <img src="../assets/projects/tryba/card-black.png" alt="Tryba Business Visa card design">
-            <figcaption>Personal and Business Visa card designs</figcaption>
+        <figure>
+          <img src="../assets/projects/tryba/card-black.png" alt="Tryba Business Visa card design" loading="lazy">
         </figure>
+        <figcaption>Personal and Business Visa card designs</figcaption>
+      </div>
 
-        <!-- The Impact -->
-        <section class="case-section">
-            <h2 class="case-section-title">The Impact</h2>
-            <p>Tryba's card designs became one of the platform's most recognisable brand assets — the physical embodiment of the digital experience. The social media system enabled consistent daily output without requiring constant creative direction. The mPOS interface opened a new revenue stream by allowing Tryba to serve merchants directly, not just consumers. The design work positioned Tryba as a serious player in Nigeria's competitive digital banking landscape.</p>
-        </section>
+      <section class="case-section">
+        <h2>Outcome</h2>
+        <p>Tryba's card designs became one of the platform's most recognizable brand assets: the physical embodiment of the digital experience. The social media system enabled consistent daily output without requiring constant creative direction. The mPOS interface opened a new revenue stream by allowing Tryba to serve merchants directly, not just consumers. The design work positioned Tryba as a serious player in Nigeria's competitive digital banking landscape.</p>
+      </section>
+    </div>
+  </div>
 
-        <!-- Pullquote -->
-        <blockquote class="case-pullquote">
-            "The physical embodiment of the digital experience."
-        </blockquote>
-    </main>
+  <!-- Case Navigation -->
+  <nav class="case-nav">
+    <a href="syntech.html" class="case-nav-link case-nav-prev">
+      <span class="case-nav-label">Previous</span>
+      <span class="case-nav-title">Syntech</span>
+    </a>
+    <a href="hashit.html" class="case-nav-link case-nav-next">
+      <span class="case-nav-label">Next</span>
+      <span class="case-nav-title">HashIT</span>
+    </a>
+  </nav>
 
-    <!-- Case Navigation -->
-    <nav class="case-nav">
-        <a href="syntech.html" class="case-nav-link prev">
-            <span class="nav-label">Previous</span>
-            <span class="nav-title">Syntech Biofuel</span>
-        </a>
-        <a href="hashit.html" class="case-nav-link next">
-            <span class="nav-label">Next</span>
-            <span class="nav-title">HashIT</span>
-        </a>
-    </nav>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Justin Ukaegbu</h3>
+        <p>Brand, Product &amp; Interaction Design</p>
+      </div>
+      <div class="footer-section">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="../work.html">Work</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <p>&copy; 2024 Justin Ukaegbu. All rights reserved.</p>
-            <ul class="footer-links">
-                <li><a href="../index.html">Work</a></li>
-                <li><a href="../about.html">About</a></li>
-                <li><a href="../contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </footer>
-
-    <script src="../js/main.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

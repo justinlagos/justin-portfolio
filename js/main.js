@@ -13,7 +13,7 @@ class PortfolioApp {
   }
 
   initializeProperties() {
-    // DOM elements
+    // DOM elements with null checks
     this.nav = document.querySelector('nav');
     this.navToggle = document.querySelector('[data-nav-toggle]');
     this.mobileMenu = document.querySelector('[data-mobile-menu]');
@@ -34,7 +34,7 @@ class PortfolioApp {
   }
 
   initializeObservers() {
-    // Scroll reveal observer
+    // Scroll reveal observer with staggered delays
     this.revealObserver = new IntersectionObserver(
       (entries) => this.handleReveal(entries),
       {
@@ -52,6 +52,15 @@ class PortfolioApp {
       }
     );
 
+    // Background image lazy loading observer
+    this.bgImageObserver = new IntersectionObserver(
+      (entries) => this.handleBgImageLoad(entries),
+      {
+        threshold: 0.01,
+        rootMargin: '50px'
+      }
+    );
+
     // Observe reveal elements
     document.querySelectorAll('.reveal').forEach(el => {
       this.revealObserver.observe(el);
@@ -61,10 +70,15 @@ class PortfolioApp {
     document.querySelectorAll('img[data-src]').forEach(img => {
       this.imageObserver.observe(img);
     });
+
+    // Observe background images
+    document.querySelectorAll('[data-bg]').forEach(el => {
+      this.bgImageObserver.observe(el);
+    });
   }
 
   attachEventListeners() {
-    // Navigation toggle
+    // Navigation toggle with aria attributes
     if (this.navToggle) {
       this.navToggle.addEventListener('click', () => this.toggleMobileMenu());
     }
@@ -80,7 +94,7 @@ class PortfolioApp {
       link.addEventListener('click', () => this.closeMobileMenu());
     });
 
-    // Scroll events
+    // Scroll events with nav behavior
     window.addEventListener('scroll', () => this.handleScroll());
 
     // Back to top button
@@ -132,9 +146,33 @@ class PortfolioApp {
     });
   }
 
+  // ============ BACKGROUND IMAGE LAZY LOADING ============
+  handleBgImageLoad(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bgSrc = entry.target.getAttribute('data-bg');
+
+        if (bgSrc) {
+          entry.target.style.backgroundImage = `url('${bgSrc}')`;
+          entry.target.classList.add('loaded');
+          this.bgImageObserver.unobserve(entry.target);
+        }
+      }
+    });
+  }
+
   // ============ NAVIGATION ============
   handleScroll() {
     const currentScrollY = window.scrollY;
+
+    // Add .scrolled class when scrollY > 50
+    if (this.nav) {
+      if (currentScrollY > 50) {
+        this.nav.classList.add('scrolled');
+      } else {
+        this.nav.classList.remove('scrolled');
+      }
+    }
 
     // Determine scroll direction
     if (currentScrollY > this.lastScrollY) {
@@ -173,6 +211,8 @@ class PortfolioApp {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
 
+    if (!sections.length || !navLinks.length) return;
+
     let currentSection = '';
 
     sections.forEach(section => {
@@ -203,15 +243,33 @@ class PortfolioApp {
 
   openMobileMenu() {
     this.menuOpen = true;
-    this.mobileMenu?.classList.add('open');
-    this.menuOverlay?.classList.add('visible');
+    if (this.mobileMenu) {
+      this.mobileMenu.classList.add('open');
+      this.mobileMenu.setAttribute('aria-expanded', 'true');
+    }
+    if (this.menuOverlay) {
+      this.menuOverlay.classList.add('visible');
+      this.menuOverlay.setAttribute('aria-hidden', 'false');
+    }
+    if (this.navToggle) {
+      this.navToggle.setAttribute('aria-expanded', 'true');
+    }
     this.lockScroll();
   }
 
   closeMobileMenu() {
     this.menuOpen = false;
-    this.mobileMenu?.classList.remove('open');
-    this.menuOverlay?.classList.remove('visible');
+    if (this.mobileMenu) {
+      this.mobileMenu.classList.remove('open');
+      this.mobileMenu.setAttribute('aria-expanded', 'false');
+    }
+    if (this.menuOverlay) {
+      this.menuOverlay.classList.remove('visible');
+      this.menuOverlay.setAttribute('aria-hidden', 'true');
+    }
+    if (this.navToggle) {
+      this.navToggle.setAttribute('aria-expanded', 'false');
+    }
     this.unlockScroll();
   }
 
@@ -233,7 +291,7 @@ class PortfolioApp {
     const inner = document.createElement('div');
     outer.appendChild(inner);
     const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-    outer.parentNode.removeChild(outer);
+    outer.parentNode?.removeChild(outer);
     return scrollbarWidth;
   }
 
@@ -241,8 +299,7 @@ class PortfolioApp {
   handleSmoothScroll(e) {
     const href = e.currentTarget.getAttribute('href');
 
-    // Only handle if it's an internal anchor link
-    if (!href.startsWith('#') || href === '#') {
+    if (!href || !href.startsWith('#') || href === '#') {
       return;
     }
 
@@ -257,7 +314,6 @@ class PortfolioApp {
         behavior: 'smooth'
       });
 
-      // Close mobile menu if open
       if (this.menuOpen) {
         this.closeMobileMenu();
       }
@@ -275,21 +331,23 @@ class PortfolioApp {
   // ============ PROJECT FILTERING ============
   handleFilter(e) {
     const category = e.target.getAttribute('data-filter');
+    if (!category) return;
 
     // Update active button state
     this.filterButtons.forEach(btn => btn.classList.remove('active'));
     e.target.classList.add('active');
 
     this.currentFilter = category;
-
-    // Animate filter
     this.filterProjects(category);
   }
 
   filterProjects(category) {
     this.projectCards.forEach((card, index) => {
       const cardCategory = card.getAttribute('data-project');
-      const isVisible = category === 'All' || cardCategory === category;
+      if (!cardCategory) return;
+
+      // Fix: Use includes/contains match instead of exact match
+      const isVisible = category === 'All' || cardCategory.toLowerCase().includes(category.toLowerCase());
 
       // Stagger animation
       card.style.transitionDelay = `${index * 50}ms`;
@@ -307,7 +365,7 @@ class PortfolioApp {
   // ============ PAGE LOAD ANIMATION ============
   setupPageLoad() {
     // Stagger fade-in of hero elements
-    const heroElements = document.querySelectorAll('[data-hero-animate]');
+    const heroElements = document.querySelectorAll('.hero-animate');
 
     heroElements.forEach((el, index) => {
       el.style.opacity = '0';
@@ -330,7 +388,7 @@ class PortfolioApp {
     const tickerContent = this.countriesTicker.querySelector('[data-ticker-content]');
     if (!tickerContent) return;
 
-    // Clone content for seamless loop
+    // Clone content for seamless infinite scroll
     const originalContent = tickerContent.innerHTML;
     tickerContent.innerHTML = originalContent + originalContent;
 
@@ -344,7 +402,6 @@ class PortfolioApp {
   }
 
   ensureTickerAnimation() {
-    // Check if animation already exists
     let style = document.getElementById('ticker-animation');
 
     if (!style) {
@@ -386,7 +443,7 @@ class PortfolioApp {
 
   createCustomCursor(card) {
     if (card.querySelector('.custom-cursor')) {
-      return; // Already created
+      return;
     }
 
     const cursor = document.createElement('div');
@@ -419,7 +476,6 @@ class PortfolioApp {
 
 // ============ INITIALIZATION ============
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize the app
   window.portfolio = new PortfolioApp();
 
   // Initialize cursor effects if work cards exist
