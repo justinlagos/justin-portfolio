@@ -634,6 +634,7 @@
                     <input type="password" id="password" required>
                 </div>
                 <button type="submit" style="width: 100%;" id="authBtn">Sign In</button>
+                <p id="authError" style="color:#dc2626;font-size:13px;margin-top:12px;display:none;text-align:center;"></p>
                 <p style="text-align:center;margin-top:16px;font-size:13px;color:#888;">
                     <a href="#" id="toggleAuth" style="color:#C8622A;text-decoration:none;">First time? Create account</a>
                 </p>
@@ -908,16 +909,24 @@
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const btn = document.getElementById('authBtn');
+            btn.disabled = true;
+            btn.textContent = isSignUp ? 'Creating...' : 'Signing in...';
 
             try {
                 let data, error;
                 if (isSignUp) {
                     ({ data, error } = await supabase.auth.signUp({ email, password }));
                     if (error) throw error;
-                    showToast('Account created. You can now sign in.', 'success');
+                    if (data.user && !data.user.identities?.length) {
+                        showToast('An account with this email already exists. Try signing in instead.', 'error');
+                    } else {
+                        showToast('Account created. You can now sign in.', 'success');
+                    }
                     isSignUp = false;
-                    document.getElementById('authBtn').textContent = 'Sign In';
+                    btn.textContent = 'Sign In';
                     document.getElementById('toggleAuth').textContent = 'First time? Create account';
+                    btn.disabled = false;
                     return;
                 } else {
                     ({ data, error } = await supabase.auth.signInWithPassword({ email, password }));
@@ -928,7 +937,14 @@
                 showLoginUI();
                 loadDashboard();
             } catch (err) {
-                showToast((isSignUp ? 'Signup' : 'Login') + ' failed: ' + err.message, 'error');
+                console.error('Auth error:', err);
+                const errMsg = (isSignUp ? 'Signup' : 'Login') + ' failed: ' + err.message;
+                showToast(errMsg, 'error');
+                const errEl = document.getElementById('authError');
+                errEl.textContent = errMsg;
+                errEl.style.display = 'block';
+                btn.textContent = isSignUp ? 'Create Account' : 'Sign In';
+                btn.disabled = false;
             }
         });
 
