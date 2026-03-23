@@ -38,6 +38,7 @@
   <link rel="stylesheet" href="css/style.css">
 
   <title>Justin Ukaegbu | Design</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -70,9 +71,9 @@
     <section class="hero">
       <div class="hero-container">
         <div class="hero-left hero-animate">
-          <div class="eyebrow">DESIGN LEADER</div>
-          <h1 class="hero-title">Justin Ukaegbu</h1>
-          <p class="hero-bio">
+          <div class="eyebrow" data-cms="hero-eyebrow">DESIGN LEADER</div>
+          <h1 class="hero-title" data-cms="hero-title">Justin Ukaegbu</h1>
+          <p class="hero-bio" data-cms="hero-bio">
             Brand, product, and interaction design across 12+ years and 50+ countries. Building design systems and digital products that work at scale.
           </p>
           <div class="hero-ctas">
@@ -82,7 +83,7 @@
         </div>
 
         <div class="hero-right hero-animate">
-          <div class="stats-grid">
+          <div class="stats-grid" data-cms="stats-grid">
             <div class="stat-block">
               <div class="stat-number">1.1B</div>
               <div class="stat-label">Impressions</div>
@@ -106,7 +107,7 @@
 
     <!-- Clients Bar -->
     <section class="clients-bar" aria-label="Trusted clients">
-      <div class="clients-container">
+      <div class="clients-container" data-cms="clients-container">
         <span class="client">TBTM</span>
         <span class="client">Mastercard</span>
         <span class="client">Route to Zero</span>
@@ -123,7 +124,7 @@
       <div class="work-container">
         <h2 class="section-title">Selected Work</h2>
 
-        <div class="work-grid">
+        <div class="work-grid" data-cms="work-grid">
           <!-- Take Back The Mic -->
           <a href="cases/tbtm.html" class="work-card" data-work-card>
             <img src="assets/projects/tbtm/social-1.png" alt="Take Back The Mic" class="work-card-image">
@@ -193,7 +194,7 @@
 
     <!-- Countries Ticker -->
     <section class="countries-ticker" data-countries-ticker aria-label="Countries worked in">
-      <div class="ticker-content">
+      <div class="ticker-content" data-cms="ticker-content">
         <div class="ticker-item">Nigeria</div>
         <div class="ticker-item">United Kingdom</div>
         <div class="ticker-item">Dubai</div>
@@ -215,7 +216,7 @@
     <!-- Contact CTA Section -->
     <section class="contact-cta reveal" aria-label="Contact call to action">
       <div class="contact-cta-container">
-        <div class="contact-cta-content">
+        <div class="contact-cta-content" data-cms="contact-cta">
           <h2 class="contact-cta-title">Available for the right work</h2>
           <p class="contact-cta-subtitle">Design leadership, product collaboration, research partnerships, and speaking.</p>
           <div class="contact-cta-actions">
@@ -244,18 +245,19 @@
       </div>
       <div class="footer-section">
         <h4>Connect</h4>
-        <ul>
+        <ul data-cms="social-links">
           <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+        <p class="footer-copyright" data-cms="copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
+  <script src="js/cms.js"></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

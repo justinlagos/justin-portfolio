@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Nav -->
@@ -34,17 +35,17 @@
   <div class="menu-overlay" data-menu-overlay aria-hidden="true"></div>
 
   <!-- Case Hero -->
-  <section class="case-hero">
+  <section class="case-hero" data-cms="case-hero">
     <div class="case-hero-content">
-      <span class="eyebrow">PRODUCT</span>
-      <h1 class="case-hero-title">Tryba</h1>
-      <p class="case-hero-subtitle">End-to-end design for a digital banking platform: Visa card systems, mobile app interfaces, and social media campaigns</p>
+      <span class="eyebrow" data-cms="case-eyebrow">PRODUCT</span>
+      <h1 class="case-hero-title" data-cms="case-title">Tryba</h1>
+      <p class="case-hero-subtitle" data-cms="case-subtitle">End-to-end design for a digital banking platform: Visa card systems, mobile app interfaces, and social media campaigns</p>
     </div>
   </section>
 
   <!-- Case Body -->
   <div class="case-wrapper">
-    <aside class="case-meta">
+    <aside class="case-meta" data-cms="case-meta">
       <div class="case-meta-item">
         <h3>Client</h3>
         <p>Tryba</p>
@@ -63,7 +64,7 @@
       </div>
     </aside>
 
-    <div class="case-content">
+    <div class="case-content" data-cms="case-content">
       <section class="case-section">
         <h2>The Context</h2>
         <p>Tryba is a digital banking platform offering banking, business tools, and payment solutions to individuals and SMEs in Nigeria. In a market crowded with fintech startups all claiming to be intelligent banks, Tryba needed design that was both functionally rigorous and emotionally distinctive: a platform that looked as trustworthy as a traditional bank but felt as intuitive as the best consumer apps.</p>
@@ -126,7 +127,7 @@
   </div>
 
   <!-- Case Navigation -->
-  <nav class="case-nav">
+  <nav class="case-nav" data-cms="case-nav">
     <a href="syntech.html" class="case-nav-link case-nav-prev">
       <span class="case-nav-label">Previous</span>
       <span class="case-nav-title">Syntech</span>
@@ -154,17 +155,18 @@
       </div>
       <div class="footer-section">
         <h4>Connect</h4>
-        <ul>
+        <ul data-cms="social-links">
           <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+        <p class="footer-copyright" data-cms="copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
 
+  <script src="../js/cms.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

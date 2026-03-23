@@ -6,6 +6,7 @@
   <title>About  |  Justin Ukaegbu</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -39,11 +40,13 @@
           <img src="assets/about/justin-portrait.png" alt="Justin Ukaegbu" class="about-portrait">
         </div>
         <div class="hero-content">
-          <span class="eyebrow">ABOUT</span>
-          <h1>Justin Ukaegbu</h1>
-          <p>Designer working across brand, product, and interaction design. Twelve years of practice shaped across Nigeria, the UK, Dubai, and work in fifty countries.</p>
-          <p>Built platforms used by hundreds of thousands. Designed campaigns that reached 1.1 billion impressions. Led brand work for organisations operating at government level.</p>
-          <p>Now focused on building products that combine design, technology, and learning. Also running Art Director Studio, a platform for creative direction work.</p>
+          <span class="eyebrow" data-cms="hero-eyebrow">ABOUT</span>
+          <h1 data-cms="hero-title">Justin Ukaegbu</h1>
+          <div data-cms="intro-text">
+            <p>Designer working across brand, product, and interaction design. Twelve years of practice shaped across Nigeria, the UK, Dubai, and work in fifty countries.</p>
+            <p>Built platforms used by hundreds of thousands. Designed campaigns that reached 1.1 billion impressions. Led brand work for organisations operating at government level.</p>
+            <p>Now focused on building products that combine design, technology, and learning. Also running Art Director Studio, a platform for creative direction work.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -52,8 +55,8 @@
   <!-- Story Section -->
   <section class="about-story">
     <div class="container">
-      <h2>Design Practice</h2>
-      <div class="story-content">
+      <h2 data-cms="story-title">Design Practice</h2>
+      <div class="story-content" data-cms="story-text">
         <p>Started in Nigeria, studied in the UK, and worked across the Middle East and Europe. The work spans brand systems, digital product design, interaction design, and educational technology. Refuses to stay inside one discipline.</p>
 
         <p>Take Back The Mic was a defining project. The interactive festival design was nominated for a Webby Award in 2023. The digital card product work directly contributed to a multi-million dollar Mastercard partnership. The campaign reached 1.1 billion impressions across fifty countries.</p>
@@ -69,7 +72,7 @@
   <section class="credentials">
     <div class="container">
       <h2>Recognition</h2>
-      <div class="credentials-list">
+      <div class="credentials-list" data-cms="credentials-list">
         <div class="credential-item">
           <span class="credential-number">01</span>
           <div class="credential-content">
@@ -125,7 +128,7 @@
   <section class="products-section">
     <div class="container">
       <h2>Independent Products</h2>
-      <div class="products-grid">
+      <div class="products-grid" data-cms="products-grid">
         <div class="product-card">
           <div class="product-header">
             <h3><a href="https://artdirectorstudio.com" target="_blank" rel="noopener">Art Director Studio</a></h3>
@@ -160,17 +163,18 @@
       </div>
       <div class="footer-section">
         <h4>Connect</h4>
-        <ul>
+        <ul data-cms="social-links">
           <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+        <p class="footer-copyright" data-cms="copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
 
+  <script src="js/cms.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

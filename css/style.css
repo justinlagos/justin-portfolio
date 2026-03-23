@@ -335,7 +335,14 @@ h6 {
 }
 
 section {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-3xl) var(--space-xl);
+}
+
+section > .container,
+section > .work-container,
+section > .contact-cta-container {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 section.section-dark {
@@ -544,7 +551,7 @@ nav.scrolled {
 
 .hero {
   min-height: 100vh;
-  padding-top: 80px;
+  padding: 80px var(--space-xl) var(--space-3xl);
   background: var(--cream);
   display: flex;
   align-items: center;
@@ -718,9 +725,13 @@ nav.scrolled {
 }
 
 .case-hero {
-  padding: 160px 0 var(--space-2xl) 0;
-  padding-top: calc(80px + 160px);
+  padding: calc(80px + 120px) var(--space-xl) var(--space-2xl);
   background: var(--cream);
+}
+
+.case-hero > .container {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .case-hero-tag {
@@ -762,21 +773,28 @@ nav.scrolled {
 }
 
 .about-hero {
-  padding: 160px 0 var(--space-2xl) 0;
-  padding-top: calc(80px + 160px);
+  padding: calc(80px + 160px) var(--space-xl) var(--space-2xl);
   background: var(--cream);
+}
+
+.about-hero > .hero-grid,
+.about-hero > .container {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .contact-hero {
   min-height: 80vh;
   background: var(--ink);
-  padding: 160px 0 var(--space-2xl) 0;
-  padding-top: calc(80px + 160px);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3xl);
+  padding: calc(80px + 120px) var(--space-xl) var(--space-3xl);
+  display: flex;
   align-items: center;
+  justify-content: center;
   color: var(--white);
+}
+
+.contact-hero > .container {
+  max-width: 720px;
 }
 
 .contact-hero .section-tag {
@@ -799,6 +817,11 @@ nav.scrolled {
 /* ============================================================================
    9. WORK GRID & CARDS
    ============================================================================ */
+
+.work-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
 
 .work-grid {
   display: grid;
@@ -946,8 +969,9 @@ nav.scrolled {
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: var(--space-3xl);
-  max-width: 1400px;
+  max-width: 1280px;
   margin: 0 auto;
+  padding: 0 var(--space-xl);
 }
 
 .case-meta {
@@ -1530,8 +1554,14 @@ section.section-dark .section-intro {
 footer {
   background: var(--ink);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding: var(--space-2xl) var(--space-lg) var(--space-md);
+  padding: var(--space-2xl) var(--space-xl) var(--space-md);
   color: var(--white);
+}
+
+footer > .footer-grid {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .footer-content {
@@ -2017,6 +2047,9 @@ img[loading="lazy"] {
   gap: var(--space-sm);
   margin-bottom: var(--space-2xl);
   padding: var(--space-lg) 0;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Hero animation */

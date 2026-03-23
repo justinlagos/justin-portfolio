@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <nav>
@@ -32,16 +33,16 @@
   </div>
   <div class="menu-overlay" data-menu-overlay aria-hidden="true"></div>
 
-  <section class="case-hero" style="background-color: #FF6600;">
+  <section class="case-hero" style="background-color: #FF6600;" data-cms="case-hero">
     <div class="case-hero-content">
-      <span class="eyebrow">CAMPAIGN</span>
-      <h1 class="case-hero-title">EasyJet</h1>
-      <p class="case-hero-subtitle">Out-of-home advertising campaign for Europe's largest airlines, bringing the brand to urban environments</p>
+      <span class="eyebrow" data-cms="case-eyebrow">CAMPAIGN</span>
+      <h1 class="case-hero-title" data-cms="case-title">EasyJet</h1>
+      <p class="case-hero-subtitle" data-cms="case-subtitle">Out-of-home advertising campaign for Europe's largest airlines, bringing the brand to urban environments</p>
     </div>
   </section>
 
   <div class="case-wrapper">
-    <aside class="case-meta">
+    <aside class="case-meta" data-cms="case-meta">
       <div class="case-meta-item">
         <h3>Client</h3>
         <p>EasyJet / EasyJet Holidays</p>
@@ -60,7 +61,7 @@
       </div>
     </aside>
 
-    <div class="case-content">
+    <div class="case-content" data-cms="case-content">
       <section>
         <h2>The Context</h2>
         <p>EasyJet is one of Europe's largest airlines. The brief required out-of-home advertising that could cut through urban noise while maintaining the visual standards expected of a major international airline. The campaign spanned multiple formats: large-format billboards, bus stop digital displays, London bus wraps, and building-mounted signage.</p>
@@ -111,7 +112,7 @@
     </div>
   </div>
 
-  <nav class="case-nav">
+  <nav class="case-nav" data-cms="case-nav">
     <a href="hashit.html" class="case-nav-link case-nav-prev">
       <span class="case-nav-label">Previous</span>
       <span class="case-nav-title">HashIT</span>
@@ -138,16 +139,17 @@
       </div>
       <div class="footer-section">
         <h4>Connect</h4>
-        <ul>
+        <ul data-cms="social-links">
           <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+        <p class="footer-copyright" data-cms="copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
+  <script src="../js/cms.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@
   <title>Contact  |  Justin Ukaegbu</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -34,16 +35,16 @@
   <!-- Contact Section -->
   <section class="contact-hero">
     <div class="container">
-      <span class="eyebrow">GET IN TOUCH</span>
-      <h1>Let's work together</h1>
-      <p>Open to new projects, collaborations, and conversations. Interested in design leadership, product work, and research partnerships.</p>
+      <span class="eyebrow" data-cms="hero-eyebrow">GET IN TOUCH</span>
+      <h1 data-cms="hero-title">Let's work together</h1>
+      <p data-cms="hero-subtitle">Open to new projects, collaborations, and conversations. Interested in design leadership, product work, and research partnerships.</p>
 
       <div class="contact-details">
-        <div class="contact-item">
+        <div class="contact-item" data-cms="contact-email">
           <span class="contact-label">Email</span>
           <a href="mailto:mrjustinukaegbu@gmail.com">mrjustinukaegbu@gmail.com</a>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-cms="contact-phone">
           <span class="contact-label">Phone</span>
           <a href="tel:+447577627621">+44 7577 627621</a>
         </div>
@@ -51,7 +52,7 @@
           <span class="contact-label">LinkedIn</span>
           <a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">linkedin.com/in/justin-ukaegbu</a>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-cms="contact-address">
           <span class="contact-label">Location</span>
           <span>London, United Kingdom</span>
         </div>
@@ -76,17 +77,18 @@
       </div>
       <div class="footer-section">
         <h4>Connect</h4>
-        <ul>
+        <ul data-cms="social-links">
           <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+        <p class="footer-copyright" data-cms="copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
 
+  <script src="js/cms.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

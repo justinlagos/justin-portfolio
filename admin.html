@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio CMS Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .login-container {
+            background-color: #252525;
+            padding: 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-container h1 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a1a1a;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            color: #ffffff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #C8622A;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            background-color: #C8622A;
+            color: #ffffff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        button:hover {
+            background-color: #d97535;
+        }
+
+        button.secondary {
+            background-color: #404040;
+            color: #ffffff;
+        }
+
+        button.secondary:hover {
+            background-color: #505050;
+        }
+
+        button.danger {
+            background-color: #dc2626;
+        }
+
+        button.danger:hover {
+            background-color: #e74c3c;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .admin-panel {
+            display: none;
+            height: 100vh;
+            flex-direction: row;
+        }
+
+        .admin-panel.active {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #252525;
+            border-right: 1px solid #404040;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-label {
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background-color: #2d2d2d;
+        }
+
+        .nav-item.active {
+            border-left-color: #C8622A;
+            background-color: #2d2d2d;
+            color: #C8622A;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #252525;
+            border-bottom: 1px solid #404040;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .form-section {
+            background-color: #252525;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #404040;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            flex: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: #252525;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #404040;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #C8622A;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #252525;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #404040;
+        }
+
+        .table thead {
+            background-color: #2d2d2d;
+        }
+
+        .table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+            border-bottom: 1px solid #404040;
+        }
+
+        .table td {
+            padding: 12px;
+            border-bottom: 1px solid #404040;
+            font-size: 14px;
+        }
+
+        .table tr:hover {
+            background-color: #2d2d2d;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-buttons button {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #252525;
+            color: #ffffff;
+            padding: 16px 20px;
+            border-radius: 4px;
+            border-left: 4px solid #C8622A;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.error {
+            border-left-color: #dc2626;
+        }
+
+        .toast.success {
+            border-left-color: #10b981;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #252525;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid #404040;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+        }
+
+        .image-upload {
+            border: 2px dashed #404040;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 10px 0;
+        }
+
+        .image-upload:hover {
+            border-color: #C8622A;
+            background-color: #2d2d2d;
+        }
+
+        .image-preview {
+            margin-top: 10px;
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 4px;
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #404040;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #C8622A;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .json-editor {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            padding: 4px 8px;
+            color: #888;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .array-item {
+            background-color: #2d2d2d;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #404040;
+        }
+
+        .array-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .remove-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            background-color: #404040;
+        }
+
+        .add-btn {
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #404040;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #C8622A;
+        }
+
+        .tab.active {
+            border-bottom-color: #C8622A;
+            color: #C8622A;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-panel {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #404040;
+                display: flex;
+                overflow-x: auto;
+                padding: 0;
+            }
+
+            .sidebar-section {
+                display: flex;
+                margin: 0;
+                flex-direction: row;
+                margin-right: 20px;
+            }
+
+            .sidebar-label {
+                display: none;
+            }
+
+            .nav-item {
+                white-space: nowrap;
+                padding: 12px 16px;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+            }
+
+            .nav-item.active {
+                border-left: none;
+                border-bottom-color: #C8622A;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <h1>Portfolio Admin</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" style="width: 100%;" id="authBtn">Sign In</button>
+                <p style="text-align:center;margin-top:16px;font-size:13px;color:#888;">
+                    <a href="#" id="toggleAuth" style="color:#C8622A;text-decoration:none;">First time? Create account</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">Main</div>
+                <div class="nav-item active" data-section="dashboard">Dashboard</div>
+                <div class="nav-item" data-section="pages">Pages</div>
+                <div class="nav-item" data-section="projects">Projects</div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Content</div>
+                <div class="nav-item" data-section="credentials">Credentials</div>
+                <div class="nav-item" data-section="products">Products</div>
+                <div class="nav-item" data-section="clients">Clients</div>
+                <div class="nav-item" data-section="countries">Countries</div>
+                <div class="nav-item" data-section="stats">Stats</div>
+                <div class="nav-item" data-section="social">Social Links</div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Settings</div>
+                <div class="nav-item" data-section="settings">Site Settings</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <button class="logout-btn secondary" id="logoutBtn">Sign Out</button>
+            </div>
+
+            <div class="content" id="content">
+                <!-- Dashboard Section -->
+                <div class="section active" id="dashboard">
+                    <h2>Dashboard</h2>
+                    <div class="stats-grid" id="statsGrid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="projectCount">0</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="pageCount">0</div>
+                            <div class="stat-label">Pages</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="credentialCount">0</div>
+                            <div class="stat-label">Credentials</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="clientCount">0</div>
+                            <div class="stat-label">Clients</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pages Section -->
+                <div class="section" id="pages">
+                    <h2>Pages</h2>
+                    <div class="tabs" id="pageTabs">
+                        <div class="tab active" data-page="home">Home</div>
+                        <div class="tab" data-page="work">Work</div>
+                        <div class="tab" data-page="about">About</div>
+                        <div class="tab" data-page="contact">Contact</div>
+                    </div>
+                    <div id="pageContent">
+                        <div class="tab-content active" id="homeTab"></div>
+                        <div class="tab-content" id="workTab"></div>
+                        <div class="tab-content" id="aboutTab"></div>
+                        <div class="tab-content" id="contactTab"></div>
+                    </div>
+                </div>
+
+                <!-- Projects Section -->
+                <div class="section" id="projects">
+                    <h2>Projects</h2>
+                    <div style="margin-bottom: 20px;">
+                        <button class="add-btn" id="addProjectBtn">Add New Project</button>
+                    </div>
+                    <table class="table" id="projectsTable">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Year</th>
+                                <th>Featured</th>
+                                <th>Visible</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Credentials Section -->
+                <div class="section" id="credentials">
+                    <h2>Credentials</h2>
+                    <div style="margin-bottom: 20px;">
+                        <button class="add-btn" id="addCredentialBtn">Add Credential</button>
+                    </div>
+                    <table class="table" id="credentialsTable">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Number</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Visible</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="credentialsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Products Section -->
+                <div class="section" id="products">
+                    <h2>Products</h2>
+                    <div style="margin-bottom: 20px;">
+                        <button class="add-btn" id="addProductBtn">Add Product</button>
+                    </div>
+                    <table class="table" id="productsTable">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Title</th>
+                                <th>URL</th>
+                                <th>Icon</th>
+                                <th>Visible</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Clients Section -->
+                <div class="section" id="clients">
+                    <h2>Clients</h2>
+                    <div style="margin-bottom: 20px;">
+                        <button class="add-btn" id="addClientBtn">Add Client</button>
+                    </div>
+                    <table class="table" id="clientsTable">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Name</th>
+                                <th>Logo</th>
+                                <th>Visible</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Countries Section -->
+                <div class="section" id="countries">
+                    <h2>Countries</h2>
+                    <div style="margin-bottom: 20px;">
+                        <button class="add-btn" id="addCountryBtn">Add Country</button>
+                    </div>
+                    <table class="table" id="countriesTable">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Name</th>
+                                <th>Visible</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="countriesTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="section" id="stats">
+                    <h2>Stats</h2>
+                    <div style="margin-bottom: 20px;">
+                        <button class="add-btn" id="addStatBtn">Add Stat</button>
+                    </div>
+                    <table class="table" id="statsTable">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Number</th>
+                                <th>Label</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="statsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Social Links Section -->
+                <div class="section" id="social">
+                    <h2>Social Links</h2>
+                    <div style="margin-bottom: 20px;">
+                        <button class="add-btn" id="addSocialBtn">Add Social Link</button>
+                    </div>
+                    <table class="table" id="socialTable">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Platform</th>
+                                <th>URL</th>
+                                <th>Label</th>
+                                <th>Visible</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="socialTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Settings Section -->
+                <div class="section" id="settings">
+                    <h2>Site Settings</h2>
+                    <div id="settingsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for editing forms -->
+    <div class="modal" id="editModal">
+        <div class="modal-content" id="modalContent">
+            <!-- Filled dynamically -->
+        </div>
+    </div>
+
+    <input type="file" id="hiddenFileInput" class="hidden-file-input">
+
+    <script>
+        // Supabase initialization
+        const SUPABASE_URL = 'https://cgzqnnssbijfpuymnoqe.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNnenFubnNzYmlqZnB1eW1ub3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMjIyODEsImV4cCI6MjA4OTc5ODI4MX0.eUpWahjSdumf7nOLXemgi_Qc6JrXHdR6fPoLfd-0r60';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // State
+        let currentUser = null;
+        let currentEditingProject = null;
+        let allPages = {};
+        let allProjects = [];
+        let allProjectSections = [];
+
+        // Toast notification system
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Auth handlers
+        let isSignUp = false;
+
+        document.getElementById('toggleAuth').addEventListener('click', (e) => {
+            e.preventDefault();
+            isSignUp = !isSignUp;
+            document.getElementById('authBtn').textContent = isSignUp ? 'Create Account' : 'Sign In';
+            document.getElementById('toggleAuth').textContent = isSignUp ? 'Already have an account? Sign in' : 'First time? Create account';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                let data, error;
+                if (isSignUp) {
+                    ({ data, error } = await supabase.auth.signUp({ email, password }));
+                    if (error) throw error;
+                    showToast('Account created. You can now sign in.', 'success');
+                    isSignUp = false;
+                    document.getElementById('authBtn').textContent = 'Sign In';
+                    document.getElementById('toggleAuth').textContent = 'First time? Create account';
+                    return;
+                } else {
+                    ({ data, error } = await supabase.auth.signInWithPassword({ email, password }));
+                }
+
+                if (error) throw error;
+                currentUser = data.user;
+                showLoginUI();
+                loadDashboard();
+            } catch (err) {
+                showToast((isSignUp ? 'Signup' : 'Login') + ' failed: ' + err.message, 'error');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            currentUser = null;
+            location.reload();
+        });
+
+        // UI toggle functions
+        function showLoginUI() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminPanel').classList.add('active');
+        }
+
+        function switchSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+
+            const titles = {
+                dashboard: 'Dashboard',
+                pages: 'Pages',
+                projects: 'Projects',
+                credentials: 'Credentials',
+                products: 'Products',
+                clients: 'Clients',
+                countries: 'Countries',
+                stats: 'Stats',
+                social: 'Social Links',
+                settings: 'Site Settings'
+            };
+
+            document.getElementById('pageTitle').textContent = titles[sectionId] || sectionId;
+
+            // Load section data
+            if (sectionId === 'dashboard') loadDashboard();
+            else if (sectionId === 'pages') loadPages();
+            else if (sectionId === 'projects') loadProjects();
+            else if (sectionId === 'credentials') loadCredentials();
+            else if (sectionId === 'products') loadProducts();
+            else if (sectionId === 'clients') loadClients();
+            else if (sectionId === 'countries') loadCountries();
+            else if (sectionId === 'stats') loadStats();
+            else if (sectionId === 'social') loadSocial();
+            else if (sectionId === 'settings') loadSettings();
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                switchSection(item.dataset.section);
+            });
+        });
+
+        // Modal functions
+        function openModal(title, html) {
+            const modal = document.getElementById('editModal');
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `<h2>${title}</h2>${html}`;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        document.getElementById('editModal').addEventListener('click', (e) => {
+            if (e.target.id === 'editModal') closeModal();
+        });
+
+        // Image upload handler
+        async function uploadImage(file) {
+            try {
+                const timestamp = Date.now();
+                const filename = `${timestamp}-${Math.random().toString(36).substr(2, 9)}-${file.name}`;
+
+                const { data, error } = await supabase.storage
+                    .from('portfolio-images')
+                    .upload(filename, file);
+
+                if (error) throw error;
+
+                const { data: publicUrl } = supabase.storage
+                    .from('portfolio-images')
+                    .getPublicUrl(filename);
+
+                return publicUrl.publicUrl;
+            } catch (err) {
+                showToast('Image upload failed: ' + err.message, 'error');
+                return null;
+            }
+        }
+
+        function createImageUploadInput(currentUrl = null, callback) {
+            let uploadedUrl = currentUrl;
+            let html = `
+                <div class="form-group full">
+                    <label>Image</label>
+                    <div class="image-upload" id="uploadArea">
+                        <div>Click to upload or drag and drop</div>
+                    </div>
+            `;
+
+            if (currentUrl) {
+                html += `<img src="${currentUrl}" alt="Current" class="image-preview" id="preview">`;
+            } else {
+                html += `<img id="preview" class="image-preview" style="display: none;">`;
+            }
+
+            html += `</div>`;
+
+            setTimeout(() => {
+                const uploadArea = document.getElementById('uploadArea');
+                if (!uploadArea) return;
+
+                uploadArea.addEventListener('click', () => {
+                    const input = document.getElementById('hiddenFileInput');
+                    input.onchange = async (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const url = await uploadImage(file);
+                            if (url) {
+                                uploadedUrl = url;
+                                document.getElementById('preview').src = url;
+                                document.getElementById('preview').style.display = 'block';
+                                callback(url);
+                            }
+                        }
+                    };
+                    input.click();
+                });
+
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.style.backgroundColor = '#2d2d2d';
+                });
+
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.style.backgroundColor = '';
+                });
+
+                uploadArea.addEventListener('drop', async (e) => {
+                    e.preventDefault();
+                    uploadArea.style.backgroundColor = '';
+                    const file = e.dataTransfer.files[0];
+                    if (file) {
+                        const url = await uploadImage(file);
+                        if (url) {
+                            uploadedUrl = url;
+                            document.getElementById('preview').src = url;
+                            document.getElementById('preview').style.display = 'block';
+                            callback(url);
+                        }
+                    }
+                });
+            }, 10);
+
+            return { html, getUrl: () => uploadedUrl };
+        }
+
+        // Dashboard
+        async function loadDashboard() {
+            try {
+                const [projects, credentials, clients] = await Promise.all([
+                    supabase.from('projects').select('id').limit(1).count('exact'),
+                    supabase.from('credentials').select('id').limit(1).count('exact'),
+                    supabase.from('clients').select('id').limit(1).count('exact')
+                ]);
+
+                document.getElementById('projectCount').textContent = projects.count || 0;
+                document.getElementById('pageCount').textContent = '4';
+                document.getElementById('credentialCount').textContent = credentials.count || 0;
+                document.getElementById('clientCount').textContent = clients.count || 0;
+            } catch (err) {
+                showToast('Failed to load dashboard: ' + err.message, 'error');
+            }
+        }
+
+        // Pages Management
+        async function loadPages() {
+            try {
+                const { data, error } = await supabase
+                    .from('pages')
+                    .select('*')
+                    .in('slug', ['home', 'work', 'about', 'contact']);
+
+                if (error) throw error;
+
+                allPages = {};
+                data.forEach(page => {
+                    allPages[page.slug] = page;
+                });
+
+                renderPageTabs();
+            } catch (err) {
+                showToast('Failed to load pages: ' + err.message, 'error');
+            }
+        }
+
+        function renderPageTabs() {
+            ['home', 'work', 'about', 'contact'].forEach(slug => {
+                const page = allPages[slug] || {};
+                let form = `
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input type="text" id="title-${slug}" value="${page.title || ''}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Meta Description</label>
+                                <input type="text" id="meta_description-${slug}" value="${page.meta_description || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Hero Eyebrow</label>
+                                <input type="text" id="hero_eyebrow-${slug}" value="${page.hero_eyebrow || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Hero Title</label>
+                                <textarea id="hero_title-${slug}">${page.hero_title || ''}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Hero Subtitle</label>
+                                <textarea id="hero_subtitle-${slug}">${page.hero_subtitle || ''}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Hero Bio</label>
+                                <textarea id="hero_bio-${slug}">${page.hero_bio || ''}</textarea>
+                            </div>
+                        </div>
+                `;
+
+                if (slug === 'about') {
+                    const content = page.content || {};
+                    const introParagraphs = content.intro_paragraphs || [];
+                    const storyParagraphs = content.story_paragraphs || [];
+
+                    form += `
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Intro Paragraphs (one per line)</label>
+                                <textarea id="intro_paragraphs-${slug}" style="min-height: 120px;">${introParagraphs.join('\n')}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Story Title</label>
+                                <input type="text" id="story_title-${slug}" value="${content.story_title || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Story Paragraphs (one per line)</label>
+                                <textarea id="story_paragraphs-${slug}" style="min-height: 120px;">${storyParagraphs.join('\n')}</textarea>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (slug === 'contact') {
+                    const content = page.content || {};
+                    form += `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" id="email-${slug}" value="${content.email || ''}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" id="phone-${slug}" value="${content.phone || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>LinkedIn</label>
+                                <input type="text" id="linkedin-${slug}" value="${content.linkedin || ''}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" id="location-${slug}" value="${content.location || ''}" />
+                            </div>
+                        </div>
+                    `;
+                }
+
+                form += `
+                        <div class="button-group">
+                            <button type="button" class="secondary" onclick="document.getElementById('${slug}Tab').scrollIntoView();">Cancel</button>
+                            <button type="button" onclick="savePage('${slug}');">Save Changes</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById(`${slug}Tab`).innerHTML = form;
+            });
+        }
+
+        async function savePage(slug) {
+            try {
+                const data = {
+                    title: document.getElementById(`title-${slug}`).value,
+                    meta_description: document.getElementById(`meta_description-${slug}`).value,
+                    hero_eyebrow: document.getElementById(`hero_eyebrow-${slug}`).value,
+                    hero_title: document.getElementById(`hero_title-${slug}`).value,
+                    hero_subtitle: document.getElementById(`hero_subtitle-${slug}`).value,
+                    hero_bio: document.getElementById(`hero_bio-${slug}`).value
+                };
+
+                if (slug === 'about') {
+                    const introParagraphs = document.getElementById(`intro_paragraphs-${slug}`).value
+                        .split('\n').filter(p => p.trim());
+                    const storyParagraphs = document.getElementById(`story_paragraphs-${slug}`).value
+                        .split('\n').filter(p => p.trim());
+
+                    data.content = {
+                        intro_paragraphs: introParagraphs,
+                        story_title: document.getElementById(`story_title-${slug}`).value,
+                        story_paragraphs: storyParagraphs
+                    };
+                }
+
+                if (slug === 'contact') {
+                    data.content = {
+                        email: document.getElementById(`email-${slug}`).value,
+                        phone: document.getElementById(`phone-${slug}`).value,
+                        linkedin: document.getElementById(`linkedin-${slug}`).value,
+                        location: document.getElementById(`location-${slug}`).value
+                    };
+                }
+
+                const page = allPages[slug];
+                if (page && page.id) {
+                    const { error } = await supabase
+                        .from('pages')
+                        .update(data)
+                        .eq('id', page.id);
+                    if (error) throw error;
+                } else {
+                    data.slug = slug;
+                    const { error } = await supabase
+                        .from('pages')
+                        .insert([data]);
+                    if (error) throw error;
+                }
+
+                showToast('Page saved successfully');
+                loadPages();
+            } catch (err) {
+                showToast('Failed to save page: ' + err.message, 'error');
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab') && e.target.parentElement.id === 'pageTabs') {
+                document.querySelectorAll('#pageTabs .tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+
+                document.querySelectorAll('#pageContent .tab-content').forEach(tc => tc.classList.remove('active'));
+                document.getElementById(`${e.target.dataset.page}Tab`).classList.add('active');
+            }
+        });
+
+        // Projects Management
+        async function loadProjects() {
+            try {
+                const { data, error } = await supabase
+                    .from('projects')
+                    .select('*')
+                    .order('sort_order', { ascending: true });
+
+                if (error) throw error;
+                allProjects = data;
+                renderProjectsTable();
+            } catch (err) {
+                showToast('Failed to load projects: ' + err.message, 'error');
+            }
+        }
+
+        function renderProjectsTable() {
+            const tbody = document.getElementById('projectsTableBody');
+            tbody.innerHTML = allProjects.map(project => `
+                <tr>
+                    <td><span class="drag-handle">≡</span>${project.sort_order || 0}</td>
+                    <td>${project.title}</td>
+                    <td>${project.category || '-'}</td>
+                    <td>${project.year || '-'}</td>
+                    <td>${project.is_featured ? 'Yes' : 'No'}</td>
+                    <td>${project.is_visible ? 'Yes' : 'No'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="secondary" onclick="editProject(${project.id})">Edit</button>
+                            <button class="danger" onclick="deleteProject(${project.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('addProjectBtn').addEventListener('click', () => {
+            editProject(null);
+        });
+
+        async function editProject(projectId) {
+            try {
+                let project = null;
+                if (projectId) {
+                    const { data, error } = await supabase
+                        .from('projects')
+                        .select('*')
+                        .eq('id', projectId)
+                        .single();
+                    if (error) throw error;
+                    project = data;
+                    currentEditingProject = projectId;
+                } else {
+                    project = {};
+                    currentEditingProject = null;
+                }
+
+                let imageUpload1 = createImageUploadInput(project.card_image, () => {});
+                let imageUpload2 = createImageUploadInput(project.hero_image, () => {});
+
+                const tagsStr = (project.tags || []).join(', ');
+
+                const html = `
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input type="text" id="proj-title" value="${project.title || ''}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Slug</label>
+                                <input type="text" id="proj-slug" value="${project.slug || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <input type="text" id="proj-category" value="${project.category || ''}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Tags (comma separated)</label>
+                                <input type="text" id="proj-tags" value="${tagsStr}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Year</label>
+                                <input type="number" id="proj-year" value="${project.year || ''}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Client</label>
+                                <input type="text" id="proj-client" value="${project.client || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Subtitle</label>
+                                <input type="text" id="proj-subtitle" value="${project.subtitle || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Short Description</label>
+                                <textarea id="proj-short_description">${project.short_description || ''}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <input type="text" id="proj-role" value="${project.role || ''}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Scope</label>
+                                <input type="text" id="proj-scope" value="${project.scope || ''}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Hero Color</label>
+                                <input type="text" id="proj-hero_color" value="${project.hero_color || ''}" placeholder="#000000" />
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Card Image</label>
+                                ${imageUpload1.html}
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Hero Image</label>
+                                ${imageUpload2.html}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="proj-is_featured" ${project.is_featured ? 'checked' : ''} />
+                                <label for="proj-is_featured" style="margin-bottom: 0;">Featured</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="proj-is_visible" ${project.is_visible !== false ? 'checked' : ''} />
+                                <label for="proj-is_visible" style="margin-bottom: 0;">Visible</label>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="button" class="secondary" onclick="closeModal()">Cancel</button>
+                            <button type="button" onclick="saveProject(${projectId ? projectId : 'null'});">Save Project</button>
+                        </div>
+                    </div>
+                `;
+
+                openModal('Edit Project', html);
+            } catch (err) {
+                showToast('Failed to load project: ' + err.message, 'error');
+            }
+        }
+
+        async function saveProject(projectId) {
+            try {
+                const tags = document.getElementById('proj-tags').value
+                    .split(',')
+                    .map(t => t.trim())
+                    .filter(t => t);
+
+                const data = {
+                    title: document.getElementById('proj-title').value,
+                    slug: document.getElementById('proj-slug').value,
+                    category: document.getElementById('proj-category').value,
+                    tags: tags,
+                    year: parseInt(document.getElementById('proj-year').value) || null,
+                    client: document.getElementById('proj-client').value,
+                    role: document.getElementById('proj-role').value,
+                    scope: document.getElementById('proj-scope').value,
+                    subtitle: document.getElementById('proj-subtitle').value,
+                    short_description: document.getElementById('proj-short_description').value,
+                    hero_color: document.getElementById('proj-hero_color').value,
+                    is_featured: document.getElementById('proj-is_featured').checked,
+                    is_visible: document.getElementById('proj-is_visible').checked,
+                    card_image: document.querySelector('#modalContent img[id="preview"]:nth-of-type(1)')?.src || null,
+                    hero_image: document.querySelector('#modalContent img[id="preview"]:nth-of-type(2)')?.src || null
+                };
+
+                if (projectId && projectId !== 'null') {
+                    const { error } = await supabase
+                        .from('projects')
+                        .update(data)
+                        .eq('id', projectId);
+                    if (error) throw error;
+                } else {
+                    data.sort_order = allProjects.length;
+                    const { error } = await supabase
+                        .from('projects')
+                        .insert([data]);
+                    if (error) throw error;
+                }
+
+                showToast('Project saved successfully');
+                closeModal();
+                loadProjects();
+            } catch (err) {
+                showToast('Failed to save project: ' + err.message, 'error');
+            }
+        }
+
+        async function deleteProject(projectId) {
+            if (!confirm('Are you sure you want to delete this project?')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('projects')
+                    .delete()
+                    .eq('id', projectId);
+
+                if (error) throw error;
+                showToast('Project deleted successfully');
+                loadProjects();
+            } catch (err) {
+                showToast('Failed to delete project: ' + err.message, 'error');
+            }
+        }
+
+        // Generic CRUD functions
+        async function loadTableData(tableName, options = {}) {
+            try {
+                const query = supabase.from(tableName).select('*');
+
+                if (options.order) {
+                    query.order(options.order.column, { ascending: options.order.ascending });
+                }
+
+                const { data, error } = await query;
+                if (error) throw error;
+
+                return data;
+            } catch (err) {
+                showToast(`Failed to load ${tableName}: ` + err.message, 'error');
+                return [];
+            }
+        }
+
+        async function saveTableItem(tableName, data, itemId) {
+            try {
+                if (itemId) {
+                    const { error } = await supabase
+                        .from(tableName)
+                        .update(data)
+                        .eq('id', itemId);
+                    if (error) throw error;
+                } else {
+                    const { error } = await supabase
+                        .from(tableName)
+                        .insert([data]);
+                    if (error) throw error;
+                }
+
+                showToast('Saved successfully');
+                return true;
+            } catch (err) {
+                showToast('Failed to save: ' + err.message, 'error');
+                return false;
+            }
+        }
+
+        async function deleteTableItem(tableName, itemId) {
+            try {
+                const { error } = await supabase
+                    .from(tableName)
+                    .delete()
+                    .eq('id', itemId);
+
+                if (error) throw error;
+                showToast('Deleted successfully');
+                return true;
+            } catch (err) {
+                showToast('Failed to delete: ' + err.message, 'error');
+                return false;
+            }
+        }
+
+        // Credentials Management
+        async function loadCredentials() {
+            const data = await loadTableData('credentials', { order: { column: 'sort_order', ascending: true } });
+            renderTable('credentials', data, ['number', 'title', 'description', 'is_visible']);
+        }
+
+        document.getElementById('addCredentialBtn').addEventListener('click', () => {
+            editCredential(null);
+        });
+
+        async function editCredential(itemId) {
+            const item = itemId ? allCredentials.find(i => i.id === itemId) : {};
+            const html = `
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Number</label>
+                            <input type="text" id="item-number" value="${item.number || ''}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="item-title" value="${item.title || ''}" />
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="item-description">${item.description || ''}</textarea>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
+                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
+                    </div>
+                    <div class="button-group">
+                        <button class="secondary" onclick="closeModal()">Cancel</button>
+                        <button onclick="saveCredential(${itemId || 'null'})">Save</button>
+                    </div>
+                </div>
+            `;
+            openModal('Edit Credential', html);
+        }
+
+        let allCredentials = [];
+
+        async function saveCredential(itemId) {
+            const data = {
+                number: document.getElementById('item-number').value,
+                title: document.getElementById('item-title').value,
+                description: document.getElementById('item-description').value,
+                is_visible: document.getElementById('item-is_visible').checked
+            };
+
+            if (await saveTableItem('credentials', data, itemId ? itemId : null)) {
+                closeModal();
+                loadCredentials();
+            }
+        }
+
+        function renderTable(tableName, data, fields) {
+            const tbody = document.getElementById(`${tableName}TableBody`);
+            tbody.innerHTML = data.map(item => {
+                let row = `<tr><td>${item.sort_order || 0}</td>`;
+                fields.forEach(field => {
+                    if (field === 'is_visible') {
+                        row += `<td>${item.is_visible ? 'Yes' : 'No'}</td>`;
+                    } else {
+                        row += `<td>${item[field] || '-'}</td>`;
+                    }
+                });
+                row += `
+                    <td>
+                        <div class="action-buttons">
+                            <button class="secondary" onclick="edit${tableName.charAt(0).toUpperCase() + tableName.slice(1).replace(/s$/, '')}(${item.id})">Edit</button>
+                            <button class="danger" onclick="deleteTableItem('${tableName}', ${item.id}).then(() => load${tableName.charAt(0).toUpperCase() + tableName.slice(1)}())">Delete</button>
+                        </div>
+                    </td>
+                </tr>`;
+                return row;
+            }).join('');
+        }
+
+        // Products Management
+        async function loadProducts() {
+            const data = await loadTableData('products', { order: { column: 'sort_order', ascending: true } });
+            allProducts = data;
+            renderProducts();
+        }
+
+        let allProducts = [];
+
+        function renderProducts() {
+            const tbody = document.getElementById('productsTableBody');
+            tbody.innerHTML = allProducts.map(item => `
+                <tr>
+                    <td>${item.sort_order || 0}</td>
+                    <td>${item.title}</td>
+                    <td>${item.url || '-'}</td>
+                    <td>${item.icon || '-'}</td>
+                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="secondary" onclick="editProduct(${item.id})">Edit</button>
+                            <button class="danger" onclick="deleteTableItem('products', ${item.id}).then(() => loadProducts())">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('addProductBtn').addEventListener('click', () => editProduct(null));
+
+        async function editProduct(itemId) {
+            const item = itemId ? allProducts.find(i => i.id === itemId) : {};
+            const html = `
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="item-title" value="${item.title || ''}" />
+                        </div>
+                        <div class="form-group">
+                            <label>URL</label>
+                            <input type="text" id="item-url" value="${item.url || ''}" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Icon</label>
+                            <input type="text" id="item-icon" value="${item.icon || ''}" />
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
+                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
+                    </div>
+                    <div class="button-group">
+                        <button class="secondary" onclick="closeModal()">Cancel</button>
+                        <button onclick="saveProduct(${itemId || 'null'})">Save</button>
+                    </div>
+                </div>
+            `;
+            openModal('Edit Product', html);
+        }
+
+        async function saveProduct(itemId) {
+            const data = {
+                title: document.getElementById('item-title').value,
+                url: document.getElementById('item-url').value,
+                icon: document.getElementById('item-icon').value,
+                is_visible: document.getElementById('item-is_visible').checked
+            };
+
+            if (await saveTableItem('products', data, itemId ? itemId : null)) {
+                closeModal();
+                loadProducts();
+            }
+        }
+
+        // Clients Management
+        async function loadClients() {
+            const data = await loadTableData('clients', { order: { column: 'sort_order', ascending: true } });
+            allClients = data;
+            renderClients();
+        }
+
+        let allClients = [];
+
+        function renderClients() {
+            const tbody = document.getElementById('clientsTableBody');
+            tbody.innerHTML = allClients.map(item => `
+                <tr>
+                    <td>${item.sort_order || 0}</td>
+                    <td>${item.name}</td>
+                    <td>${item.logo_url ? 'Yes' : 'No'}</td>
+                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="secondary" onclick="editClient(${item.id})">Edit</button>
+                            <button class="danger" onclick="deleteTableItem('clients', ${item.id}).then(() => loadClients())">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('addClientBtn').addEventListener('click', () => editClient(null));
+
+        async function editClient(itemId) {
+            const item = itemId ? allClients.find(i => i.id === itemId) : {};
+            let imageUpload = createImageUploadInput(item.logo_url, () => {});
+
+            const html = `
+                <div class="form-section">
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="item-name" value="${item.name || ''}" />
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            ${imageUpload.html}
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
+                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
+                    </div>
+                    <div class="button-group">
+                        <button class="secondary" onclick="closeModal()">Cancel</button>
+                        <button onclick="saveClient(${itemId || 'null'})">Save</button>
+                    </div>
+                </div>
+            `;
+            openModal('Edit Client', html);
+        }
+
+        async function saveClient(itemId) {
+            const logoImg = document.querySelector('#modalContent img[id="preview"]');
+            const data = {
+                name: document.getElementById('item-name').value,
+                logo_url: logoImg?.src || null,
+                is_visible: document.getElementById('item-is_visible').checked
+            };
+
+            if (await saveTableItem('clients', data, itemId ? itemId : null)) {
+                closeModal();
+                loadClients();
+            }
+        }
+
+        // Countries Management
+        async function loadCountries() {
+            const data = await loadTableData('countries', { order: { column: 'sort_order', ascending: true } });
+            allCountries = data;
+            renderCountries();
+        }
+
+        let allCountries = [];
+
+        function renderCountries() {
+            const tbody = document.getElementById('countriesTableBody');
+            tbody.innerHTML = allCountries.map(item => `
+                <tr>
+                    <td>${item.sort_order || 0}</td>
+                    <td>${item.name}</td>
+                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="secondary" onclick="editCountry(${item.id})">Edit</button>
+                            <button class="danger" onclick="deleteTableItem('countries', ${item.id}).then(() => loadCountries())">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('addCountryBtn').addEventListener('click', () => editCountry(null));
+
+        async function editCountry(itemId) {
+            const item = itemId ? allCountries.find(i => i.id === itemId) : {};
+            const html = `
+                <div class="form-section">
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="item-name" value="${item.name || ''}" />
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
+                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
+                    </div>
+                    <div class="button-group">
+                        <button class="secondary" onclick="closeModal()">Cancel</button>
+                        <button onclick="saveCountry(${itemId || 'null'})">Save</button>
+                    </div>
+                </div>
+            `;
+            openModal('Edit Country', html);
+        }
+
+        async function saveCountry(itemId) {
+            const data = {
+                name: document.getElementById('item-name').value,
+                is_visible: document.getElementById('item-is_visible').checked
+            };
+
+            if (await saveTableItem('countries', data, itemId ? itemId : null)) {
+                closeModal();
+                loadCountries();
+            }
+        }
+
+        // Stats Management
+        async function loadStats() {
+            const data = await loadTableData('stats', { order: { column: 'sort_order', ascending: true } });
+            allStats = data;
+            renderStats();
+        }
+
+        let allStats = [];
+
+        function renderStats() {
+            const tbody = document.getElementById('statsTableBody');
+            tbody.innerHTML = allStats.map(item => `
+                <tr>
+                    <td>${item.sort_order || 0}</td>
+                    <td>${item.number}</td>
+                    <td>${item.label}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="secondary" onclick="editStat(${item.id})">Edit</button>
+                            <button class="danger" onclick="deleteTableItem('stats', ${item.id}).then(() => loadStats())">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('addStatBtn').addEventListener('click', () => editStat(null));
+
+        async function editStat(itemId) {
+            const item = itemId ? allStats.find(i => i.id === itemId) : {};
+            const html = `
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Number</label>
+                            <input type="text" id="item-number" value="${item.number || ''}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Label</label>
+                            <input type="text" id="item-label" value="${item.label || ''}" />
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="secondary" onclick="closeModal()">Cancel</button>
+                        <button onclick="saveStat(${itemId || 'null'})">Save</button>
+                    </div>
+                </div>
+            `;
+            openModal('Edit Stat', html);
+        }
+
+        async function saveStat(itemId) {
+            const data = {
+                number: document.getElementById('item-number').value,
+                label: document.getElementById('item-label').value
+            };
+
+            if (await saveTableItem('stats', data, itemId ? itemId : null)) {
+                closeModal();
+                loadStats();
+            }
+        }
+
+        // Social Links Management
+        async function loadSocial() {
+            const data = await loadTableData('social_links', { order: { column: 'sort_order', ascending: true } });
+            allSocial = data;
+            renderSocial();
+        }
+
+        let allSocial = [];
+
+        function renderSocial() {
+            const tbody = document.getElementById('socialTableBody');
+            tbody.innerHTML = allSocial.map(item => `
+                <tr>
+                    <td>${item.sort_order || 0}</td>
+                    <td>${item.platform}</td>
+                    <td>${item.url || '-'}</td>
+                    <td>${item.label || '-'}</td>
+                    <td>${item.is_visible ? 'Yes' : 'No'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="secondary" onclick="editSocial(${item.id})">Edit</button>
+                            <button class="danger" onclick="deleteTableItem('social_links', ${item.id}).then(() => loadSocial())">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('addSocialBtn').addEventListener('click', () => editSocial(null));
+
+        async function editSocial(itemId) {
+            const item = itemId ? allSocial.find(i => i.id === itemId) : {};
+            const html = `
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Platform</label>
+                            <input type="text" id="item-platform" value="${item.platform || ''}" />
+                        </div>
+                        <div class="form-group">
+                            <label>URL</label>
+                            <input type="text" id="item-url" value="${item.url || ''}" />
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Label</label>
+                            <input type="text" id="item-label" value="${item.label || ''}" />
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
+                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
+                    </div>
+                    <div class="button-group">
+                        <button class="secondary" onclick="closeModal()">Cancel</button>
+                        <button onclick="saveSocial(${itemId || 'null'})">Save</button>
+                    </div>
+                </div>
+            `;
+            openModal('Edit Social Link', html);
+        }
+
+        async function saveSocial(itemId) {
+            const data = {
+                platform: document.getElementById('item-platform').value,
+                url: document.getElementById('item-url').value,
+                label: document.getElementById('item-label').value,
+                is_visible: document.getElementById('item-is_visible').checked
+            };
+
+            if (await saveTableItem('social_links', data, itemId ? itemId : null)) {
+                closeModal();
+                loadSocial();
+            }
+        }
+
+        // Settings Management
+        async function loadSettings() {
+            try {
+                const { data, error } = await supabase
+                    .from('settings')
+                    .select('*')
+                    .order('key', { ascending: true });
+
+                if (error) throw error;
+
+                const container = document.getElementById('settingsContainer');
+                container.innerHTML = data.map(setting => `
+                    <div class="form-section" style="margin-bottom: 15px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>${setting.key}</label>
+                                <input type="text" id="setting-${setting.id}" value="${setting.value || ''}" />
+                            </div>
+                            <div style="display: flex; align-items: flex-end;">
+                                <button class="secondary" onclick="updateSetting(${setting.id})">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                showToast('Failed to load settings: ' + err.message, 'error');
+            }
+        }
+
+        async function updateSetting(settingId) {
+            try {
+                const value = document.getElementById(`setting-${settingId}`).value;
+                const { error } = await supabase
+                    .from('settings')
+                    .update({ value })
+                    .eq('id', settingId);
+
+                if (error) throw error;
+                showToast('Setting updated');
+            } catch (err) {
+                showToast('Failed to update setting: ' + err.message, 'error');
+            }
+        }
+
+        // Check auth state on load
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                currentUser = session.user;
+                showLoginUI();
+                loadDashboard();
+            }
+        });
+    </script>
+</body>
+</html>
