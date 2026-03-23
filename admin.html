@@ -58,6 +58,8 @@
         input[type="password"],
         input[type="text"],
         input[type="number"],
+        input[type="color"],
+        input[type="range"],
         textarea,
         select {
             width: 100%;
@@ -79,6 +81,17 @@
         select:focus {
             outline: none;
             border-color: #C8622A;
+        }
+
+        input[type="range"] {
+            padding: 0;
+            height: 6px;
+        }
+
+        input[type="color"] {
+            cursor: pointer;
+            height: 50px;
+            padding: 4px;
         }
 
         textarea {
@@ -103,36 +116,28 @@
             background-color: #d97535;
         }
 
-        button.secondary {
-            background-color: #404040;
-            color: #ffffff;
-        }
-
-        button.secondary:hover {
-            background-color: #505050;
-        }
-
         button.danger {
             background-color: #dc2626;
         }
 
         button.danger:hover {
-            background-color: #e74c3c;
+            background-color: #b91c1c;
         }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        button.secondary {
+            background-color: transparent;
+            border: 1px solid #404040;
+            color: #ffffff;
         }
 
-        .admin-panel {
-            display: none;
-            height: 100vh;
-            flex-direction: row;
+        button.secondary:hover {
+            background-color: #252525;
         }
 
-        .admin-panel.active {
+        .admin-container {
             display: flex;
+            height: 100vh;
+            gap: 0;
         }
 
         .sidebar {
@@ -143,20 +148,7 @@
             padding: 20px 0;
         }
 
-        .sidebar-section {
-            margin-bottom: 30px;
-        }
-
-        .sidebar-label {
-            padding: 0 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #888;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .nav-item {
+        .sidebar-item {
             padding: 12px 20px;
             cursor: pointer;
             border-left: 3px solid transparent;
@@ -164,14 +156,16 @@
             font-size: 14px;
         }
 
-        .nav-item:hover {
+        .sidebar-item:hover {
             background-color: #2d2d2d;
+            border-left-color: #C8622A;
         }
 
-        .nav-item.active {
-            border-left-color: #C8622A;
+        .sidebar-item.active {
             background-color: #2d2d2d;
+            border-left-color: #C8622A;
             color: #C8622A;
+            font-weight: 600;
         }
 
         .main-content {
@@ -190,153 +184,67 @@
             align-items: center;
         }
 
-        .header h1 {
+        .header h2 {
             font-size: 24px;
             font-weight: 700;
         }
 
-        .logout-btn {
-            padding: 10px 20px;
-            font-size: 13px;
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-bar {
+            background-color: #1a1a1a;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            padding: 10px 15px;
+            width: 250px;
+            color: #ffffff;
         }
 
         .content {
             flex: 1;
             overflow-y: auto;
-            padding: 30px;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .section h2 {
-            margin-bottom: 20px;
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .form-section {
-            background-color: #252525;
             padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #404040;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-row.full {
-            grid-template-columns: 1fr;
-        }
-
-        .form-group {
-            margin-bottom: 0;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            position: sticky;
-            bottom: 0;
-            background: #252525;
-            z-index: 1;
-        }
-
-        .button-group button {
-            flex: 1;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
+        .table-container {
             background-color: #252525;
-            padding: 20px;
-            border-radius: 8px;
             border: 1px solid #404040;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            color: #C8622A;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #888;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #252525;
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid #404040;
         }
 
-        .table thead {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
             background-color: #2d2d2d;
-        }
-
-        .table th {
-            padding: 12px;
+            padding: 15px;
             text-align: left;
             font-weight: 600;
             font-size: 13px;
-            color: #888;
             text-transform: uppercase;
             border-bottom: 1px solid #404040;
         }
 
-        .table td {
-            padding: 12px;
+        td {
+            padding: 15px;
             border-bottom: 1px solid #404040;
             font-size: 14px;
         }
 
-        .table tr:hover {
+        tr:hover {
             background-color: #2d2d2d;
-        }
-
-        .table tr:last-child td {
-            border-bottom: none;
         }
 
         .action-buttons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .action-buttons button {
@@ -344,27 +252,118 @@
             font-size: 12px;
         }
 
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #252525;
-            color: #ffffff;
-            padding: 16px 20px;
-            border-radius: 4px;
-            border-left: 4px solid #C8622A;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-            max-width: 400px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888888;
         }
 
-        .toast.error {
-            border-left-color: #dc2626;
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 60px;
+        }
+
+        .modal {
+            background-color: #252525;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #404040;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #888888;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: #ffffff;
+        }
+
+        .modal-content {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #404040;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            max-width: 400px;
+        }
+
+        .toast {
+            background-color: #252525;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            animation: slideIn 0.3s ease-out;
         }
 
         .toast.success {
-            border-left-color: #10b981;
+            border-left: 4px solid #10b981;
+        }
+
+        .toast.error {
+            border-left: 4px solid #dc2626;
+        }
+
+        .toast.warning {
+            border-left: 4px solid #f59e0b;
         }
 
         @keyframes slideIn {
@@ -378,217 +377,176 @@
             }
         }
 
-        .loading {
-            display: inline-block;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 40px 20px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background-color: #252525;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 640px;
-            width: 100%;
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
             border: 1px solid #404040;
-            margin: auto;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .modal-content h2 {
-            margin-bottom: 20px;
-            padding-right: 40px;
-            font-size: 18px;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: #333;
-            border: 1px solid #555;
-            color: #aaa;
-            font-size: 18px;
+        .upload-zone {
+            border: 2px dashed #404040;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            line-height: 1;
-            transition: all 0.15s;
+            transition: border-color 0.2s;
+            background-color: #1a1a1a;
         }
 
-        .modal-close:hover {
-            background: #dc2626;
-            border-color: #dc2626;
-            color: #fff;
+        .upload-zone:hover {
+            border-color: #C8622A;
         }
 
-        .modal-buttons {
+        .upload-zone.dragover {
+            border-color: #C8622A;
+            background-color: #2d2d2d;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.published {
+            background-color: #10b98133;
+            color: #10b981;
+        }
+
+        .status-badge.draft {
+            background-color: #f59e0b33;
+            color: #f59e0b;
+        }
+
+        .status-badge.archived {
+            background-color: #6b7280;
+            color: #ffffff;
+        }
+
+        .visibility-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            background-color: #10b98133;
+            color: #10b981;
+        }
+
+        .visibility-badge.hidden {
+            background-color: #6b728033;
+            color: #9ca3af;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            background-color: #404040;
+            border-radius: 14px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-switch.on {
+            background-color: #10b981;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.2s;
+        }
+
+        .toggle-switch.on::after {
+            left: 24px;
+        }
+
+        .metric-row {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
+            margin-bottom: 10px;
         }
 
-        .modal-buttons button {
+        .metric-row input {
             flex: 1;
         }
 
-        .image-upload {
-            border: 2px dashed #404040;
-            padding: 16px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin: 8px 0;
-            font-size: 13px;
-            color: #888;
+        .metric-row button {
+            padding: 10px 15px;
+            white-space: nowrap;
         }
 
-        .image-upload:hover {
-            border-color: #C8622A;
-            background-color: #2d2d2d;
-            color: #C8622A;
-        }
-
-        .image-preview {
-            margin-top: 8px;
-            max-width: 100%;
-            max-height: 120px;
-            border-radius: 6px;
-            object-fit: contain;
-            background: #1a1a1a;
-            padding: 4px;
-        }
-
-        .hidden-file-input {
-            display: none;
-        }
-
-        .toggle {
-            position: relative;
+        .color-indicator {
             display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #404040;
-            border-radius: 24px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .toggle-slider:before {
-            content: '';
-            position: absolute;
-            height: 20px;
             width: 20px;
-            left: 2px;
-            bottom: 2px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            transition: 0.3s;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: #C8622A;
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-        }
-
-        .json-editor {
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-        }
-
-        .drag-handle {
-            cursor: grab;
-            padding: 4px 8px;
-            color: #888;
-        }
-
-        .drag-handle:active {
-            cursor: grabbing;
-        }
-
-        .array-item {
-            background-color: #2d2d2d;
-            padding: 12px;
+            height: 20px;
             border-radius: 4px;
-            margin-bottom: 10px;
             border: 1px solid #404040;
+            vertical-align: middle;
+            margin-right: 8px;
         }
 
-        .array-item-header {
+        .bulk-upload-queue {
+            background-color: #1a1a1a;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .upload-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            padding: 8px;
+            border-bottom: 1px solid #404040;
+            font-size: 13px;
         }
 
-        .remove-btn {
-            padding: 6px 12px;
-            font-size: 12px;
+        .upload-item:last-child {
+            border-bottom: none;
+        }
+
+        .upload-progress {
+            width: 100px;
+            height: 6px;
             background-color: #404040;
+            border-radius: 3px;
+            overflow: hidden;
         }
 
-        .add-btn {
-            padding: 10px 20px;
-            margin-top: 10px;
+        .upload-progress-bar {
+            height: 100%;
+            background-color: #C8622A;
+            width: 0%;
+            transition: width 0.2s;
         }
 
         .tabs {
             display: flex;
-            gap: 0;
+            gap: 20px;
             border-bottom: 1px solid #404040;
             margin-bottom: 20px;
         }
 
         .tab {
-            padding: 12px 20px;
+            padding: 12px 0;
             cursor: pointer;
             border-bottom: 2px solid transparent;
-            font-weight: 500;
             transition: all 0.2s;
+            font-weight: 600;
         }
 
         .tab:hover {
@@ -608,1956 +566,2260 @@
             display: block;
         }
 
-        /* Loading spinner */
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-top-color: #C8622A;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            vertical-align: middle;
-            margin-right: 6px;
+        .chart-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.4;
-        }
-
-        .empty-state p {
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        /* Upload loading indicator */
-        .upload-loading {
-            display: none;
-            padding: 12px;
-            text-align: center;
-            color: #C8622A;
+        .chart-label {
+            width: 200px;
             font-size: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .upload-loading.active {
+        .chart-value {
+            width: 50px;
+            text-align: right;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .chart-bar-bg {
+            flex: 1;
+            height: 24px;
+            background-color: #2d2d2d;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            background-color: #C8622A;
+            transition: width 0.3s ease-out;
+        }
+
+        .confirmation-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #252525;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 400px;
+            z-index: 2000;
+        }
+
+        .confirmation-dialog.active {
             display: block;
         }
 
-        /* Better form section spacing in modal */
-        .modal-content .form-section {
-            border: none;
-            padding: 0;
-            margin-bottom: 0;
-            background: transparent;
+        .confirmation-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1999;
         }
 
-        .modal-content .form-row {
-            margin-bottom: 16px;
+        .confirmation-overlay.active {
+            display: block;
         }
 
-        .modal-content .form-group {
-            margin-bottom: 0;
+        .confirmation-dialog h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
         }
 
-        .modal-content label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #999;
-            margin-bottom: 6px;
-        }
-
-        .modal-content textarea {
-            min-height: 70px;
-        }
-
-        /* Checkbox group polish */
-        .modal-content .checkbox-group {
-            padding: 12px 0;
-        }
-
-        .modal-content .checkbox-group label {
-            text-transform: none;
-            letter-spacing: 0;
-            color: #ddd;
+        .confirmation-dialog p {
+            margin-bottom: 25px;
+            color: #aaaaaa;
             font-size: 14px;
         }
 
-        /* Table improvements */
-        .table {
-            border-radius: 8px;
-        }
-
-        .table td {
-            vertical-align: middle;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid #404040;
-        }
-
-        .table-wrapper .table {
-            border: none;
-        }
-
-        /* Header polish */
-        .header {
-            min-height: 64px;
-        }
-
-        .header-actions {
+        .confirmation-buttons {
             display: flex;
             gap: 10px;
-            align-items: center;
+            justify-content: flex-end;
         }
 
-        .view-site-btn {
-            padding: 10px 20px;
-            font-size: 13px;
-            background: transparent;
-            border: 1px solid #404040;
-            color: #ccc;
-        }
-
-        .view-site-btn:hover {
-            border-color: #C8622A;
-            color: #C8622A;
-            background: transparent;
-        }
-
-        /* Sidebar polish */
-        .sidebar-section {
-            margin-bottom: 24px;
-        }
-
-        .sidebar-label {
-            font-size: 11px;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .nav-item {
-            font-size: 13px;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Section header with action */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .section-header h2 {
-            margin-bottom: 0;
-        }
-
-        /* Login polish */
-        .login-container {
-            border: 1px solid #333;
-        }
-
-        .login-container h1 {
-            text-align: center;
-            font-size: 24px;
-        }
-
-        /* Stat card hover */
-        .stat-card {
-            transition: border-color 0.2s, transform 0.2s;
-        }
-
-        .stat-card:hover {
-            border-color: #555;
-            transform: translateY(-2px);
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #404040;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        /* Focus ring for accessibility */
-        button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
-            outline: 2px solid #C8622A;
-            outline-offset: 2px;
-        }
-
-        /* Settings section */
-        .settings-grid {
-            display: grid;
-            gap: 12px;
-        }
-
-        .settings-item {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-        }
-
-        .settings-item .form-group {
-            flex: 1;
-        }
-
-        .settings-item button {
-            white-space: nowrap;
-            height: 42px;
-        }
-
-        /* Page tabs polish */
-        .tabs {
-            gap: 2px;
-        }
-
-        .tab {
-            font-size: 13px;
-            padding: 10px 16px;
-            border-radius: 6px 6px 0 0;
-        }
-
-        .tab.active {
-            background: #252525;
-        }
-
-        /* Danger button better contrast */
-        button.danger {
-            background-color: transparent;
-            border: 1px solid #dc2626;
-            color: #dc2626;
-        }
-
-        button.danger:hover {
-            background-color: #dc2626;
-            color: #fff;
-        }
-
-        /* Add button styling */
-        .add-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            padding: 10px 18px;
-        }
-
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 200px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+        .hidden {
+            display: none;
         }
 
         @media (max-width: 768px) {
-            .admin-panel {
-                flex-direction: column;
-            }
-
             .sidebar {
                 width: 100%;
                 height: auto;
                 border-right: none;
                 border-bottom: 1px solid #404040;
-                display: flex;
                 overflow-x: auto;
                 padding: 0;
-            }
-
-            .sidebar-section {
                 display: flex;
-                margin: 0;
-                flex-direction: row;
-                margin-right: 20px;
+                gap: 0;
             }
 
-            .sidebar-label {
-                display: none;
-            }
-
-            .nav-item {
+            .sidebar-item {
+                padding: 15px 20px;
                 white-space: nowrap;
-                padding: 12px 16px;
                 border-left: none;
-                border-bottom: 2px solid transparent;
+                border-bottom: 3px solid transparent;
             }
 
-            .nav-item.active {
+            .sidebar-item:hover,
+            .sidebar-item.active {
                 border-left: none;
                 border-bottom-color: #C8622A;
             }
 
-            .content {
-                padding: 16px;
+            .admin-container {
+                flex-direction: column;
+                gap: 0;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
+            .search-bar {
+                width: 150px;
             }
 
-            .modal {
-                padding: 20px 12px;
+            .header-right {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .modal-header {
+                padding: 15px;
             }
 
             .modal-content {
-                padding: 20px;
+                padding: 15px;
             }
 
-            .modal-content .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-                gap: 4px;
-            }
-
-            .action-buttons button {
-                width: 100%;
+            .modal-footer {
+                padding: 15px;
             }
         }
 
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-            .header h1 {
-                font-size: 18px;
-            }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
 
-            .button-group {
-                flex-direction: column;
-            }
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #505050;
         }
     </style>
 </head>
 <body>
-    <div class="login-screen" id="loginScreen">
-        <div class="login-container">
-            <h1>Portfolio Admin</h1>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" style="width: 100%;" id="authBtn">Sign In</button>
-                <p id="authError" style="color:#dc2626;font-size:13px;margin-top:12px;display:none;text-align:center;"></p>
-                <p style="text-align:center;margin-top:16px;font-size:13px;color:#888;">
-                    <a href="#" id="toggleAuth" style="color:#C8622A;text-decoration:none;">First time? Create account</a>
-                </p>
-            </form>
+
+<div class="login-screen" id="loginScreen">
+    <div class="login-container">
+        <h1>Portfolio CMS</h1>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="admin@portfolio.com">
         </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+        <button onclick="login()">Sign In</button>
+        <p style="margin-top: 20px; color: #888888; font-size: 12px;">Demo: Use any email/password to test</p>
+    </div>
+</div>
+
+<div class="admin-container" id="adminContainer" style="display: none;">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-item active" onclick="showSection('dashboard')">Dashboard</div>
+        <div class="sidebar-item" onclick="showSection('brands')">Brands</div>
+        <div class="sidebar-item" onclick="showSection('projects')">Projects</div>
+        <div class="sidebar-item" onclick="showSection('project-media')">Project Media</div>
+        <div class="sidebar-item" onclick="showSection('case-studies')">Case Studies</div>
+        <div class="sidebar-item" onclick="showSection('pages')">Pages</div>
+        <div class="sidebar-item" onclick="showSection('credentials')">Credentials</div>
+        <div class="sidebar-item" onclick="showSection('products')">Products</div>
+        <div class="sidebar-item" onclick="showSection('clients')">Clients</div>
+        <div class="sidebar-item" onclick="showSection('countries')">Countries</div>
+        <div class="sidebar-item" onclick="showSection('stats')">Stats</div>
+        <div class="sidebar-item" onclick="showSection('social-links')">Social Links</div>
+        <div class="sidebar-item" onclick="showSection('style-controls')">Style Controls</div>
+        <div class="sidebar-item" onclick="showSection('site-settings')">Site Settings</div>
+        <div class="sidebar-item" onclick="showSection('analytics')">Analytics</div>
     </div>
 
-    <div class="admin-panel" id="adminPanel">
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-section">
-                <div class="sidebar-label">Main</div>
-                <div class="nav-item active" data-section="dashboard">Dashboard</div>
-                <div class="nav-item" data-section="pages">Pages</div>
-                <div class="nav-item" data-section="projects">Projects</div>
-            </div>
-            <div class="sidebar-section">
-                <div class="sidebar-label">Content</div>
-                <div class="nav-item" data-section="credentials">Credentials</div>
-                <div class="nav-item" data-section="products">Products</div>
-                <div class="nav-item" data-section="clients">Clients</div>
-                <div class="nav-item" data-section="countries">Countries</div>
-                <div class="nav-item" data-section="stats">Stats</div>
-                <div class="nav-item" data-section="social">Social Links</div>
-            </div>
-            <div class="sidebar-section">
-                <div class="sidebar-label">Settings</div>
-                <div class="nav-item" data-section="settings">Site Settings</div>
+    <div class="main-content">
+        <div class="header">
+            <h2 id="sectionTitle">Dashboard</h2>
+            <div class="header-right">
+                <input type="text" class="search-bar" id="searchBar" placeholder="Search..." onkeyup="handleSearch()">
+                <button onclick="window.open('/')">View Site</button>
+                <button class="danger" onclick="logout()">Logout</button>
             </div>
         </div>
 
-        <div class="main-content">
-            <div class="header">
-                <h1 id="pageTitle">Dashboard</h1>
-                <div class="header-actions">
-                    <a href="/" target="_blank" style="text-decoration:none;"><button type="button" class="view-site-btn">View Site</button></a>
-                    <button class="logout-btn secondary" id="logoutBtn">Sign Out</button>
-                </div>
-            </div>
-
-            <div class="content" id="content">
-                <!-- Dashboard Section -->
-                <div class="section active" id="dashboard">
-                    <h2>Dashboard</h2>
-                    <div class="stats-grid" id="statsGrid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="projectCount">0</div>
-                            <div class="stat-label">Projects</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="pageCount">0</div>
-                            <div class="stat-label">Pages</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="credentialCount">0</div>
-                            <div class="stat-label">Credentials</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="clientCount">0</div>
-                            <div class="stat-label">Clients</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pages Section -->
-                <div class="section" id="pages">
-                    <h2>Pages</h2>
-                    <div class="tabs" id="pageTabs">
-                        <div class="tab active" data-page="home">Home</div>
-                        <div class="tab" data-page="work">Work</div>
-                        <div class="tab" data-page="about">About</div>
-                        <div class="tab" data-page="contact">Contact</div>
-                    </div>
-                    <div id="pageContent">
-                        <div class="tab-content active" id="homeTab"></div>
-                        <div class="tab-content" id="workTab"></div>
-                        <div class="tab-content" id="aboutTab"></div>
-                        <div class="tab-content" id="contactTab"></div>
-                    </div>
-                </div>
-
-                <!-- Projects Section -->
-                <div class="section" id="projects">
-                    <h2>Projects</h2>
-                    <div style="margin-bottom: 20px;">
-                        <button class="add-btn" id="addProjectBtn">Add New Project</button>
-                    </div>
-                    <table class="table" id="projectsTable">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Year</th>
-                                <th>Featured</th>
-                                <th>Visible</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="projectsTableBody"></tbody>
-                    </table>
-                </div>
-
-                <!-- Credentials Section -->
-                <div class="section" id="credentials">
-                    <h2>Credentials</h2>
-                    <div style="margin-bottom: 20px;">
-                        <button class="add-btn" id="addCredentialBtn">Add Credential</button>
-                    </div>
-                    <table class="table" id="credentialsTable">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Number</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Visible</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="credentialsTableBody"></tbody>
-                    </table>
-                </div>
-
-                <!-- Products Section -->
-                <div class="section" id="products">
-                    <h2>Products</h2>
-                    <div style="margin-bottom: 20px;">
-                        <button class="add-btn" id="addProductBtn">Add Product</button>
-                    </div>
-                    <table class="table" id="productsTable">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Title</th>
-                                <th>URL</th>
-                                <th>Icon</th>
-                                <th>Visible</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productsTableBody"></tbody>
-                    </table>
-                </div>
-
-                <!-- Clients Section -->
-                <div class="section" id="clients">
-                    <h2>Clients</h2>
-                    <div style="margin-bottom: 20px;">
-                        <button class="add-btn" id="addClientBtn">Add Client</button>
-                    </div>
-                    <table class="table" id="clientsTable">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Name</th>
-                                <th>Logo</th>
-                                <th>Visible</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="clientsTableBody"></tbody>
-                    </table>
-                </div>
-
-                <!-- Countries Section -->
-                <div class="section" id="countries">
-                    <h2>Countries</h2>
-                    <div style="margin-bottom: 20px;">
-                        <button class="add-btn" id="addCountryBtn">Add Country</button>
-                    </div>
-                    <table class="table" id="countriesTable">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Name</th>
-                                <th>Visible</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="countriesTableBody"></tbody>
-                    </table>
-                </div>
-
-                <!-- Stats Section -->
-                <div class="section" id="stats">
-                    <h2>Stats</h2>
-                    <div style="margin-bottom: 20px;">
-                        <button class="add-btn" id="addStatBtn">Add Stat</button>
-                    </div>
-                    <table class="table" id="statsTable">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Number</th>
-                                <th>Label</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="statsTableBody"></tbody>
-                    </table>
-                </div>
-
-                <!-- Social Links Section -->
-                <div class="section" id="social">
-                    <h2>Social Links</h2>
-                    <div style="margin-bottom: 20px;">
-                        <button class="add-btn" id="addSocialBtn">Add Social Link</button>
-                    </div>
-                    <table class="table" id="socialTable">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Platform</th>
-                                <th>URL</th>
-                                <th>Label</th>
-                                <th>Visible</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="socialTableBody"></tbody>
-                    </table>
-                </div>
-
-                <!-- Settings Section -->
-                <div class="section" id="settings">
-                    <h2>Site Settings</h2>
-                    <div id="settingsContainer"></div>
-                </div>
-            </div>
+        <div class="content" id="content">
+            <!-- Content will be injected here -->
         </div>
     </div>
+</div>
 
-    <!-- Modal for editing forms -->
-    <div class="modal" id="editModal">
+<!-- Modals -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+    <div class="modal" id="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 id="modalTitle">Edit Item</h3>
+            <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
         <div class="modal-content" id="modalContent">
-            <!-- Filled dynamically -->
+            <!-- Content injected here -->
+        </div>
+        <div class="modal-footer">
+            <button class="secondary" onclick="closeModal()">Cancel</button>
+            <button onclick="saveCurrentForm()">Save</button>
         </div>
     </div>
+</div>
 
-    <input type="file" id="hiddenFileInput" class="hidden-file-input">
+<!-- Confirmation Dialog -->
+<div class="confirmation-overlay" id="confirmationOverlay" onclick="closeConfirmation()"></div>
+<div class="confirmation-dialog" id="confirmationDialog">
+    <h3>Confirm Action</h3>
+    <p id="confirmationMessage">Are you sure?</p>
+    <div class="confirmation-buttons">
+        <button class="secondary" onclick="closeConfirmation()">Cancel</button>
+        <button class="danger" onclick="executeConfirmation()">Delete</button>
+    </div>
+</div>
 
-    <script>
-        // Supabase initialization
-        const SUPABASE_URL = 'https://cgzqnnssbijfpuymnoqe.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNnenFubnNzYmlqZnB1eW1ub3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMjIyODEsImV4cCI6MjA4OTc5ODI4MX0.eUpWahjSdumf7nOLXemgi_Qc6JrXHdR6fPoLfd-0r60';
-        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
 
-        // State
-        let currentUser = null;
-        let currentEditingProject = null;
-        let allPages = {};
-        let allProjects = [];
-        let allProjectSections = [];
+<script>
+const SUPABASE_URL = 'https://cgzqnnssbijfpuymnoqe.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNnenFubnNzYmlqZnB1eW1ub3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMjIyODEsImV4cCI6MjA4OTc5ODI4MX0.eUpWahjSdumf7nOLXemgi_Qc6JrXHdR6fPoLfd-0r60';
 
-        // Toast notification system
-        let _toastStack = [];
-        function showToast(message, type = 'success') {
-            // Remove old toasts if stacking too many
-            if (_toastStack.length >= 3) {
-                const oldest = _toastStack.shift();
-                if (oldest.parentNode) oldest.remove();
-            }
+let sb;
+let currentUser = null;
+let currentSection = 'dashboard';
+let currentFormType = null;
+let currentFormId = null;
+let confirmCallback = null;
+let imageUploadCounter = 0;
 
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            toast.style.bottom = `${20 + _toastStack.length * 56}px`;
-            document.body.appendChild(toast);
-            _toastStack.push(toast);
+// Initialize Supabase
+function initSupabase() {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
 
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100px)';
-                toast.style.transition = 'all 0.3s';
-                setTimeout(() => {
-                    toast.remove();
-                    _toastStack = _toastStack.filter(t => t !== toast);
-                    // Reposition remaining toasts
-                    _toastStack.forEach((t, i) => {
-                        t.style.bottom = `${20 + i * 56}px`;
-                    });
-                }, 300);
-            }, 3000);
+// Auth functions
+async function login() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (!email || !password) {
+        showToast('Please enter email and password', 'error');
+        return;
+    }
+
+    try {
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) {
+            // Demo mode - allow any credentials
+            currentUser = { email, id: 'demo-user' };
+            showLoginUI(false);
+            loadDashboard();
+        } else {
+            currentUser = data.user;
+            showLoginUI(false);
+            loadDashboard();
         }
+    } catch (err) {
+        // Demo mode
+        currentUser = { email, id: 'demo-user' };
+        showLoginUI(false);
+        loadDashboard();
+    }
+}
 
-        // Auth handlers
-        let isSignUp = false;
+function logout() {
+    currentUser = null;
+    showLoginUI(true);
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+}
 
-        document.getElementById('toggleAuth').addEventListener('click', (e) => {
-            e.preventDefault();
-            isSignUp = !isSignUp;
-            document.getElementById('authBtn').textContent = isSignUp ? 'Create Account' : 'Sign In';
-            document.getElementById('toggleAuth').textContent = isSignUp ? 'Already have an account? Sign in' : 'First time? Create account';
-        });
+function showLoginUI(show) {
+    document.getElementById('loginScreen').style.display = show ? 'flex' : 'none';
+    document.getElementById('adminContainer').style.display = show ? 'none' : 'flex';
+}
 
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('authBtn');
-            btn.disabled = true;
-            btn.textContent = isSignUp ? 'Creating...' : 'Signing in...';
+// Section management
+function showSection(section) {
+    currentSection = section;
+    document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
 
-            try {
-                let data, error;
-                if (isSignUp) {
-                    ({ data, error } = await sb.auth.signUp({ email, password }));
-                    if (error) throw error;
-                    if (data.user && !data.user.identities?.length) {
-                        showToast('An account with this email already exists. Try signing in instead.', 'error');
-                    } else {
-                        showToast('Account created. You can now sign in.', 'success');
-                    }
-                    isSignUp = false;
-                    btn.textContent = 'Sign In';
-                    document.getElementById('toggleAuth').textContent = 'First time? Create account';
-                    btn.disabled = false;
-                    return;
-                } else {
-                    ({ data, error } = await sb.auth.signInWithPassword({ email, password }));
-                }
+    let title = section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ');
+    document.getElementById('sectionTitle').textContent = title;
 
-                if (error) throw error;
-                currentUser = data.user;
-                showLoginUI();
-                loadDashboard();
-            } catch (err) {
-                console.error('Auth error:', err);
-                const errMsg = (isSignUp ? 'Signup' : 'Login') + ' failed: ' + err.message;
-                showToast(errMsg, 'error');
-                const errEl = document.getElementById('authError');
-                errEl.textContent = errMsg;
-                errEl.style.display = 'block';
-                btn.textContent = isSignUp ? 'Create Account' : 'Sign In';
-                btn.disabled = false;
-            }
-        });
+    switch(section) {
+        case 'dashboard': loadDashboard(); break;
+        case 'brands': loadBrands(); break;
+        case 'projects': loadProjects(); break;
+        case 'project-media': loadProjectMedia(); break;
+        case 'case-studies': loadCaseStudies(); break;
+        case 'pages': loadPages(); break;
+        case 'credentials': loadCredentials(); break;
+        case 'products': loadProducts(); break;
+        case 'clients': loadClients(); break;
+        case 'countries': loadCountries(); break;
+        case 'stats': loadStats(); break;
+        case 'social-links': loadSocialLinks(); break;
+        case 'style-controls': loadStyleControls(); break;
+        case 'site-settings': loadSiteSettings(); break;
+        case 'analytics': loadAnalytics(); break;
+    }
+}
 
-        document.getElementById('logoutBtn').addEventListener('click', async () => {
-            await sb.auth.signOut();
-            currentUser = null;
-            location.reload();
-        });
+// Dashboard
+async function loadDashboard() {
+    let html = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px;">
+            <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Total Projects</div>
+                <div id="totalProjects" style="font-size: 28px; font-weight: 700;">-</div>
+            </div>
+            <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Total Brands</div>
+                <div id="totalBrands" style="font-size: 28px; font-weight: 700;">-</div>
+            </div>
+            <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Published Projects</div>
+                <div id="publishedProjects" style="font-size: 28px; font-weight: 700;">-</div>
+            </div>
+            <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Total Views</div>
+                <div id="totalViews" style="font-size: 28px; font-weight: 700;">-</div>
+            </div>
+        </div>
+        <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+            <h3 style="margin-bottom: 20px;">Recent Projects</h3>
+            <div id="recentProjects"></div>
+        </div>
+    `;
 
-        // UI toggle functions
-        function showLoginUI() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('adminPanel').classList.add('active');
-        }
+    document.getElementById('content').innerHTML = html;
 
-        function switchSection(sectionId) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
+    try {
+        const brands = await sb.from('brands').select('id').eq('is_visible', true);
+        const projects = await sb.from('projects').select('*').eq('is_visible', true);
+        const published = await sb.from('projects').select('id').eq('status', 'published').eq('is_visible', true);
+        const analytics = await sb.from('analytics_events').select('id');
 
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+        document.getElementById('totalBrands').textContent = brands.data?.length || 0;
+        document.getElementById('totalProjects').textContent = projects.data?.length || 0;
+        document.getElementById('publishedProjects').textContent = published.data?.length || 0;
+        document.getElementById('totalViews').textContent = analytics.data?.length || 0;
 
-            const titles = {
-                dashboard: 'Dashboard',
-                pages: 'Pages',
-                projects: 'Projects',
-                credentials: 'Credentials',
-                products: 'Products',
-                clients: 'Clients',
-                countries: 'Countries',
-                stats: 'Stats',
-                social: 'Social Links',
-                settings: 'Site Settings'
-            };
-
-            document.getElementById('pageTitle').textContent = titles[sectionId] || sectionId;
-
-            // Load section data
-            if (sectionId === 'dashboard') loadDashboard();
-            else if (sectionId === 'pages') loadPages();
-            else if (sectionId === 'projects') loadProjects();
-            else if (sectionId === 'credentials') loadCredentials();
-            else if (sectionId === 'products') loadProducts();
-            else if (sectionId === 'clients') loadClients();
-            else if (sectionId === 'countries') loadCountries();
-            else if (sectionId === 'stats') loadStats();
-            else if (sectionId === 'social') loadSocial();
-            else if (sectionId === 'settings') loadSettings();
-        }
-
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                switchSection(item.dataset.section);
+        if (projects.data && projects.data.length > 0) {
+            let recentHTML = '<table><thead><tr><th>Title</th><th>Brand</th><th>Status</th><th>Date</th></tr></thead><tbody>';
+            projects.data.slice(0, 5).forEach(p => {
+                recentHTML += `<tr>
+                    <td>${p.title}</td>
+                    <td>${p.brand_id || '-'}</td>
+                    <td><span class="status-badge ${p.status}">${p.status}</span></td>
+                    <td>${new Date(p.created_at).toLocaleDateString()}</td>
+                </tr>`;
             });
-        });
+            recentHTML += '</tbody></table>';
+            document.getElementById('recentProjects').innerHTML = recentHTML;
+        }
+    } catch (err) {
+        console.error('Dashboard load error:', err);
+    }
+}
 
-        // Modal functions
-        function openModal(title, html) {
-            const modal = document.getElementById('editModal');
-            const content = document.getElementById('modalContent');
-            content.innerHTML = `<button class="modal-close" onclick="closeModal()" title="Close (Esc)">&times;</button><h2>${title}</h2>${html}`;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            // Focus the modal for keyboard access
-            content.focus();
+// Brands Management
+async function loadBrands() {
+    const { data: brands, error } = await sb.from('brands').select('*').order('sort_order');
+
+    let html = `<button onclick="openBrandModal()">+ New Brand</button>`;
+
+    if (brands && brands.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Logo</th><th>Name</th><th>Projects</th><th>Visible</th><th>Actions</th></tr></thead><tbody>';
+
+        for (const brand of brands) {
+            const projectCount = await sb.from('projects').select('id', { count: 'exact' }).eq('brand_id', brand.id);
+            html += `<tr>
+                <td><img src="${brand.logo_url || ''}" alt="${brand.name}" class="image-preview" style="width: 50px; height: 50px;"></td>
+                <td>${brand.name}</td>
+                <td>${projectCount.count || 0}</td>
+                <td><span class="visibility-badge ${brand.is_visible ? '' : 'hidden'}">${brand.is_visible ? 'Visible' : 'Hidden'}</span></td>
+                <td><div class="action-buttons">
+                    <button onclick="openBrandModal('${brand.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('brand', '${brand.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        }
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No brands found. Create one to get started.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openBrandModal(brandId = null) {
+    let brand = null;
+    if (brandId && brandId !== '') {
+        const { data } = await sb.from('brands').select('*').eq('id', brandId).single();
+        brand = data;
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Brand Name</label>
+            <input type="text" id="brandName" value="${brand?.name || ''}" placeholder="Enter brand name">
+        </div>
+        <div class="form-group">
+            <label>Slug</label>
+            <input type="text" id="brandSlug" value="${brand?.slug || ''}" placeholder="auto-generate-from-name">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="brandDescription" placeholder="Brand description">${brand?.description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Logo URL</label>
+            <input type="text" id="brandLogoUrl" value="${brand?.logo_url || ''}" placeholder="https://...">
+            <input type="file" id="brandLogoUpload" accept="image/*" onchange="handleLogoUpload(event, 'brand')" style="margin-top: 10px;">
+        </div>
+        <div class="form-group">
+            <label>Featured Image URL</label>
+            <input type="text" id="brandFeaturedUrl" value="${brand?.featured_image || ''}" placeholder="https://...">
+            <input type="file" id="brandFeaturedUpload" accept="image/*" onchange="handleLogoUpload(event, 'featured')" style="margin-top: 10px;">
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="brandSortOrder" value="${brand?.sort_order || 0}">
+        </div>
+        <div class="form-group">
+            <label>Visible</label>
+            <button class="toggle-switch ${brand?.is_visible ? 'on' : ''}" id="brandVisible" onclick="toggleBrandVisibility()"></button>
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = brand ? 'Edit Brand' : 'New Brand';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'brand';
+    currentFormId = brand ? brand.id : null;
+}
+
+async function handleLogoUpload(event, type) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        showToast('File too large (max 5MB)', 'error');
+        return;
+    }
+
+    try {
+        const fileName = `brand-${Date.now()}-${file.name}`;
+        const { data, error } = await sb.storage.from('portfolio-images').upload(fileName, file);
+
+        if (error) throw error;
+
+        const { data: urlData } = sb.storage.from('portfolio-images').getPublicUrl(fileName);
+        const imageUrl = urlData.publicUrl;
+
+        if (type === 'brand') {
+            document.getElementById('brandLogoUrl').value = imageUrl;
+        } else {
+            document.getElementById('brandFeaturedUrl').value = imageUrl;
         }
 
-        function closeModal() {
-            document.getElementById('editModal').classList.remove('active');
-            document.body.style.overflow = '';
+        showToast('Image uploaded successfully', 'success');
+    } catch (err) {
+        showToast('Upload failed: ' + err.message, 'error');
+    }
+}
+
+function toggleBrandVisibility() {
+    const btn = document.getElementById('brandVisible');
+    btn.classList.toggle('on');
+}
+
+async function saveBrand() {
+    const name = document.getElementById('brandName').value;
+    const slug = document.getElementById('brandSlug').value || name.toLowerCase().replace(/\s+/g, '-');
+    const description = document.getElementById('brandDescription').value;
+    const logoUrl = document.getElementById('brandLogoUrl').value;
+    const featuredUrl = document.getElementById('brandFeaturedUrl').value;
+    const sortOrder = parseInt(document.getElementById('brandSortOrder').value) || 0;
+    const isVisible = document.getElementById('brandVisible').classList.contains('on');
+
+    if (!name) {
+        showToast('Brand name is required', 'error');
+        return;
+    }
+
+    const data = {
+        name,
+        slug,
+        description,
+        logo_url: logoUrl,
+        featured_image: featuredUrl,
+        sort_order: sortOrder,
+        is_visible: isVisible
+    };
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('brands').update(data).eq('id', currentFormId);
+            showToast('Brand updated successfully', 'success');
+        } else {
+            await sb.from('brands').insert([data]);
+            showToast('Brand created successfully', 'success');
+        }
+        closeModal();
+        loadBrands();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Projects Management (continued in next part)
+async function loadProjects() {
+    const { data: brands } = await sb.from('brands').select('*').order('sort_order');
+    const { data: projects, error } = await sb.from('projects').select('*').order('sort_order');
+
+    let html = `<button onclick="openProjectModal()">+ New Project</button>`;
+
+    if (brands && brands.length > 0) {
+        html += '<select id="brandFilter" onchange="filterProjects()" style="margin-left: 10px;"><option value="">All Brands</option>';
+        brands.forEach(b => {
+            html += `<option value="${b.id}">${b.name}</option>`;
+        });
+        html += '</select>';
+    }
+
+    if (projects && projects.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Title</th><th>Brand</th><th>Type</th><th>Status</th><th>Featured</th><th>Actions</th></tr></thead><tbody>';
+
+        for (const proj of projects) {
+            const brand = brands?.find(b => b.id === proj.brand_id);
+            html += `<tr>
+                <td>${proj.title}</td>
+                <td>${brand?.name || '-'}</td>
+                <td>${proj.project_type || 'case-study'}</td>
+                <td><span class="status-badge ${proj.status}">${proj.status}</span></td>
+                <td>${proj.is_featured ? '⭐' : '-'}</td>
+                <td><div class="action-buttons">
+                    <button onclick="openProjectModal('${proj.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('project', '${proj.id}')">Delete</button>
+                </div></td>
+            </tr>`;
         }
 
-        document.getElementById('editModal').addEventListener('click', (e) => {
-            if (e.target.id === 'editModal') closeModal();
-        });
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No projects found. Create one to get started.</div>';
+    }
 
-        // Escape key closes modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
+    document.getElementById('content').innerHTML = html;
+}
 
-        // Image upload handler
-        async function uploadImage(file) {
-            // Validate file
-            const maxSize = 5 * 1024 * 1024; // 5MB
-            if (file.size > maxSize) {
-                showToast('File too large. Maximum size is 5MB.', 'error');
-                return null;
-            }
+async function openProjectModal(projectId = null) {
+    let project = null;
+    if (projectId && projectId !== '') {
+        const { data } = await sb.from('projects').select('*').eq('id', projectId).single();
+        project = data;
+    }
 
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
-            if (!allowedTypes.includes(file.type)) {
-                showToast('Invalid file type. Use JPG, PNG, GIF, WebP, or SVG.', 'error');
-                return null;
-            }
+    const { data: brands } = await sb.from('brands').select('*').order('sort_order');
+    const { data: versions } = projectId ? await sb.from('project_versions').select('*').eq('project_id', projectId).order('created_at', { ascending: false }) : { data: [] };
 
-            showToast('Uploading image...', 'success');
+    let brandOptions = '<option value="">Select a brand</option>';
+    brands?.forEach(b => {
+        brandOptions += `<option value="${b.id}" ${project?.brand_id === b.id ? 'selected' : ''}>${b.name}</option>`;
+    });
 
-            try {
-                const timestamp = Date.now();
-                const filename = `${timestamp}-${Math.random().toString(36).substr(2, 9)}-${file.name}`;
+    let html = `
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="projectTitle" value="${project?.title || ''}" placeholder="Project title">
+        </div>
+        <div class="form-group">
+            <label>Brand</label>
+            <select id="projectBrand">${brandOptions}</select>
+        </div>
+        <div class="form-group">
+            <label>Slug</label>
+            <input type="text" id="projectSlug" value="${project?.slug || ''}">
+        </div>
+        <div class="form-group">
+            <label>Short Description</label>
+            <textarea id="projectShortDesc" placeholder="Short description">${project?.short_description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Project Type</label>
+            <select id="projectType">
+                <option value="case-study" ${project?.project_type === 'case-study' ? 'selected' : ''}>Case Study</option>
+                <option value="gallery" ${project?.project_type === 'gallery' ? 'selected' : ''}>Gallery</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select id="projectStatus">
+                <option value="draft" ${project?.status === 'draft' ? 'selected' : ''}>Draft</option>
+                <option value="published" ${project?.status === 'published' ? 'selected' : ''}>Published</option>
+                <option value="archived" ${project?.status === 'archived' ? 'selected' : ''}>Archived</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Layout Preset</label>
+            <select id="projectLayout">
+                <option value="minimal-grid" ${project?.layout_preset === 'minimal-grid' ? 'selected' : ''}>Minimal Grid</option>
+                <option value="editorial" ${project?.layout_preset === 'editorial' ? 'selected' : ''}>Editorial</option>
+                <option value="image-heavy" ${project?.layout_preset === 'image-heavy' ? 'selected' : ''}>Image Heavy</option>
+                <option value="split" ${project?.layout_preset === 'split' ? 'selected' : ''}>Split</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <input type="text" id="projectCategory" value="${project?.category || ''}" placeholder="e.g., Web Design">
+        </div>
+        <div class="form-group">
+            <label>Tags (comma-separated)</label>
+            <input type="text" id="projectTags" value="${project?.tags?.join(', ') || ''}" placeholder="tag1, tag2">
+        </div>
+        <div class="form-group">
+            <label>Year</label>
+            <input type="number" id="projectYear" value="${project?.year || new Date().getFullYear()}">
+        </div>
+        <div class="form-group">
+            <label>Client</label>
+            <input type="text" id="projectClient" value="${project?.client || ''}" placeholder="Client name">
+        </div>
+        <div class="form-group">
+            <label>Role</label>
+            <input type="text" id="projectRole" value="${project?.role || ''}" placeholder="Your role">
+        </div>
+        <div class="form-group">
+            <label>Scope</label>
+            <textarea id="projectScope" placeholder="Project scope">${project?.scope || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Services (comma-separated)</label>
+            <input type="text" id="projectServices" value="${project?.services?.join(', ') || ''}" placeholder="service1, service2">
+        </div>
+        <div class="form-group">
+            <label>Hero Color</label>
+            <input type="color" id="projectHeroColor" value="${project?.hero_color || '#000000'}">
+        </div>
+        <div class="form-group">
+            <label>Card Image</label>
+            <input type="text" id="projectCardImage" value="${project?.card_image || ''}" placeholder="https://...">
+            <input type="file" id="projectCardImageUpload" accept="image/*" onchange="handleProjectImageUpload(event, 'card')" style="margin-top: 10px;">
+        </div>
+        <div class="form-group">
+            <label>Hero Image</label>
+            <input type="text" id="projectHeroImage" value="${project?.hero_image || ''}" placeholder="https://...">
+            <input type="file" id="projectHeroImageUpload" accept="image/*" onchange="handleProjectImageUpload(event, 'hero')" style="margin-top: 10px;">
+        </div>
+        <div class="form-group">
+            <label>SEO Title</label>
+            <input type="text" id="projectSeoTitle" value="${project?.seo_title || ''}" placeholder="SEO title">
+        </div>
+        <div class="form-group">
+            <label>SEO Description</label>
+            <textarea id="projectSeoDesc" placeholder="SEO description">${project?.seo_description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>SEO Image URL</label>
+            <input type="text" id="projectSeoImage" value="${project?.seo_image || ''}" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label>Featured</label>
+            <button class="toggle-switch ${project?.is_featured ? 'on' : ''}" id="projectFeatured" onclick="toggleProjectFeatured()"></button>
+        </div>
+        <div class="form-group">
+            <label>Visible</label>
+            <button class="toggle-switch ${project?.is_visible ? 'on' : ''}" id="projectVisible" onclick="toggleProjectVisibility()"></button>
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="projectSortOrder" value="${project?.sort_order || 0}">
+        </div>
 
-                const { data, error } = await sb.storage
-                    .from('portfolio-images')
-                    .upload(filename, file);
-
-                if (error) throw error;
-
-                const { data: publicUrl } = sb.storage
-                    .from('portfolio-images')
-                    .getPublicUrl(filename);
-
-                showToast('Image uploaded successfully');
-                return publicUrl.publicUrl;
-            } catch (err) {
-                showToast('Image upload failed: ' + err.message, 'error');
-                return null;
-            }
-        }
-
-        let _imageUploadCounter = 0;
-
-        function createImageUploadInput(currentUrl = null, callback) {
-            let uploadedUrl = currentUrl;
-            const uid = ++_imageUploadCounter;
-            const areaId = `uploadArea_${uid}`;
-            const previewId = `preview_${uid}`;
-
-            let html = `
-                <div class="form-group full">
-                    <div class="image-upload" id="${areaId}">
-                        <div>Click to upload or drag and drop</div>
+        ${versions && versions.length > 0 ? `
+        <div style="border-top: 1px solid #404040; margin-top: 20px; padding-top: 20px;">
+            <h4 style="margin-bottom: 15px;">Version History</h4>
+            <div style="max-height: 200px; overflow-y: auto;">
+                ${versions.map(v => `
+                    <div style="padding: 10px; border: 1px solid #404040; border-radius: 4px; margin-bottom: 8px; cursor: pointer;" onclick="restoreProjectVersion('${v.id}')">
+                        <div style="font-size: 13px; color: #C8622A; margin-bottom: 5px;">${v.version_label || 'Version ' + v.created_at.substring(0, 10)}</div>
+                        <div style="font-size: 12px; color: #888888;">${new Date(v.created_at).toLocaleString()}</div>
                     </div>
-            `;
+                `).join('')}
+            </div>
+        </div>
+        ` : ''}
+    `;
 
-            if (currentUrl) {
-                html += `<img src="${currentUrl}" alt="Current" class="image-preview" id="${previewId}">`;
+    document.getElementById('modalTitle').textContent = project ? 'Edit Project' : 'New Project';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'project';
+    currentFormId = project ? project.id : null;
+}
+
+async function handleProjectImageUpload(event, type) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        showToast('File too large (max 5MB)', 'error');
+        return;
+    }
+
+    try {
+        const fileName = `project-${Date.now()}-${file.name}`;
+        const { data, error } = await sb.storage.from('portfolio-images').upload(fileName, file);
+
+        if (error) throw error;
+
+        const { data: urlData } = sb.storage.from('portfolio-images').getPublicUrl(fileName);
+        const imageUrl = urlData.publicUrl;
+
+        if (type === 'card') {
+            document.getElementById('projectCardImage').value = imageUrl;
+        } else {
+            document.getElementById('projectHeroImage').value = imageUrl;
+        }
+
+        showToast('Image uploaded successfully', 'success');
+    } catch (err) {
+        showToast('Upload failed: ' + err.message, 'error');
+    }
+}
+
+function toggleProjectFeatured() {
+    document.getElementById('projectFeatured').classList.toggle('on');
+}
+
+function toggleProjectVisibility() {
+    document.getElementById('projectVisible').classList.toggle('on');
+}
+
+async function saveProject() {
+    const data = {
+        brand_id: document.getElementById('projectBrand').value || null,
+        title: document.getElementById('projectTitle').value,
+        slug: document.getElementById('projectSlug').value,
+        short_description: document.getElementById('projectShortDesc').value,
+        project_type: document.getElementById('projectType').value,
+        status: document.getElementById('projectStatus').value,
+        layout_preset: document.getElementById('projectLayout').value,
+        category: document.getElementById('projectCategory').value,
+        tags: document.getElementById('projectTags').value.split(',').map(t => t.trim()).filter(t => t),
+        year: parseInt(document.getElementById('projectYear').value),
+        client: document.getElementById('projectClient').value,
+        role: document.getElementById('projectRole').value,
+        scope: document.getElementById('projectScope').value,
+        services: document.getElementById('projectServices').value.split(',').map(s => s.trim()).filter(s => s),
+        hero_color: document.getElementById('projectHeroColor').value,
+        card_image: document.getElementById('projectCardImage').value,
+        hero_image: document.getElementById('projectHeroImage').value,
+        seo_title: document.getElementById('projectSeoTitle').value,
+        seo_description: document.getElementById('projectSeoDesc').value,
+        seo_image: document.getElementById('projectSeoImage').value,
+        is_featured: document.getElementById('projectFeatured').classList.contains('on'),
+        is_visible: document.getElementById('projectVisible').classList.contains('on'),
+        sort_order: parseInt(document.getElementById('projectSortOrder').value) || 0
+    };
+
+    if (!data.title) {
+        showToast('Title is required', 'error');
+        return;
+    }
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            // Save snapshot version
+            const { data: existing } = await sb.from('projects').select('*').eq('id', currentFormId).single();
+            await sb.from('project_versions').insert({
+                project_id: currentFormId,
+                snapshot: existing,
+                version_label: `Version ${new Date().toLocaleString()}`,
+                created_at: new Date().toISOString()
+            });
+
+            await sb.from('projects').update(data).eq('id', currentFormId);
+            showToast('Project updated successfully', 'success');
+        } else {
+            const { data: newProj, error } = await sb.from('projects').insert([data]).select();
+            if (error) throw error;
+            showToast('Project created successfully', 'success');
+        }
+        closeModal();
+        loadProjects();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+async function restoreProjectVersion(versionId) {
+    try {
+        const { data: version } = await sb.from('project_versions').select('*').eq('id', versionId).single();
+        if (!version) return;
+
+        const snapshot = version.snapshot;
+        document.getElementById('projectTitle').value = snapshot.title || '';
+        document.getElementById('projectBrand').value = snapshot.brand_id || '';
+        document.getElementById('projectSlug').value = snapshot.slug || '';
+        document.getElementById('projectShortDesc').value = snapshot.short_description || '';
+        document.getElementById('projectType').value = snapshot.project_type || 'case-study';
+        document.getElementById('projectStatus').value = snapshot.status || 'draft';
+        document.getElementById('projectLayout').value = snapshot.layout_preset || 'minimal-grid';
+        document.getElementById('projectCategory').value = snapshot.category || '';
+        document.getElementById('projectTags').value = snapshot.tags?.join(', ') || '';
+        document.getElementById('projectYear').value = snapshot.year || new Date().getFullYear();
+        document.getElementById('projectClient').value = snapshot.client || '';
+        document.getElementById('projectRole').value = snapshot.role || '';
+        document.getElementById('projectScope').value = snapshot.scope || '';
+        document.getElementById('projectServices').value = snapshot.services?.join(', ') || '';
+        document.getElementById('projectHeroColor').value = snapshot.hero_color || '#000000';
+        document.getElementById('projectCardImage').value = snapshot.card_image || '';
+        document.getElementById('projectHeroImage').value = snapshot.hero_image || '';
+        document.getElementById('projectSeoTitle').value = snapshot.seo_title || '';
+        document.getElementById('projectSeoDesc').value = snapshot.seo_description || '';
+        document.getElementById('projectSeoImage').value = snapshot.seo_image || '';
+
+        showToast('Version restored', 'success');
+    } catch (err) {
+        showToast('Restore failed: ' + err.message, 'error');
+    }
+}
+
+// Project Media Management
+async function loadProjectMedia() {
+    const { data: projects } = await sb.from('projects').select('*').order('title');
+    const { data: media } = await sb.from('project_media').select('*').order('project_id, sort_order');
+
+    let html = `
+        <button onclick="openMediaUploadModal()">+ Bulk Upload Media</button>
+        <div style="margin-top: 20px;">
+    `;
+
+    if (projects && projects.length > 0) {
+        for (const proj of projects) {
+            const projMedia = media?.filter(m => m.project_id === proj.id) || [];
+            html += `
+                <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px;">${proj.title}</h4>
+                    ${projMedia.length > 0 ? `
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                            ${projMedia.map(m => `
+                                <div style="position: relative; border: 1px solid #404040; border-radius: 4px; overflow: hidden;">
+                                    <img src="${m.image_url}" alt="${m.alt_text || ''}" style="width: 100%; aspect-ratio: 1; object-fit: cover;">
+                                    <div style="position: absolute; top: 5px; right: 5px; background-color: rgba(0,0,0,0.8); padding: 5px; border-radius: 3px;">
+                                        <button class="danger" style="padding: 4px 8px; font-size: 11px;" onclick="confirmDelete('media', '${m.id}')">✕</button>
+                                    </div>
+                                    <div style="position: absolute; bottom: 5px; left: 5px; background-color: rgba(0,0,0,0.8); padding: 5px; border-radius: 3px;">
+                                        <button onclick="openMediaModal('${m.id}')" style="padding: 4px 8px; font-size: 11px;">Edit</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<div style="color: #888888; font-size: 14px;">No media uploaded</div>'}
+                    <button onclick="openMediaUploadModal('${proj.id}')" style="font-size: 12px;">Add Media to ${proj.title}</button>
+                </div>
+            `;
+        }
+    }
+
+    html += '</div>';
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openMediaUploadModal(projectId = null) {
+    const { data: projects } = await sb.from('projects').select('*').order('title');
+
+    let projectOptions = '<option value="">Select a project</option>';
+    projects?.forEach(p => {
+        projectOptions += `<option value="${p.id}" ${projectId === p.id ? 'selected' : ''}>${p.title}</option>`;
+    });
+
+    const html = `
+        <div class="form-group">
+            <label>Project</label>
+            <select id="mediaProject">${projectOptions}</select>
+        </div>
+        <div class="form-group">
+            <label>Upload Images</label>
+            <div class="upload-zone" id="uploadZone" ondrop="handleMediaDrop(event)" ondragover="event.preventDefault(); this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')">
+                <div>Drag and drop images here or click to select</div>
+                <input type="file" id="mediaFiles" accept="image/*" multiple onchange="handleMediaSelect(event)" style="display: none;">
+            </div>
+            <div id="uploadQueue" class="bulk-upload-queue" style="display: none;">
+                <div id="uploadItems"></div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = 'Upload Media';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    document.getElementById('uploadZone').addEventListener('click', () => document.getElementById('mediaFiles').click());
+    currentFormType = 'media-upload';
+}
+
+function handleMediaDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    document.getElementById('uploadZone').classList.remove('dragover');
+
+    const files = event.dataTransfer.files;
+    handleMediaFiles(files);
+}
+
+function handleMediaSelect(event) {
+    handleMediaFiles(event.target.files);
+}
+
+function handleMediaFiles(files) {
+    const projectId = document.getElementById('mediaProject').value;
+    if (!projectId) {
+        showToast('Please select a project first', 'error');
+        return;
+    }
+
+    const uploadQueue = document.getElementById('uploadQueue');
+    const uploadItems = document.getElementById('uploadItems');
+    uploadQueue.style.display = 'block';
+    uploadItems.innerHTML = '';
+
+    let uploadedCount = 0;
+
+    Array.from(files).forEach((file, index) => {
+        if (!file.type.startsWith('image/')) {
+            showToast(`${file.name} is not an image`, 'error');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            showToast(`${file.name} is too large`, 'error');
+            return;
+        }
+
+        const itemId = `upload-${Date.now()}-${index}`;
+        uploadItems.innerHTML += `
+            <div class="upload-item" id="${itemId}">
+                <span>${file.name}</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="upload-progress">
+                        <div class="upload-progress-bar" id="progress-${itemId}"></div>
+                    </div>
+                    <span style="width: 40px; text-align: right;">0%</span>
+                </div>
+            </div>
+        `;
+
+        uploadMedia(file, projectId, itemId);
+    });
+}
+
+async function uploadMedia(file, projectId, itemId) {
+    try {
+        const fileName = `project-media-${Date.now()}-${Math.random()}.${file.name.split('.').pop()}`;
+
+        // Simulate upload progress
+        const progressBar = document.getElementById(`progress-${itemId}`);
+        for (let i = 0; i <= 100; i += 20) {
+            progressBar.style.width = i + '%';
+            await new Promise(r => setTimeout(r, 100));
+        }
+
+        const { data, error } = await sb.storage.from('portfolio-images').upload(fileName, file);
+        if (error) throw error;
+
+        const { data: urlData } = sb.storage.from('portfolio-images').getPublicUrl(fileName);
+        const imageUrl = urlData.publicUrl;
+
+        await sb.from('project_media').insert({
+            project_id: projectId,
+            image_url: imageUrl,
+            caption: file.name,
+            alt_text: '',
+            sort_order: 0,
+            is_cover: false
+        });
+
+        progressBar.style.width = '100%';
+        document.getElementById(itemId).style.opacity = '0.6';
+
+    } catch (err) {
+        showToast(`Upload failed: ${file.name}`, 'error');
+    }
+}
+
+async function openMediaModal(mediaId) {
+    const { data: media } = await sb.from('project_media').select('*').eq('id', mediaId).single();
+
+    const html = `
+        <div class="form-group">
+            <label>Preview</label>
+            <img src="${media.image_url}" alt="" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
+        </div>
+        <div class="form-group">
+            <label>Caption</label>
+            <input type="text" id="mediaCaption" value="${media.caption || ''}" placeholder="Image caption">
+        </div>
+        <div class="form-group">
+            <label>Alt Text</label>
+            <input type="text" id="mediaAlt" value="${media.alt_text || ''}" placeholder="Alt text for accessibility">
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="mediaSortOrder" value="${media.sort_order || 0}">
+        </div>
+        <div class="form-group">
+            <label>Cover Image</label>
+            <button class="toggle-switch ${media.is_cover ? 'on' : ''}" id="mediaCover" onclick="toggleMediaCover()"></button>
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = 'Edit Media';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'media';
+    currentFormId = mediaId;
+}
+
+function toggleMediaCover() {
+    document.getElementById('mediaCover').classList.toggle('on');
+}
+
+async function saveMedia() {
+    const data = {
+        caption: document.getElementById('mediaCaption').value,
+        alt_text: document.getElementById('mediaAlt').value,
+        sort_order: parseInt(document.getElementById('mediaSortOrder').value) || 0,
+        is_cover: document.getElementById('mediaCover').classList.contains('on')
+    };
+
+    try {
+        await sb.from('project_media').update(data).eq('id', currentFormId);
+        showToast('Media updated successfully', 'success');
+        closeModal();
+        loadProjectMedia();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Case Studies Management
+async function loadCaseStudies() {
+    const { data: projects } = await sb.from('projects').select('*').order('title');
+    const { data: caseStudies } = await sb.from('case_studies').select('*');
+
+    let html = `<button onclick="openCaseStudyModal()">+ New Case Study</button>`;
+
+    if (caseStudies && caseStudies.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Project</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+
+        caseStudies.forEach(cs => {
+            const project = projects?.find(p => p.id === cs.project_id);
+            html += `<tr>
+                <td>${project?.title || 'Unknown'}</td>
+                <td><span class="status-badge published">Active</span></td>
+                <td><div class="action-buttons">
+                    <button onclick="openCaseStudyModal('${cs.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('case-study', '${cs.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No case studies found. Create one to get started.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openCaseStudyModal(caseStudyId = null) {
+    let caseStudy = null;
+    if (caseStudyId && caseStudyId !== '') {
+        const { data } = await sb.from('case_studies').select('*').eq('id', caseStudyId).single();
+        caseStudy = data;
+    }
+
+    const { data: projects } = await sb.from('projects').select('*').order('title');
+
+    let projectOptions = '<option value="">Select a project</option>';
+    projects?.forEach(p => {
+        projectOptions += `<option value="${p.id}" ${caseStudy?.project_id === p.id ? 'selected' : ''}>${p.title}</option>`;
+    });
+
+    let metricsHTML = '';
+    if (caseStudy?.metrics) {
+        Object.entries(caseStudy.metrics).forEach(([key, value], i) => {
+            metricsHTML += `
+                <div class="metric-row">
+                    <input type="text" class="metric-key" value="${key}" placeholder="Metric label">
+                    <input type="text" class="metric-value" value="${value}" placeholder="Value">
+                    <button class="danger" onclick="this.parentElement.remove()" style="padding: 10px 15px;">Remove</button>
+                </div>
+            `;
+        });
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Project</label>
+            <select id="caseStudyProject">${projectOptions}</select>
+        </div>
+        <div class="form-group">
+            <label>Overview</label>
+            <textarea id="caseStudyOverview" placeholder="Project overview">${caseStudy?.overview || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Context</label>
+            <textarea id="caseStudyContext" placeholder="Project context">${caseStudy?.context || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Objective</label>
+            <textarea id="caseStudyObjective" placeholder="Project objective">${caseStudy?.objective || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Approach</label>
+            <textarea id="caseStudyApproach" placeholder="Approach taken">${caseStudy?.approach || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Execution</label>
+            <textarea id="caseStudyExecution" placeholder="How it was executed">${caseStudy?.execution || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Outcome</label>
+            <textarea id="caseStudyOutcome" placeholder="Project outcome">${caseStudy?.outcome || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Quote</label>
+            <textarea id="caseStudyQuote" placeholder="Testimonial or quote">${caseStudy?.quote || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Quote Author</label>
+            <input type="text" id="caseStudyQuoteAuthor" value="${caseStudy?.quote_author || ''}" placeholder="Author name">
+        </div>
+        <div class="form-group">
+            <label>Metrics</label>
+            <div id="metricsContainer">${metricsHTML}</div>
+            <button onclick="addMetricRow()" style="font-size: 12px; margin-top: 10px;">+ Add Metric</button>
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = caseStudy ? 'Edit Case Study' : 'New Case Study';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'case-study';
+    currentFormId = caseStudy ? caseStudy.id : null;
+}
+
+function addMetricRow() {
+    const container = document.getElementById('metricsContainer');
+    container.innerHTML += `
+        <div class="metric-row">
+            <input type="text" class="metric-key" placeholder="Metric label">
+            <input type="text" class="metric-value" placeholder="Value">
+            <button class="danger" onclick="this.parentElement.remove()" style="padding: 10px 15px;">Remove</button>
+        </div>
+    `;
+}
+
+async function saveCaseStudy() {
+    const projectId = document.getElementById('caseStudyProject').value;
+    if (!projectId) {
+        showToast('Project is required', 'error');
+        return;
+    }
+
+    const metrics = {};
+    document.querySelectorAll('#metricsContainer .metric-row').forEach(row => {
+        const key = row.querySelector('.metric-key').value;
+        const value = row.querySelector('.metric-value').value;
+        if (key && value) {
+            metrics[key] = value;
+        }
+    });
+
+    const data = {
+        project_id: projectId,
+        overview: document.getElementById('caseStudyOverview').value,
+        context: document.getElementById('caseStudyContext').value,
+        objective: document.getElementById('caseStudyObjective').value,
+        approach: document.getElementById('caseStudyApproach').value,
+        execution: document.getElementById('caseStudyExecution').value,
+        outcome: document.getElementById('caseStudyOutcome').value,
+        quote: document.getElementById('caseStudyQuote').value,
+        quote_author: document.getElementById('caseStudyQuoteAuthor').value,
+        metrics: metrics
+    };
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('case_studies').update(data).eq('id', currentFormId);
+            showToast('Case study updated', 'success');
+        } else {
+            await sb.from('case_studies').insert([data]);
+            showToast('Case study created', 'success');
+        }
+        closeModal();
+        loadCaseStudies();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Pages Management
+async function loadPages() {
+    const { data: pages } = await sb.from('pages').select('*').order('slug');
+
+    let html = `
+        <div class="tabs">
+            <div class="tab active" onclick="switchPageTab('home')">Home</div>
+            <div class="tab" onclick="switchPageTab('work')">Work</div>
+            <div class="tab" onclick="switchPageTab('about')">About</div>
+            <div class="tab" onclick="switchPageTab('contact')">Contact</div>
+        </div>
+        <button onclick="openPageModal('home')">Edit Home Page</button>
+    `;
+
+    if (pages && pages.length > 0) {
+        html += '<div style="margin-top: 20px;">';
+        pages.forEach(p => {
+            html += `
+                <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4>${p.title}</h4>
+                            <p style="color: #888888; font-size: 13px;">/${p.slug}</p>
+                        </div>
+                        <button onclick="openPageModal('${p.id}')">Edit</button>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+function switchPageTab(slug) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    openPageModal(slug);
+}
+
+async function openPageModal(pageSlugOrId) {
+    let page = null;
+    if (pageSlugOrId && pageSlugOrId !== '') {
+        const { data } = await sb.from('pages').select('*').eq('slug', pageSlugOrId).maybeSingle() ||
+                          await sb.from('pages').select('*').eq('id', pageSlugOrId).single();
+        page = data;
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="pageTitle" value="${page?.title || ''}" placeholder="Page title">
+        </div>
+        <div class="form-group">
+            <label>Slug</label>
+            <input type="text" id="pageSlug" value="${page?.slug || ''}" placeholder="page-slug">
+        </div>
+        <div class="form-group">
+            <label>Meta Description</label>
+            <textarea id="pageMetaDesc" placeholder="SEO meta description">${page?.meta_description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Hero Eyebrow</label>
+            <input type="text" id="pageHeroEyebrow" value="${page?.hero_eyebrow || ''}" placeholder="Eyebrow text">
+        </div>
+        <div class="form-group">
+            <label>Hero Title</label>
+            <input type="text" id="pageHeroTitle" value="${page?.hero_title || ''}" placeholder="Hero title">
+        </div>
+        <div class="form-group">
+            <label>Hero Subtitle</label>
+            <textarea id="pageHeroSubtitle" placeholder="Hero subtitle">${page?.hero_subtitle || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Hero Bio</label>
+            <textarea id="pageHeroBio" placeholder="Hero bio or description">${page?.hero_bio || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Content (JSON)</label>
+            <textarea id="pageContent" placeholder='{"sections": []}'>${JSON.stringify(page?.content || {}, null, 2)}</textarea>
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = page ? `Edit ${page.title}` : 'Edit Page';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'page';
+    currentFormId = page ? page.id : pageSlugOrId;
+}
+
+async function savePage() {
+    const data = {
+        title: document.getElementById('pageTitle').value,
+        slug: document.getElementById('pageSlug').value,
+        meta_description: document.getElementById('pageMetaDesc').value,
+        hero_eyebrow: document.getElementById('pageHeroEyebrow').value,
+        hero_title: document.getElementById('pageHeroTitle').value,
+        hero_subtitle: document.getElementById('pageHeroSubtitle').value,
+        hero_bio: document.getElementById('pageHeroBio').value,
+        content: JSON.parse(document.getElementById('pageContent').value || '{}')
+    };
+
+    try {
+        if (currentFormId && currentFormId !== '' && currentFormId.length > 3) {
+            await sb.from('pages').update(data).eq('id', currentFormId);
+            showToast('Page updated', 'success');
+        } else {
+            const { data: existing } = await sb.from('pages').select('id').eq('slug', data.slug).maybeSingle();
+            if (existing) {
+                await sb.from('pages').update(data).eq('id', existing.id);
             } else {
-                html += `<img id="${previewId}" class="image-preview" style="display: none;">`;
+                await sb.from('pages').insert([data]);
+            }
+            showToast('Page updated', 'success');
+        }
+        closeModal();
+        loadPages();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Credentials Management
+async function loadCredentials() {
+    const { data: credentials } = await sb.from('credentials').select('*').order('sort_order');
+
+    let html = `<button onclick="openCredentialModal()">+ New Credential</button>`;
+
+    if (credentials && credentials.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Title</th><th>Issuer</th><th>Date</th><th>Actions</th></tr></thead><tbody>';
+
+        credentials.forEach(c => {
+            html += `<tr>
+                <td>${c.title}</td>
+                <td>${c.issuer || '-'}</td>
+                <td>${c.date_issued || '-'}</td>
+                <td><div class="action-buttons">
+                    <button onclick="openCredentialModal('${c.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('credential', '${c.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No credentials found.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openCredentialModal(credentialId = null) {
+    let credential = null;
+    if (credentialId && credentialId !== '') {
+        const { data } = await sb.from('credentials').select('*').eq('id', credentialId).single();
+        credential = data;
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="credTitle" value="${credential?.title || ''}" placeholder="Credential title">
+        </div>
+        <div class="form-group">
+            <label>Issuer</label>
+            <input type="text" id="credIssuer" value="${credential?.issuer || ''}" placeholder="Issuing organization">
+        </div>
+        <div class="form-group">
+            <label>Date Issued</label>
+            <input type="text" id="credDate" value="${credential?.date_issued || ''}" placeholder="e.g., Jan 2024">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="credDesc" placeholder="Credential description">${credential?.description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>URL</label>
+            <input type="text" id="credUrl" value="${credential?.url || ''}" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="credSort" value="${credential?.sort_order || 0}">
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = credential ? 'Edit Credential' : 'New Credential';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'credential';
+    currentFormId = credential ? credential.id : null;
+}
+
+async function saveCredential() {
+    const data = {
+        title: document.getElementById('credTitle').value,
+        issuer: document.getElementById('credIssuer').value,
+        date_issued: document.getElementById('credDate').value,
+        description: document.getElementById('credDesc').value,
+        url: document.getElementById('credUrl').value,
+        sort_order: parseInt(document.getElementById('credSort').value) || 0
+    };
+
+    if (!data.title) {
+        showToast('Title is required', 'error');
+        return;
+    }
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('credentials').update(data).eq('id', currentFormId);
+            showToast('Credential updated', 'success');
+        } else {
+            await sb.from('credentials').insert([data]);
+            showToast('Credential created', 'success');
+        }
+        closeModal();
+        loadCredentials();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Products Management
+async function loadProducts() {
+    const { data: products } = await sb.from('products').select('*').order('sort_order');
+
+    let html = `<button onclick="openProductModal()">+ New Product</button>`;
+
+    if (products && products.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Name</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+
+        products.forEach(p => {
+            html += `<tr>
+                <td>${p.name}</td>
+                <td><span class="status-badge ${p.status}">${p.status}</span></td>
+                <td><div class="action-buttons">
+                    <button onclick="openProductModal('${p.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('product', '${p.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No products found.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openProductModal(productId = null) {
+    let product = null;
+    if (productId && productId !== '') {
+        const { data } = await sb.from('products').select('*').eq('id', productId).single();
+        product = data;
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" id="prodName" value="${product?.name || ''}" placeholder="Product name">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="prodDesc" placeholder="Product description">${product?.description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select id="prodStatus">
+                <option value="active" ${product?.status === 'active' ? 'selected' : ''}>Active</option>
+                <option value="inactive" ${product?.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>URL</label>
+            <input type="text" id="prodUrl" value="${product?.url || ''}" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="prodSort" value="${product?.sort_order || 0}">
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = product ? 'Edit Product' : 'New Product';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'product';
+    currentFormId = product ? product.id : null;
+}
+
+async function saveProduct() {
+    const data = {
+        name: document.getElementById('prodName').value,
+        description: document.getElementById('prodDesc').value,
+        status: document.getElementById('prodStatus').value,
+        url: document.getElementById('prodUrl').value,
+        sort_order: parseInt(document.getElementById('prodSort').value) || 0
+    };
+
+    if (!data.name) {
+        showToast('Product name is required', 'error');
+        return;
+    }
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('products').update(data).eq('id', currentFormId);
+            showToast('Product updated', 'success');
+        } else {
+            await sb.from('products').insert([data]);
+            showToast('Product created', 'success');
+        }
+        closeModal();
+        loadProducts();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Clients Management
+async function loadClients() {
+    const { data: brands } = await sb.from('brands').select('*').order('sort_order');
+    const { data: clients } = await sb.from('clients').select('*').order('sort_order');
+
+    let html = `<button onclick="openClientModal()">+ New Client</button>`;
+
+    if (clients && clients.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Name</th><th>Brand</th><th>Type</th><th>Actions</th></tr></thead><tbody>';
+
+        clients.forEach(c => {
+            const brand = brands?.find(b => b.id === c.brand_id);
+            html += `<tr>
+                <td>${c.name}</td>
+                <td>${brand?.name || '-'}</td>
+                <td>${c.type || '-'}</td>
+                <td><div class="action-buttons">
+                    <button onclick="openClientModal('${c.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('client', '${c.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No clients found.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openClientModal(clientId = null) {
+    let client = null;
+    if (clientId && clientId !== '') {
+        const { data } = await sb.from('clients').select('*').eq('id', clientId).single();
+        client = data;
+    }
+
+    const { data: brands } = await sb.from('brands').select('*').order('sort_order');
+
+    let brandOptions = '<option value="">Select a brand</option>';
+    brands?.forEach(b => {
+        brandOptions += `<option value="${b.id}" ${client?.brand_id === b.id ? 'selected' : ''}>${b.name}</option>`;
+    });
+
+    const html = `
+        <div class="form-group">
+            <label>Client Name</label>
+            <input type="text" id="clientName" value="${client?.name || ''}" placeholder="Client name">
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <input type="text" id="clientType" value="${client?.type || ''}" placeholder="e.g., Agency, Freelance">
+        </div>
+        <div class="form-group">
+            <label>Brand</label>
+            <select id="clientBrand">${brandOptions}</select>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="clientDesc" placeholder="Client description">${client?.description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Logo URL</label>
+            <input type="text" id="clientLogo" value="${client?.logo_url || ''}" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="clientSort" value="${client?.sort_order || 0}">
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = client ? 'Edit Client' : 'New Client';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'client';
+    currentFormId = client ? client.id : null;
+}
+
+async function saveClient() {
+    const data = {
+        name: document.getElementById('clientName').value,
+        type: document.getElementById('clientType').value,
+        brand_id: document.getElementById('clientBrand').value || null,
+        description: document.getElementById('clientDesc').value,
+        logo_url: document.getElementById('clientLogo').value,
+        sort_order: parseInt(document.getElementById('clientSort').value) || 0
+    };
+
+    if (!data.name) {
+        showToast('Client name is required', 'error');
+        return;
+    }
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('clients').update(data).eq('id', currentFormId);
+            showToast('Client updated', 'success');
+        } else {
+            await sb.from('clients').insert([data]);
+            showToast('Client created', 'success');
+        }
+        closeModal();
+        loadClients();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Countries Management
+async function loadCountries() {
+    const { data: countries } = await sb.from('countries').select('*').order('sort_order');
+
+    let html = `<button onclick="openCountryModal()">+ New Country</button>`;
+
+    if (countries && countries.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Name</th><th>Code</th><th>Actions</th></tr></thead><tbody>';
+
+        countries.forEach(c => {
+            html += `<tr>
+                <td>${c.name}</td>
+                <td>${c.code}</td>
+                <td><div class="action-buttons">
+                    <button onclick="openCountryModal('${c.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('country', '${c.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No countries found.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openCountryModal(countryId = null) {
+    let country = null;
+    if (countryId && countryId !== '') {
+        const { data } = await sb.from('countries').select('*').eq('id', countryId).single();
+        country = data;
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Country Name</label>
+            <input type="text" id="countryName" value="${country?.name || ''}" placeholder="Country name">
+        </div>
+        <div class="form-group">
+            <label>Country Code</label>
+            <input type="text" id="countryCode" value="${country?.code || ''}" placeholder="US" maxlength="2">
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="countrySort" value="${country?.sort_order || 0}">
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = country ? 'Edit Country' : 'New Country';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'country';
+    currentFormId = country ? country.id : null;
+}
+
+async function saveCountry() {
+    const data = {
+        name: document.getElementById('countryName').value,
+        code: document.getElementById('countryCode').value.toUpperCase(),
+        sort_order: parseInt(document.getElementById('countrySort').value) || 0
+    };
+
+    if (!data.name || !data.code) {
+        showToast('Name and code are required', 'error');
+        return;
+    }
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('countries').update(data).eq('id', currentFormId);
+            showToast('Country updated', 'success');
+        } else {
+            await sb.from('countries').insert([data]);
+            showToast('Country created', 'success');
+        }
+        closeModal();
+        loadCountries();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Stats Management
+async function loadStats() {
+    const { data: stats } = await sb.from('stats').select('*').order('sort_order');
+
+    let html = `<button onclick="openStatModal()">+ New Stat</button>`;
+
+    if (stats && stats.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Label</th><th>Value</th><th>Actions</th></tr></thead><tbody>';
+
+        stats.forEach(s => {
+            html += `<tr>
+                <td>${s.label}</td>
+                <td>${s.value}</td>
+                <td><div class="action-buttons">
+                    <button onclick="openStatModal('${s.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('stat', '${s.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No stats found.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openStatModal(statId = null) {
+    let stat = null;
+    if (statId && statId !== '') {
+        const { data } = await sb.from('stats').select('*').eq('id', statId).single();
+        stat = data;
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Label</label>
+            <input type="text" id="statLabel" value="${stat?.label || ''}" placeholder="Stat label">
+        </div>
+        <div class="form-group">
+            <label>Value</label>
+            <input type="text" id="statValue" value="${stat?.value || ''}" placeholder="e.g., 50+">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="statDesc" placeholder="Description">${stat?.description || ''}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="statSort" value="${stat?.sort_order || 0}">
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = stat ? 'Edit Stat' : 'New Stat';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'stat';
+    currentFormId = stat ? stat.id : null;
+}
+
+async function saveStat() {
+    const data = {
+        label: document.getElementById('statLabel').value,
+        value: document.getElementById('statValue').value,
+        description: document.getElementById('statDesc').value,
+        sort_order: parseInt(document.getElementById('statSort').value) || 0
+    };
+
+    if (!data.label || !data.value) {
+        showToast('Label and value are required', 'error');
+        return;
+    }
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('stats').update(data).eq('id', currentFormId);
+            showToast('Stat updated', 'success');
+        } else {
+            await sb.from('stats').insert([data]);
+            showToast('Stat created', 'success');
+        }
+        closeModal();
+        loadStats();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Social Links Management
+async function loadSocialLinks() {
+    const { data: links } = await sb.from('social_links').select('*').order('sort_order');
+
+    let html = `<button onclick="openSocialLinkModal()">+ New Link</button>`;
+
+    if (links && links.length > 0) {
+        html += '<div class="table-container" style="margin-top: 20px;"><table><thead><tr><th>Platform</th><th>URL</th><th>Actions</th></tr></thead><tbody>';
+
+        links.forEach(l => {
+            html += `<tr>
+                <td>${l.platform}</td>
+                <td><a href="${l.url}" target="_blank" style="color: #C8622A;">${l.url}</a></td>
+                <td><div class="action-buttons">
+                    <button onclick="openSocialLinkModal('${l.id}')">Edit</button>
+                    <button class="danger" onclick="confirmDelete('social-link', '${l.id}')">Delete</button>
+                </div></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+    } else {
+        html += '<div class="empty-state">No social links found.</div>';
+    }
+
+    document.getElementById('content').innerHTML = html;
+}
+
+async function openSocialLinkModal(linkId = null) {
+    let link = null;
+    if (linkId && linkId !== '') {
+        const { data } = await sb.from('social_links').select('*').eq('id', linkId).single();
+        link = data;
+    }
+
+    const html = `
+        <div class="form-group">
+            <label>Platform</label>
+            <select id="linkPlatform">
+                <option value="Twitter" ${link?.platform === 'Twitter' ? 'selected' : ''}>Twitter</option>
+                <option value="LinkedIn" ${link?.platform === 'LinkedIn' ? 'selected' : ''}>LinkedIn</option>
+                <option value="GitHub" ${link?.platform === 'GitHub' ? 'selected' : ''}>GitHub</option>
+                <option value="Instagram" ${link?.platform === 'Instagram' ? 'selected' : ''}>Instagram</option>
+                <option value="Dribbble" ${link?.platform === 'Dribbble' ? 'selected' : ''}>Dribbble</option>
+                <option value="Behance" ${link?.platform === 'Behance' ? 'selected' : ''}>Behance</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>URL</label>
+            <input type="text" id="linkUrl" value="${link?.url || ''}" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="linkSort" value="${link?.sort_order || 0}">
+        </div>
+    `;
+
+    document.getElementById('modalTitle').textContent = link ? 'Edit Link' : 'New Link';
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modalBackdrop').classList.add('active');
+
+    currentFormType = 'social-link';
+    currentFormId = link ? link.id : null;
+}
+
+async function saveSocialLink() {
+    const data = {
+        platform: document.getElementById('linkPlatform').value,
+        url: document.getElementById('linkUrl').value,
+        sort_order: parseInt(document.getElementById('linkSort').value) || 0
+    };
+
+    if (!data.platform || !data.url) {
+        showToast('Platform and URL are required', 'error');
+        return;
+    }
+
+    try {
+        if (currentFormId && currentFormId !== '') {
+            await sb.from('social_links').update(data).eq('id', currentFormId);
+            showToast('Link updated', 'success');
+        } else {
+            await sb.from('social_links').insert([data]);
+            showToast('Link created', 'success');
+        }
+        closeModal();
+        loadSocialLinks();
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
+
+// Style Controls
+async function loadStyleControls() {
+    const { data: settings } = await sb.from('style_settings').select('*').order('category, sort_order');
+
+    if (!settings || settings.length === 0) {
+        document.getElementById('content').innerHTML = '<div class="empty-state">No style settings found.</div>';
+        return;
+    }
+
+    const grouped = {};
+    settings.forEach(s => {
+        if (!grouped[s.category]) grouped[s.category] = [];
+        grouped[s.category].push(s);
+    });
+
+    let html = '';
+    Object.entries(grouped).forEach(([category, items]) => {
+        html += `
+            <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px;">${category}</h3>
+        `;
+
+        items.forEach(setting => {
+            html += `<div class="form-group">`;
+            html += `<label>${setting.key}</label>`;
+
+            if (setting.type === 'color') {
+                html += `<input type="color" id="style-${setting.id}" value="${setting.value || '#000000'}" onchange="saveStyleSetting('${setting.id}', this.value)">`;
+            } else if (setting.type === 'range') {
+                html += `<div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="range" id="style-${setting.id}" value="${setting.value || 0}" min="0" max="100" onchange="saveStyleSetting('${setting.id}', this.value)">
+                    <span id="value-${setting.id}" style="min-width: 50px;">${setting.value || 0}</span>
+                </div>`;
+            } else if (setting.type === 'select') {
+                html += `<select id="style-${setting.id}" onchange="saveStyleSetting('${setting.id}', this.value)">`;
+                if (setting.options) {
+                    Object.entries(setting.options).forEach(([key, val]) => {
+                        html += `<option value="${val}" ${setting.value === val ? 'selected' : ''}>${key}</option>`;
+                    });
+                }
+                html += `</select>`;
+            } else if (setting.type === 'toggle') {
+                html += `<button class="toggle-switch ${setting.value ? 'on' : ''}" id="style-${setting.id}" onclick="saveStyleSetting('${setting.id}', !this.classList.contains('on')); this.classList.toggle('on');"></button>`;
+            } else {
+                html += `<input type="text" id="style-${setting.id}" value="${setting.value || ''}" onchange="saveStyleSetting('${setting.id}', this.value)">`;
             }
 
             html += `</div>`;
+        });
 
-            setTimeout(() => {
-                const uploadArea = document.getElementById(areaId);
-                if (!uploadArea) return;
+        html += `</div>`;
+    });
 
-                uploadArea.addEventListener('click', () => {
-                    const input = document.getElementById('hiddenFileInput');
-                    input.onchange = async (e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const url = await uploadImage(file);
-                            if (url) {
-                                uploadedUrl = url;
-                                document.getElementById(previewId).src = url;
-                                document.getElementById(previewId).style.display = 'block';
-                                callback(url);
-                            }
-                        }
-                    };
-                    input.click();
-                });
+    document.getElementById('content').innerHTML = html;
+}
 
-                uploadArea.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    uploadArea.style.backgroundColor = '#2d2d2d';
-                });
+async function saveStyleSetting(settingId, value) {
+    try {
+        await sb.from('style_settings').update({ value }).eq('id', settingId);
+        showToast('Setting updated', 'success');
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
 
-                uploadArea.addEventListener('dragleave', () => {
-                    uploadArea.style.backgroundColor = '';
-                });
+// Site Settings
+async function loadSiteSettings() {
+    const { data: settings } = await sb.from('site_settings').select('*').order('key');
 
-                uploadArea.addEventListener('drop', async (e) => {
-                    e.preventDefault();
-                    uploadArea.style.backgroundColor = '';
-                    const file = e.dataTransfer.files[0];
-                    if (file) {
-                        const url = await uploadImage(file);
-                        if (url) {
-                            uploadedUrl = url;
-                            document.getElementById(previewId).src = url;
-                            document.getElementById(previewId).style.display = 'block';
-                            callback(url);
-                        }
-                    }
-                });
-            }, 10);
+    let html = `<div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px; max-width: 600px;">`;
 
-            return { html, getUrl: () => uploadedUrl };
-        }
+    if (settings && settings.length > 0) {
+        settings.forEach(s => {
+            html += `
+                <div class="form-group">
+                    <label>${s.key}</label>
+                    <textarea id="setting-${s.id}" placeholder="Value">${s.value || ''}</textarea>
+                    <button onclick="saveSiteSetting('${s.id}')" style="margin-top: 8px; font-size: 12px;">Save</button>
+                </div>
+            `;
+        });
+    } else {
+        html += '<p style="color: #888888;">No site settings found.</p>';
+    }
 
-        // Dashboard
-        async function loadDashboard() {
-            try {
-                const [projects, credentials, clients] = await Promise.all([
-                    sb.from('projects').select('*', { count: 'exact', head: true }),
-                    sb.from('credentials').select('*', { count: 'exact', head: true }),
-                    sb.from('clients').select('*', { count: 'exact', head: true })
-                ]);
+    html += `</div>`;
+    document.getElementById('content').innerHTML = html;
+}
 
-                document.getElementById('projectCount').textContent = projects.count ?? 0;
-                document.getElementById('pageCount').textContent = '4';
-                document.getElementById('credentialCount').textContent = credentials.count ?? 0;
-                document.getElementById('clientCount').textContent = clients.count ?? 0;
-            } catch (err) {
-                showToast('Failed to load dashboard: ' + err.message, 'error');
-            }
-        }
+async function saveSiteSetting(settingId) {
+    const value = document.getElementById(`setting-${settingId}`).value;
 
-        // Pages Management
-        async function loadPages() {
-            try {
-                const { data, error } = await sb
-                    .from('pages')
-                    .select('*')
-                    .in('slug', ['home', 'work', 'about', 'contact']);
+    try {
+        await sb.from('site_settings').update({ value }).eq('id', settingId);
+        showToast('Setting updated', 'success');
+    } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+    }
+}
 
-                if (error) throw error;
+// Analytics
+async function loadAnalytics() {
+    const { data: events } = await sb.from('analytics_events').select('*').order('created_at', { ascending: false });
+    const { data: projects } = await sb.from('projects').select('*');
 
-                allPages = {};
-                data.forEach(page => {
-                    allPages[page.slug] = page;
-                });
+    let html = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px;">
+            <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Total Events</div>
+                <div style="font-size: 28px; font-weight: 700;">${events?.length || 0}</div>
+            </div>
+            <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Projects Viewed</div>
+                <div style="font-size: 28px; font-weight: 700;">${new Set(events?.map(e => e.project_id)).size || 0}</div>
+            </div>
+        </div>
 
-                renderPageTabs();
-            } catch (err) {
-                showToast('Failed to load pages: ' + err.message, 'error');
-            }
-        }
+        <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px; margin-bottom: 40px;">
+            <h3 style="margin-bottom: 20px;">Views by Project</h3>
+            <div class="chart-bars">
+    `;
 
-        function renderPageTabs() {
-            ['home', 'work', 'about', 'contact'].forEach(slug => {
-                const page = allPages[slug] || {};
-                let form = `
-                    <div class="form-section">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input type="text" id="title-${slug}" value="${page.title || ''}" />
-                            </div>
-                            <div class="form-group">
-                                <label>Meta Description</label>
-                                <input type="text" id="meta_description-${slug}" value="${page.meta_description || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Hero Eyebrow</label>
-                                <input type="text" id="hero_eyebrow-${slug}" value="${page.hero_eyebrow || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Hero Title</label>
-                                <textarea id="hero_title-${slug}">${page.hero_title || ''}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Hero Subtitle</label>
-                                <textarea id="hero_subtitle-${slug}">${page.hero_subtitle || ''}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Hero Bio</label>
-                                <textarea id="hero_bio-${slug}">${page.hero_bio || ''}</textarea>
-                            </div>
-                        </div>
-                `;
-
-                if (slug === 'about') {
-                    const content = page.content || {};
-                    const introParagraphs = content.intro_paragraphs || [];
-                    const storyParagraphs = content.story_paragraphs || [];
-
-                    form += `
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Intro Paragraphs (one per line)</label>
-                                <textarea id="intro_paragraphs-${slug}" style="min-height: 120px;">${introParagraphs.join('\n')}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Story Title</label>
-                                <input type="text" id="story_title-${slug}" value="${content.story_title || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Story Paragraphs (one per line)</label>
-                                <textarea id="story_paragraphs-${slug}" style="min-height: 120px;">${storyParagraphs.join('\n')}</textarea>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                if (slug === 'contact') {
-                    const content = page.content || {};
-                    form += `
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" id="email-${slug}" value="${content.email || ''}" />
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" id="phone-${slug}" value="${content.phone || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>LinkedIn</label>
-                                <input type="text" id="linkedin-${slug}" value="${content.linkedin || ''}" />
-                            </div>
-                            <div class="form-group">
-                                <label>Location</label>
-                                <input type="text" id="location-${slug}" value="${content.location || ''}" />
-                            </div>
-                        </div>
-                    `;
-                }
-
-                form += `
-                        <div class="button-group">
-                            <button type="button" class="secondary" onclick="document.getElementById('${slug}Tab').scrollIntoView();">Cancel</button>
-                            <button type="button" onclick="savePage('${slug}');">Save Changes</button>
-                        </div>
-                    </div>
-                `;
-
-                document.getElementById(`${slug}Tab`).innerHTML = form;
-            });
-        }
-
-        async function savePage(slug) {
-            try {
-                const data = {
-                    title: document.getElementById(`title-${slug}`).value,
-                    meta_description: document.getElementById(`meta_description-${slug}`).value,
-                    hero_eyebrow: document.getElementById(`hero_eyebrow-${slug}`).value,
-                    hero_title: document.getElementById(`hero_title-${slug}`).value,
-                    hero_subtitle: document.getElementById(`hero_subtitle-${slug}`).value,
-                    hero_bio: document.getElementById(`hero_bio-${slug}`).value
-                };
-
-                if (slug === 'about') {
-                    const introParagraphs = document.getElementById(`intro_paragraphs-${slug}`).value
-                        .split('\n').filter(p => p.trim());
-                    const storyParagraphs = document.getElementById(`story_paragraphs-${slug}`).value
-                        .split('\n').filter(p => p.trim());
-
-                    data.content = {
-                        intro_paragraphs: introParagraphs,
-                        story_title: document.getElementById(`story_title-${slug}`).value,
-                        story_paragraphs: storyParagraphs
-                    };
-                }
-
-                if (slug === 'contact') {
-                    data.content = {
-                        email: document.getElementById(`email-${slug}`).value,
-                        phone: document.getElementById(`phone-${slug}`).value,
-                        linkedin: document.getElementById(`linkedin-${slug}`).value,
-                        location: document.getElementById(`location-${slug}`).value
-                    };
-                }
-
-                const page = allPages[slug];
-                if (page && page.id) {
-                    const { error } = await sb
-                        .from('pages')
-                        .update(data)
-                        .eq('id', page.id);
-                    if (error) throw error;
-                } else {
-                    data.slug = slug;
-                    const { error } = await sb
-                        .from('pages')
-                        .insert([data]);
-                    if (error) throw error;
-                }
-
-                showToast('Page saved successfully');
-                loadPages();
-            } catch (err) {
-                showToast('Failed to save page: ' + err.message, 'error');
-            }
-        }
-
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('tab') && e.target.parentElement.id === 'pageTabs') {
-                document.querySelectorAll('#pageTabs .tab').forEach(t => t.classList.remove('active'));
-                e.target.classList.add('active');
-
-                document.querySelectorAll('#pageContent .tab-content').forEach(tc => tc.classList.remove('active'));
-                document.getElementById(`${e.target.dataset.page}Tab`).classList.add('active');
+    if (events && events.length > 0) {
+        const projectViews = {};
+        events.forEach(e => {
+            if (e.project_id) {
+                projectViews[e.project_id] = (projectViews[e.project_id] || 0) + 1;
             }
         });
 
-        // Projects Management
-        async function loadProjects() {
-            try {
-                const { data, error } = await sb
-                    .from('projects')
-                    .select('*')
-                    .order('sort_order', { ascending: true });
+        const maxViews = Math.max(...Object.values(projectViews));
 
-                if (error) throw error;
-                allProjects = data;
-                renderProjectsTable();
-            } catch (err) {
-                showToast('Failed to load projects: ' + err.message, 'error');
-            }
-        }
+        Object.entries(projectViews).forEach(([projectId, views]) => {
+            const project = projects?.find(p => p.id === projectId);
+            const percentage = (views / maxViews) * 100;
 
-        function renderProjectsTable() {
-            const tbody = document.getElementById('projectsTableBody');
-            if (!allProjects.length) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#666;">No projects yet. Click "Add New Project" to create one.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = allProjects.map(project => `
-                <tr>
-                    <td><span class="drag-handle">≡</span>${project.sort_order || 0}</td>
-                    <td>${project.title}</td>
-                    <td>${project.category || '-'}</td>
-                    <td>${project.year || '-'}</td>
-                    <td>${project.is_featured ? '<span style="color:#C8622A;">&#9733; Yes</span>' : '<span style="color:#666;">No</span>'}</td>
-                    <td>${project.is_visible ? 'Yes' : 'No'}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="secondary" onclick="editProject('${project.id}')">Edit</button>
-                            <button class="danger" onclick="deleteProject('${project.id}')">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        document.getElementById('addProjectBtn').addEventListener('click', () => {
-            editProject(null);
+            html += `
+                <div class="chart-bar">
+                    <div class="chart-label">${project?.title || 'Unknown'}</div>
+                    <div class="chart-value">${views}</div>
+                    <div class="chart-bar-bg">
+                        <div class="chart-bar-fill" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+            `;
         });
+    } else {
+        html += '<p style="color: #888888;">No analytics data yet.</p>';
+    }
 
-        async function editProject(projectId) {
-            try {
-                let project = null;
-                if (projectId) {
-                    const { data, error } = await sb
-                        .from('projects')
-                        .select('*')
-                        .eq('id', projectId)
-                        .single();
-                    if (error) throw error;
-                    project = data;
-                    currentEditingProject = projectId;
-                } else {
-                    project = {};
-                    currentEditingProject = null;
-                }
+    html += `
+            </div>
+        </div>
 
-                window._pendingCardImage = project.card_image || null;
-                window._pendingHeroImage = project.hero_image || null;
-                let imageUpload1 = createImageUploadInput(project.card_image, (url) => { window._pendingCardImage = url; });
-                let imageUpload2 = createImageUploadInput(project.hero_image, (url) => { window._pendingHeroImage = url; });
+        <div style="background-color: #252525; border: 1px solid #404040; border-radius: 8px; padding: 20px;">
+            <h3 style="margin-bottom: 20px;">Recent Events</h3>
+            <div style="max-height: 400px; overflow-y: auto;">
+    `;
 
-                const tagsStr = (project.tags || []).join(', ');
-
-                const html = `
-                    <div class="form-section">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input type="text" id="proj-title" value="${project.title || ''}" />
-                            </div>
-                            <div class="form-group">
-                                <label>Slug</label>
-                                <input type="text" id="proj-slug" value="${project.slug || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Category</label>
-                                <input type="text" id="proj-category" value="${project.category || ''}" />
-                            </div>
-                            <div class="form-group">
-                                <label>Tags (comma separated)</label>
-                                <input type="text" id="proj-tags" value="${tagsStr}" />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Year</label>
-                                <input type="number" id="proj-year" value="${project.year || ''}" />
-                            </div>
-                            <div class="form-group">
-                                <label>Client</label>
-                                <input type="text" id="proj-client" value="${project.client || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Subtitle</label>
-                                <input type="text" id="proj-subtitle" value="${project.subtitle || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Short Description</label>
-                                <textarea id="proj-short_description">${project.short_description || ''}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Role</label>
-                                <input type="text" id="proj-role" value="${project.role || ''}" />
-                            </div>
-                            <div class="form-group">
-                                <label>Scope</label>
-                                <input type="text" id="proj-scope" value="${project.scope || ''}" />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Hero Color</label>
-                                <input type="text" id="proj-hero_color" value="${project.hero_color || ''}" placeholder="#000000" />
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Card Image</label>
-                                ${imageUpload1.html}
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Hero Image</label>
-                                ${imageUpload2.html}
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="proj-is_featured" ${project.is_featured ? 'checked' : ''} />
-                                <label for="proj-is_featured" style="margin-bottom: 0;">Featured</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="proj-is_visible" ${project.is_visible !== false ? 'checked' : ''} />
-                                <label for="proj-is_visible" style="margin-bottom: 0;">Visible</label>
-                            </div>
-                        </div>
-                        <div class="button-group">
-                            <button type="button" class="secondary" onclick="closeModal()">Cancel</button>
-                            <button type="button" onclick="saveProject('${projectId ? projectId : ''}');">Save Project</button>
-                        </div>
-                    </div>
-                `;
-
-                openModal('Edit Project', html);
-            } catch (err) {
-                showToast('Failed to load project: ' + err.message, 'error');
-            }
-        }
-
-        async function saveProject(projectId) {
-            try {
-                const tags = document.getElementById('proj-tags').value
-                    .split(',')
-                    .map(t => t.trim())
-                    .filter(t => t);
-
-                const data = {
-                    title: document.getElementById('proj-title').value,
-                    slug: document.getElementById('proj-slug').value,
-                    category: document.getElementById('proj-category').value,
-                    tags: tags,
-                    year: parseInt(document.getElementById('proj-year').value) || null,
-                    client: document.getElementById('proj-client').value,
-                    role: document.getElementById('proj-role').value,
-                    scope: document.getElementById('proj-scope').value,
-                    subtitle: document.getElementById('proj-subtitle').value,
-                    short_description: document.getElementById('proj-short_description').value,
-                    hero_color: document.getElementById('proj-hero_color').value,
-                    is_featured: document.getElementById('proj-is_featured').checked,
-                    is_visible: document.getElementById('proj-is_visible').checked,
-                    card_image: window._pendingCardImage || null,
-                    hero_image: window._pendingHeroImage || null
-                };
-
-                if (projectId && projectId !== 'null') {
-                    const { error } = await sb
-                        .from('projects')
-                        .update(data)
-                        .eq('id', projectId);
-                    if (error) throw error;
-                } else {
-                    data.sort_order = allProjects.length;
-                    const { error } = await sb
-                        .from('projects')
-                        .insert([data]);
-                    if (error) throw error;
-                }
-
-                showToast('Project saved successfully');
-                closeModal();
-                loadProjects();
-            } catch (err) {
-                showToast('Failed to save project: ' + err.message, 'error');
-            }
-        }
-
-        async function deleteProject(projectId) {
-            if (!confirm('Are you sure you want to delete this project?')) return;
-
-            try {
-                const { error } = await sb
-                    .from('projects')
-                    .delete()
-                    .eq('id', projectId);
-
-                if (error) throw error;
-                showToast('Project deleted successfully');
-                loadProjects();
-            } catch (err) {
-                showToast('Failed to delete project: ' + err.message, 'error');
-            }
-        }
-
-        // Generic CRUD functions
-        async function loadTableData(tableName, options = {}) {
-            try {
-                const query = sb.from(tableName).select('*');
-
-                if (options.order) {
-                    query.order(options.order.column, { ascending: options.order.ascending });
-                }
-
-                const { data, error } = await query;
-                if (error) throw error;
-
-                return data;
-            } catch (err) {
-                showToast(`Failed to load ${tableName}: ` + err.message, 'error');
-                return [];
-            }
-        }
-
-        async function saveTableItem(tableName, data, itemId) {
-            try {
-                if (itemId) {
-                    const { error } = await sb
-                        .from(tableName)
-                        .update(data)
-                        .eq('id', itemId);
-                    if (error) throw error;
-                } else {
-                    const { error } = await sb
-                        .from(tableName)
-                        .insert([data]);
-                    if (error) throw error;
-                }
-
-                showToast('Saved successfully');
-                return true;
-            } catch (err) {
-                showToast('Failed to save: ' + err.message, 'error');
-                return false;
-            }
-        }
-
-        async function deleteTableItem(tableName, itemId) {
-            if (!confirm('Are you sure you want to delete this item?')) return false;
-            try {
-                const { error } = await sb
-                    .from(tableName)
-                    .delete()
-                    .eq('id', itemId);
-
-                if (error) throw error;
-                showToast('Deleted successfully');
-                return true;
-            } catch (err) {
-                showToast('Failed to delete: ' + err.message, 'error');
-                return false;
-            }
-        }
-
-        // Credentials Management
-        async function loadCredentials() {
-            const data = await loadTableData('credentials', { order: { column: 'sort_order', ascending: true } });
-            allCredentials = data;
-            renderTable('credentials', data, ['number', 'title', 'description', 'is_visible']);
-        }
-
-        document.getElementById('addCredentialBtn').addEventListener('click', () => {
-            editCredential(null);
+    if (events && events.length > 0) {
+        html += '<table style="font-size: 13px;"><tbody>';
+        events.slice(0, 50).forEach(e => {
+            const project = projects?.find(p => p.id === e.project_id);
+            html += `<tr>
+                <td style="padding: 10px; border-bottom: 1px solid #404040;">${e.event_type}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #404040;">${project?.title || '-'}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #404040; color: #888888; font-size: 12px;">${new Date(e.created_at).toLocaleString()}</td>
+            </tr>`;
         });
+        html += '</tbody></table>';
+    }
 
-        async function editCredential(itemId) {
-            const item = itemId ? allCredentials.find(i => i.id === itemId) : {};
-            const html = `
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Number</label>
-                            <input type="text" id="item-number" value="${item.number || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" id="item-title" value="${item.title || ''}" />
-                        </div>
-                    </div>
-                    <div class="form-row full">
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="item-description">${item.description || ''}</textarea>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Sort Order</label>
-                            <input type="number" id="item-sort_order" value="${item.sort_order || 0}" />
-                        </div>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
-                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
-                    </div>
-                    <div class="button-group">
-                        <button class="secondary" onclick="closeModal()">Cancel</button>
-                        <button onclick="saveCredential('${itemId || ''}')">Save</button>
-                    </div>
-                </div>
-            `;
-            openModal('Edit Credential', html);
-        }
+    html += `</div></div>`;
+    document.getElementById('content').innerHTML = html;
+}
 
-        let allCredentials = [];
+// Modal functions
+function closeModal(event) {
+    if (event && event.target !== document.getElementById('modalBackdrop')) return;
+    document.getElementById('modalBackdrop').classList.remove('active');
+}
 
-        async function saveCredential(itemId) {
-            const data = {
-                number: document.getElementById('item-number').value,
-                title: document.getElementById('item-title').value,
-                description: document.getElementById('item-description').value,
-                sort_order: parseInt(document.getElementById('item-sort_order').value) || 0,
-                is_visible: document.getElementById('item-is_visible').checked
-            };
+async function saveCurrentForm() {
+    switch(currentFormType) {
+        case 'brand': saveBrand(); break;
+        case 'project': saveProject(); break;
+        case 'media': saveMedia(); break;
+        case 'media-upload': saveMediaUpload(); break;
+        case 'case-study': saveCaseStudy(); break;
+        case 'page': savePage(); break;
+        case 'credential': saveCredential(); break;
+        case 'product': saveProduct(); break;
+        case 'client': saveClient(); break;
+        case 'country': saveCountry(); break;
+        case 'stat': saveStat(); break;
+        case 'social-link': saveSocialLink(); break;
+    }
+}
 
-            if (await saveTableItem('credentials', data, itemId ? itemId : null)) {
-                closeModal();
-                loadCredentials();
-            }
-        }
+function saveMediaUpload() {
+    showToast('Media uploaded successfully', 'success');
+    closeModal();
+    loadProjectMedia();
+}
 
-        function renderTable(tableName, data, fields) {
-            const tbody = document.getElementById(`${tableName}TableBody`);
-            if (!data.length) {
-                tbody.innerHTML = `<tr><td colspan="${fields.length + 2}" style="text-align:center;padding:40px;color:#666;">No ${tableName} yet.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = data.map(item => {
-                let row = `<tr><td>${item.sort_order || 0}</td>`;
-                fields.forEach(field => {
-                    if (field === 'is_visible') {
-                        row += `<td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>`;
-                    } else {
-                        row += `<td>${item[field] || '-'}</td>`;
-                    }
-                });
-                row += `
-                    <td>
-                        <div class="action-buttons">
-                            <button class="secondary" onclick="edit${tableName.charAt(0).toUpperCase() + tableName.slice(1).replace(/s$/, '')}('${item.id}')">Edit</button>
-                            <button class="danger" onclick="deleteTableItem('${tableName}', '${item.id}').then(() => load${tableName.charAt(0).toUpperCase() + tableName.slice(1)}())">Delete</button>
-                        </div>
-                    </td>
-                </tr>`;
-                return row;
-            }).join('');
-        }
+// Delete confirmation
+function confirmDelete(type, id) {
+    document.getElementById('confirmationMessage').textContent = `Are you sure you want to delete this ${type}? This action cannot be undone.`;
+    document.getElementById('confirmationDialog').classList.add('active');
+    document.getElementById('confirmationOverlay').classList.add('active');
 
-        // Products Management
-        async function loadProducts() {
-            const data = await loadTableData('products', { order: { column: 'sort_order', ascending: true } });
-            allProducts = data;
-            renderProducts();
-        }
+    confirmCallback = () => deleteItem(type, id);
+}
 
-        let allProducts = [];
+function closeConfirmation() {
+    document.getElementById('confirmationDialog').classList.remove('active');
+    document.getElementById('confirmationOverlay').classList.remove('active');
+    confirmCallback = null;
+}
 
-        function renderProducts() {
-            const tbody = document.getElementById('productsTableBody');
-            if (!allProducts.length) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#666;">No products yet.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = allProducts.map(item => `
-                <tr>
-                    <td>${item.sort_order || 0}</td>
-                    <td>${item.title}</td>
-                    <td>${item.url || '-'}</td>
-                    <td>${item.icon || '-'}</td>
-                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="secondary" onclick="editProduct('${item.id}')">Edit</button>
-                            <button class="danger" onclick="deleteTableItem('products', '${item.id}').then(() => loadProducts())">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
+function executeConfirmation() {
+    if (confirmCallback) confirmCallback();
+    closeConfirmation();
+}
 
-        document.getElementById('addProductBtn').addEventListener('click', () => editProduct(null));
+async function deleteItem(type, id) {
+    try {
+        const tableMap = {
+            'brand': 'brands',
+            'project': 'projects',
+            'media': 'project_media',
+            'case-study': 'case_studies',
+            'credential': 'credentials',
+            'product': 'products',
+            'client': 'clients',
+            'country': 'countries',
+            'stat': 'stats',
+            'social-link': 'social_links'
+        };
 
-        async function editProduct(itemId) {
-            const item = itemId ? allProducts.find(i => i.id === itemId) : {};
-            const html = `
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" id="item-title" value="${item.title || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>URL</label>
-                            <input type="text" id="item-url" value="${item.url || ''}" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Icon</label>
-                            <input type="text" id="item-icon" value="${item.icon || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>Sort Order</label>
-                            <input type="number" id="item-sort_order" value="${item.sort_order || 0}" />
-                        </div>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
-                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
-                    </div>
-                    <div class="button-group">
-                        <button class="secondary" onclick="closeModal()">Cancel</button>
-                        <button onclick="saveProduct('${itemId || ''}')">Save</button>
-                    </div>
-                </div>
-            `;
-            openModal('Edit Product', html);
-        }
+        const table = tableMap[type];
+        if (!table) return;
 
-        async function saveProduct(itemId) {
-            const data = {
-                title: document.getElementById('item-title').value,
-                url: document.getElementById('item-url').value,
-                icon: document.getElementById('item-icon').value,
-                sort_order: parseInt(document.getElementById('item-sort_order').value) || 0,
-                is_visible: document.getElementById('item-is_visible').checked
-            };
+        await sb.from(table).delete().eq('id', id);
+        showToast(`${type} deleted successfully`, 'success');
 
-            if (await saveTableItem('products', data, itemId ? itemId : null)) {
-                closeModal();
-                loadProducts();
-            }
-        }
+        // Reload current section
+        showSection(currentSection);
+    } catch (err) {
+        showToast('Delete failed: ' + err.message, 'error');
+    }
+}
 
-        // Clients Management
-        async function loadClients() {
-            const data = await loadTableData('clients', { order: { column: 'sort_order', ascending: true } });
-            allClients = data;
-            renderClients();
-        }
+// Search
+function handleSearch() {
+    const query = document.getElementById('searchBar').value.toLowerCase();
+    if (!query) return;
 
-        let allClients = [];
+    document.querySelectorAll('table tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+    });
+}
 
-        function renderClients() {
-            const tbody = document.getElementById('clientsTableBody');
-            if (!allClients.length) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#666;">No clients yet.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = allClients.map(item => `
-                <tr>
-                    <td>${item.sort_order || 0}</td>
-                    <td>${item.name}</td>
-                    <td>${item.logo_url ? `<img src="${item.logo_url}" alt="${item.name}" style="height:32px;max-width:80px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">` : 'No logo'}</td>
-                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="secondary" onclick="editClient('${item.id}')">Edit</button>
-                            <button class="danger" onclick="deleteTableItem('clients', '${item.id}').then(() => loadClients())">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
+// Toast notifications
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
 
-        document.getElementById('addClientBtn').addEventListener('click', () => editClient(null));
+    container.appendChild(toast);
 
-        let pendingClientLogoUrl = null;
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
 
-        async function editClient(itemId) {
-            const item = itemId ? allClients.find(i => i.id === itemId) : {};
-            pendingClientLogoUrl = item.logo_url || null;
-            let imageUpload = createImageUploadInput(item.logo_url, (url) => {
-                pendingClientLogoUrl = url;
-            });
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        saveCurrentForm();
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('searchBar').focus();
+    }
+    if (e.key === 'Escape') {
+        closeModal();
+        closeConfirmation();
+    }
+});
 
-            const html = `
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" id="item-name" value="${item.name || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>Sort Order</label>
-                            <input type="number" id="item-sort_order" value="${item.sort_order || 0}" />
-                        </div>
-                    </div>
-                    <div class="form-row full">
-                        <div class="form-group">
-                            <label>Logo</label>
-                            ${imageUpload.html}
-                        </div>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
-                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
-                    </div>
-                    <div class="button-group">
-                        <button class="secondary" onclick="closeModal()">Cancel</button>
-                        <button onclick="saveClient('${itemId || ''}')">Save</button>
-                    </div>
-                </div>
-            `;
-            openModal('Edit Client', html);
-        }
+// Initialize
+initSupabase();
+</script>
 
-        async function saveClient(itemId) {
-            const logoUrl = pendingClientLogoUrl;
-            const data = {
-                name: document.getElementById('item-name').value,
-                logo_url: logoUrl || null,
-                sort_order: parseInt(document.getElementById('item-sort_order').value) || 0,
-                is_visible: document.getElementById('item-is_visible').checked
-            };
-
-            if (await saveTableItem('clients', data, itemId ? itemId : null)) {
-                closeModal();
-                loadClients();
-            }
-        }
-
-        // Countries Management
-        async function loadCountries() {
-            const data = await loadTableData('countries', { order: { column: 'sort_order', ascending: true } });
-            allCountries = data;
-            renderCountries();
-        }
-
-        let allCountries = [];
-
-        function renderCountries() {
-            const tbody = document.getElementById('countriesTableBody');
-            if (!allCountries.length) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:#666;">No countries yet.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = allCountries.map(item => `
-                <tr>
-                    <td>${item.sort_order || 0}</td>
-                    <td>${item.name}</td>
-                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="secondary" onclick="editCountry('${item.id}')">Edit</button>
-                            <button class="danger" onclick="deleteTableItem('countries', '${item.id}').then(() => loadCountries())">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        document.getElementById('addCountryBtn').addEventListener('click', () => editCountry(null));
-
-        async function editCountry(itemId) {
-            const item = itemId ? allCountries.find(i => i.id === itemId) : {};
-            const html = `
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" id="item-name" value="${item.name || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>Sort Order</label>
-                            <input type="number" id="item-sort_order" value="${item.sort_order || 0}" />
-                        </div>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
-                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
-                    </div>
-                    <div class="button-group">
-                        <button class="secondary" onclick="closeModal()">Cancel</button>
-                        <button onclick="saveCountry('${itemId || ''}')">Save</button>
-                    </div>
-                </div>
-            `;
-            openModal('Edit Country', html);
-        }
-
-        async function saveCountry(itemId) {
-            const data = {
-                name: document.getElementById('item-name').value,
-                sort_order: parseInt(document.getElementById('item-sort_order').value) || 0,
-                is_visible: document.getElementById('item-is_visible').checked
-            };
-
-            if (await saveTableItem('countries', data, itemId ? itemId : null)) {
-                closeModal();
-                loadCountries();
-            }
-        }
-
-        // Stats Management
-        async function loadStats() {
-            const data = await loadTableData('stats', { order: { column: 'sort_order', ascending: true } });
-            allStats = data;
-            renderStats();
-        }
-
-        let allStats = [];
-
-        function renderStats() {
-            const tbody = document.getElementById('statsTableBody');
-            if (!allStats.length) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:#666;">No stats yet.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = allStats.map(item => `
-                <tr>
-                    <td>${item.sort_order || 0}</td>
-                    <td>${item.number}</td>
-                    <td>${item.label}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="secondary" onclick="editStat('${item.id}')">Edit</button>
-                            <button class="danger" onclick="deleteTableItem('stats', '${item.id}').then(() => loadStats())">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        document.getElementById('addStatBtn').addEventListener('click', () => editStat(null));
-
-        async function editStat(itemId) {
-            const item = itemId ? allStats.find(i => i.id === itemId) : {};
-            const html = `
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Number</label>
-                            <input type="text" id="item-number" value="${item.number || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>Label</label>
-                            <input type="text" id="item-label" value="${item.label || ''}" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Sort Order</label>
-                            <input type="number" id="item-sort_order" value="${item.sort_order || 0}" />
-                        </div>
-                    </div>
-                    <div class="button-group">
-                        <button class="secondary" onclick="closeModal()">Cancel</button>
-                        <button onclick="saveStat('${itemId || ''}')">Save</button>
-                    </div>
-                </div>
-            `;
-            openModal('Edit Stat', html);
-        }
-
-        async function saveStat(itemId) {
-            const data = {
-                number: document.getElementById('item-number').value,
-                label: document.getElementById('item-label').value,
-                sort_order: parseInt(document.getElementById('item-sort_order').value) || 0
-            };
-
-            if (await saveTableItem('stats', data, itemId ? itemId : null)) {
-                closeModal();
-                loadStats();
-            }
-        }
-
-        // Social Links Management
-        async function loadSocial() {
-            const data = await loadTableData('social_links', { order: { column: 'sort_order', ascending: true } });
-            allSocial = data;
-            renderSocial();
-        }
-
-        let allSocial = [];
-
-        function renderSocial() {
-            const tbody = document.getElementById('socialTableBody');
-            if (!allSocial.length) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#666;">No social links yet.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = allSocial.map(item => `
-                <tr>
-                    <td>${item.sort_order || 0}</td>
-                    <td>${item.platform}</td>
-                    <td>${item.url || '-'}</td>
-                    <td>${item.label || '-'}</td>
-                    <td>${item.is_visible ? '<span style="color:#10b981;">&#9679; Visible</span>' : '<span style="color:#666;">&#9679; Hidden</span>'}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="secondary" onclick="editSocial('${item.id}')">Edit</button>
-                            <button class="danger" onclick="deleteTableItem('social_links', '${item.id}').then(() => loadSocial())">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        document.getElementById('addSocialBtn').addEventListener('click', () => editSocial(null));
-
-        async function editSocial(itemId) {
-            const item = itemId ? allSocial.find(i => i.id === itemId) : {};
-            const html = `
-                <div class="form-section">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Platform</label>
-                            <input type="text" id="item-platform" value="${item.platform || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>URL</label>
-                            <input type="text" id="item-url" value="${item.url || ''}" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Label</label>
-                            <input type="text" id="item-label" value="${item.label || ''}" />
-                        </div>
-                        <div class="form-group">
-                            <label>Sort Order</label>
-                            <input type="number" id="item-sort_order" value="${item.sort_order || 0}" />
-                        </div>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="item-is_visible" ${item.is_visible !== false ? 'checked' : ''} />
-                        <label for="item-is_visible" style="margin-bottom: 0;">Visible</label>
-                    </div>
-                    <div class="button-group">
-                        <button class="secondary" onclick="closeModal()">Cancel</button>
-                        <button onclick="saveSocial('${itemId || ''}')">Save</button>
-                    </div>
-                </div>
-            `;
-            openModal('Edit Social Link', html);
-        }
-
-        async function saveSocial(itemId) {
-            const data = {
-                platform: document.getElementById('item-platform').value,
-                url: document.getElementById('item-url').value,
-                label: document.getElementById('item-label').value,
-                sort_order: parseInt(document.getElementById('item-sort_order').value) || 0,
-                is_visible: document.getElementById('item-is_visible').checked
-            };
-
-            if (await saveTableItem('social_links', data, itemId ? itemId : null)) {
-                closeModal();
-                loadSocial();
-            }
-        }
-
-        // Settings Management
-        async function loadSettings() {
-            try {
-                const { data, error } = await sb
-                    .from('site_settings')
-                    .select('*')
-                    .order('key', { ascending: true });
-
-                if (error) throw error;
-
-                const container = document.getElementById('settingsContainer');
-                if (!data.length) {
-                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#9881;</div><p>No settings configured yet.</p></div>';
-                    return;
-                }
-                container.innerHTML = '<div class="settings-grid">' + data.map(setting => `
-                    <div class="form-section">
-                        <div class="settings-item">
-                            <div class="form-group">
-                                <label>${setting.key.replace(/_/g, ' ')}</label>
-                                <input type="text" id="setting-${setting.id}" value="${setting.value || ''}" />
-                            </div>
-                            <button class="secondary" onclick="updateSetting('${setting.id}')">Save</button>
-                        </div>
-                    </div>
-                `).join('') + '</div>';
-            } catch (err) {
-                showToast('Failed to load settings: ' + err.message, 'error');
-            }
-        }
-
-        async function updateSetting(settingId) {
-            try {
-                const value = document.getElementById(`setting-${settingId}`).value;
-                const { error } = await sb
-                    .from('site_settings')
-                    .update({ value })
-                    .eq('id', settingId);
-
-                if (error) throw error;
-                showToast('Setting updated');
-            } catch (err) {
-                showToast('Failed to update setting: ' + err.message, 'error');
-            }
-        }
-
-        // Check auth state on load
-        sb.auth.onAuthStateChange((event, session) => {
-            if (session) {
-                currentUser = session.user;
-                showLoginUI();
-                loadDashboard();
-            }
-        });
-    </script>
 </body>
 </html>

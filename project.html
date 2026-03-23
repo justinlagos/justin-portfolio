@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Design project by Justin Ukaegbu">
+  <meta name="author" content="Justin Ukaegbu">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://justinukaegbu.com/project.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/enhancements.css">
+
+  <title>Project | Justin Ukaegbu</title>
+  <style>
+    /* ============================================================================
+       PROJECT PAGE SPECIFIC STYLES
+       ============================================================================ */
+
+    /* Breadcrumb Navigation */
+    .project-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: var(--text-sm);
+      color: var(--ink-muted);
+      padding: var(--space-lg) 0;
+      margin-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .project-breadcrumb a {
+      color: var(--ink-muted);
+      transition: color var(--transition-base);
+    }
+
+    .project-breadcrumb a:hover {
+      color: var(--accent);
+    }
+
+    .project-breadcrumb .breadcrumb-separator {
+      color: var(--ink-muted);
+    }
+
+    /* Project Hero */
+    .project-hero {
+      padding: var(--space-3xl) 0;
+      margin-bottom: var(--space-3xl);
+    }
+
+    .project-hero-eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: var(--space-md);
+    }
+
+    .project-hero-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-5xl);
+      font-weight: 500;
+      line-height: var(--lh-tight);
+      color: var(--ink);
+      margin-bottom: var(--space-lg);
+      max-width: 90%;
+    }
+
+    .project-hero-summary {
+      font-size: var(--text-lg);
+      line-height: var(--lh-relaxed);
+      color: var(--ink-soft);
+      max-width: 75%;
+    }
+
+    /* Project Wrapper Layout */
+    .project-wrapper {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: var(--space-3xl);
+      margin-bottom: var(--space-3xl);
+    }
+
+    /* Project Meta Sidebar */
+    .project-meta {
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .project-meta-item {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .project-meta-item:last-child {
+      border-bottom: none;
+    }
+
+    .project-meta-item h3 {
+      font-family: var(--font-serif);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    .project-meta-item p {
+      font-size: var(--text-base);
+      color: var(--ink);
+      line-height: var(--lh-snug);
+    }
+
+    /* Project Content */
+    .project-content {
+      max-width: 900px;
+    }
+
+    /* Case Study Sections */
+    .case-section {
+      margin-bottom: var(--space-3xl);
+    }
+
+    .case-section h2 {
+      font-family: var(--font-serif);
+      font-size: var(--text-3xl);
+      font-weight: 500;
+      line-height: var(--lh-tight);
+      color: var(--ink);
+      margin-bottom: var(--space-lg);
+    }
+
+    .case-section p {
+      font-size: var(--text-base);
+      line-height: var(--lh-relaxed);
+      color: var(--ink-soft);
+    }
+
+    /* Case Metrics */
+    .case-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--space-lg);
+      padding: var(--space-2xl);
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+      margin: var(--space-3xl) 0;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-family: var(--font-serif);
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: var(--space-sm);
+    }
+
+    .metric-label {
+      font-size: var(--text-sm);
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+
+    /* Gallery Grid */
+    .gallery-intro {
+      margin-bottom: var(--space-3xl);
+    }
+
+    .gallery-intro h2 {
+      font-family: var(--font-serif);
+      font-size: var(--text-3xl);
+      font-weight: 500;
+      line-height: var(--lh-tight);
+      color: var(--ink);
+      margin-bottom: var(--space-lg);
+    }
+
+    .gallery-intro p {
+      font-size: var(--text-base);
+      line-height: var(--lh-relaxed);
+      color: var(--ink-soft);
+      max-width: 75%;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-3xl) 0;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: var(--white);
+      cursor: pointer;
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: transform var(--transition-base);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-caption {
+      padding: var(--space-md);
+      font-size: var(--text-sm);
+      color: var(--ink-muted);
+      line-height: var(--lh-snug);
+    }
+
+    /* Lightbox Styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(20, 18, 16, 0.95);
+      z-index: var(--z-modal);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .lightbox.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .lightbox-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: var(--radius-lg);
+    }
+
+    .lightbox-caption {
+      color: var(--cream);
+      font-size: var(--text-base);
+      margin-top: var(--space-lg);
+      text-align: center;
+      max-width: 100%;
+      padding: 0 var(--space-lg);
+    }
+
+    .lightbox-counter {
+      color: var(--ink-muted);
+      font-size: var(--text-sm);
+      margin-top: var(--space-md);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: var(--space-lg);
+      right: var(--space-lg);
+      background: none;
+      border: none;
+      color: var(--cream);
+      font-size: var(--text-3xl);
+      cursor: pointer;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color var(--transition-base);
+      z-index: var(--z-tooltip);
+    }
+
+    .lightbox-close:hover {
+      color: var(--accent);
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--cream);
+      font-size: var(--text-3xl);
+      cursor: pointer;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color var(--transition-base);
+      z-index: var(--z-tooltip);
+    }
+
+    .lightbox-nav:hover {
+      color: var(--accent);
+    }
+
+    .lightbox-prev {
+      left: var(--space-lg);
+    }
+
+    .lightbox-next {
+      right: var(--space-lg);
+    }
+
+    /* Contact CTA */
+    .project-cta {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      text-align: center;
+      margin: var(--space-3xl) 0;
+    }
+
+    .project-cta h3 {
+      font-family: var(--font-serif);
+      font-size: var(--text-2xl);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--space-md);
+    }
+
+    .project-cta p {
+      font-size: var(--text-base);
+      color: var(--ink-soft);
+      margin-bottom: var(--space-lg);
+    }
+
+    .project-cta .btn {
+      display: inline-block;
+      padding: var(--space-md) var(--space-2xl);
+      border-radius: var(--radius-md);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .project-hero-title {
+        font-size: var(--text-3xl);
+        max-width: 100%;
+      }
+
+      .project-hero-summary {
+        max-width: 100%;
+      }
+
+      .project-wrapper {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+      }
+
+      .project-meta {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-lg);
+      }
+
+      .project-meta-item {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .case-section h2 {
+        font-size: var(--text-2xl);
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lightbox-nav {
+        font-size: var(--text-2xl);
+        width: 40px;
+        height: 40px;
+      }
+
+      .lightbox-prev {
+        left: var(--space-sm);
+      }
+
+      .lightbox-next {
+        right: var(--space-sm);
+      }
+
+      .lightbox-close {
+        font-size: var(--text-2xl);
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project-hero {
+        padding: var(--space-2xl) 0;
+        margin-bottom: var(--space-2xl);
+      }
+
+      .project-hero-title {
+        font-size: var(--text-2xl);
+      }
+
+      .project-hero-summary {
+        font-size: var(--text-base);
+      }
+
+      .project-wrapper {
+        gap: var(--space-lg);
+      }
+
+      .project-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .case-metrics {
+        grid-template-columns: repeat(2, 1fr);
+        padding: var(--space-lg);
+      }
+
+      .metric-value {
+        font-size: var(--text-2xl);
+      }
+
+      .case-section h2 {
+        font-size: var(--text-xl);
+      }
+
+      .case-section p {
+        font-size: var(--text-sm);
+      }
+
+      .breadcrumb {
+        font-size: var(--text-xs);
+        padding: var(--space-md) 0;
+        margin-bottom: var(--space-lg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Justin Ukaegbu</a>
+      <ul class="nav-links">
+        <li><a href="work.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" data-mobile-menu aria-hidden="true">
+    <ul>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div class="menu-overlay" data-menu-overlay aria-hidden="true"></div>
+
+  <!-- Main Content -->
+  <main class="container" style="padding-top: calc(80px + var(--space-xl));">
+    <!-- Breadcrumb -->
+    <div class="project-breadcrumb" id="breadcrumb">
+      <a href="work.html">Work</a>
+      <span class="breadcrumb-separator">/</span>
+      <a href="#" id="breadcrumb-brand-link">Brand Name</a>
+      <span class="breadcrumb-separator">/</span>
+      <span id="breadcrumb-project">Project Title</span>
+    </div>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+      <span class="project-hero-eyebrow" id="project-eyebrow">Brand Name</span>
+      <h1 class="project-hero-title" id="project-title">Project Title</h1>
+      <p class="project-hero-summary" id="project-summary">Project summary goes here</p>
+    </section>
+
+    <!-- Project Wrapper -->
+    <div class="project-wrapper">
+      <!-- Meta Sidebar -->
+      <aside class="project-meta" id="project-meta">
+        <div class="project-meta-item">
+          <h3>Year</h3>
+          <p id="meta-year">2024</p>
+        </div>
+        <div class="project-meta-item">
+          <h3>Services</h3>
+          <p id="meta-services">Service 1, Service 2</p>
+        </div>
+        <div class="project-meta-item">
+          <h3>Brand</h3>
+          <p id="meta-brand">Brand Name</p>
+        </div>
+      </aside>
+
+      <!-- Project Content -->
+      <div class="project-content" id="project-content">
+        <!-- Content will be rendered here based on project type -->
+      </div>
+    </div>
+
+    <!-- Gallery Section (for all projects) -->
+    <section id="gallery-section">
+      <!-- Gallery will be rendered here -->
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="project-cta">
+      <h3>Let's Work Together</h3>
+      <p>Have a project in mind? I'd love to hear about it.</p>
+      <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Justin Ukaegbu</h3>
+        <p>Brand, Product &amp; Interaction Design</p>
+      </div>
+      <div class="footer-section">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close lightbox">×</button>
+      <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">‹</button>
+      <div class="lightbox-image-wrapper">
+        <img class="lightbox-image" id="lightbox-image" src="" alt="">
+      </div>
+      <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">›</button>
+      <p class="lightbox-caption" id="lightbox-caption"></p>
+      <p class="lightbox-counter" id="lightbox-counter"></p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/data.js"></script>
+  <script src="js/cms.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // ============================================================================
+    // PROJECT PAGE CONTROLLER
+    // ============================================================================
+
+    class ProjectPageController {
+      constructor() {
+        this.project = null;
+        this.brand = null;
+        this.media = [];
+        this.currentImageIndex = 0;
+        this.lightbox = document.getElementById('lightbox');
+        this.lightboxImage = document.getElementById('lightbox-image');
+        this.lightboxCaption = document.getElementById('lightbox-caption');
+        this.lightboxCounter = document.getElementById('lightbox-counter');
+        this.lightboxClose = document.getElementById('lightbox-close');
+        this.lightboxPrev = document.getElementById('lightbox-prev');
+        this.lightboxNext = document.getElementById('lightbox-next');
+
+        this.init();
+      }
+
+      init() {
+        const slug = getUrlParam('project');
+
+        if (!slug) {
+          console.error('No project slug provided');
+          return;
+        }
+
+        this.project = getProjectBySlug(slug);
+
+        if (!this.project) {
+          console.error('Project not found: ' + slug);
+          document.getElementById('project-title').textContent = 'Project not found';
+          return;
+        }
+
+        this.brand = getBrandById(this.project.brandId);
+        this.media = getMediaForProject(this.project.id);
+
+        this.render();
+        this.attachEventListeners();
+      }
+
+      render() {
+        // Update page title
+        document.title = `${this.project.title} | ${this.brand.name} | Justin Ukaegbu`;
+
+        // Breadcrumb
+        const brandLink = document.getElementById('breadcrumb-brand-link');
+        brandLink.textContent = this.brand.name;
+        brandLink.href = `brand.html?brand=${this.brand.slug}`;
+        document.getElementById('breadcrumb-project').textContent = this.project.title;
+
+        // Hero
+        document.getElementById('project-eyebrow').textContent = this.brand.name;
+        document.getElementById('project-title').textContent = this.project.title;
+        document.getElementById('project-summary').textContent = this.project.summary;
+
+        // Meta sidebar
+        document.getElementById('meta-year').textContent = this.project.year;
+        document.getElementById('meta-services').textContent = this.project.services.join(', ');
+        document.getElementById('meta-brand').textContent = this.brand.name;
+
+        // Render based on type
+        if (this.project.type === 'case-study') {
+          this.renderCaseStudy();
+        } else if (this.project.type === 'gallery') {
+          this.renderGalleryIntro();
+        }
+
+        // Always render gallery at bottom
+        this.renderGallery();
+      }
+
+      renderCaseStudy() {
+        const content = document.getElementById('project-content');
+        const caseStudy = this.project.caseStudy;
+
+        let html = '';
+
+        // Overview
+        if (caseStudy.overview) {
+          html += `
+            <section class="case-section">
+              <h2>Overview</h2>
+              <p>${caseStudy.overview}</p>
+            </section>
+          `;
+        }
+
+        // Context
+        if (caseStudy.context) {
+          html += `
+            <section class="case-section">
+              <h2>Context</h2>
+              <p>${caseStudy.context}</p>
+            </section>
+          `;
+        }
+
+        // Objective
+        if (caseStudy.objective) {
+          html += `
+            <section class="case-section">
+              <h2>Objective</h2>
+              <p>${caseStudy.objective}</p>
+            </section>
+          `;
+        }
+
+        // Approach
+        if (caseStudy.approach) {
+          html += `
+            <section class="case-section">
+              <h2>Approach</h2>
+              <p>${caseStudy.approach}</p>
+            </section>
+          `;
+        }
+
+        // Execution
+        if (caseStudy.execution) {
+          html += `
+            <section class="case-section">
+              <h2>Execution</h2>
+              <p>${caseStudy.execution}</p>
+            </section>
+          `;
+        }
+
+        // Metrics (if present)
+        if (caseStudy.metrics && caseStudy.metrics.length > 0) {
+          html += '<div class="case-metrics">';
+          caseStudy.metrics.forEach(metric => {
+            html += `
+              <div class="metric">
+                <span class="metric-value">${metric.value}</span>
+                <span class="metric-label">${metric.label}</span>
+              </div>
+            `;
+          });
+          html += '</div>';
+        }
+
+        // Outcome
+        if (caseStudy.outcome) {
+          html += `
+            <section class="case-section">
+              <h2>Outcome</h2>
+              <p>${caseStudy.outcome}</p>
+            </section>
+          `;
+        }
+
+        content.innerHTML = html;
+      }
+
+      renderGalleryIntro() {
+        const content = document.getElementById('project-content');
+
+        const html = `
+          <div class="gallery-intro">
+            <h2>${this.project.title}</h2>
+            <p>${this.project.summary}</p>
+          </div>
+        `;
+
+        content.innerHTML = html;
+      }
+
+      renderGallery() {
+        if (!this.media || this.media.length === 0) {
+          document.getElementById('gallery-section').style.display = 'none';
+          return;
+        }
+
+        let html = '<div class="gallery-grid">';
+
+        this.media.forEach((item, index) => {
+          html += `
+            <div class="gallery-item" data-index="${index}">
+              <img src="${item.image}" alt="${item.caption}" loading="lazy">
+              ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
+            </div>
+          `;
+        });
+
+        html += '</div>';
+
+        document.getElementById('gallery-section').innerHTML = html;
+
+        // Attach gallery item click handlers
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          item.addEventListener('click', (e) => {
+            const index = parseInt(item.getAttribute('data-index'));
+            this.openLightbox(index);
+          });
+        });
+      }
+
+      attachEventListeners() {
+        // Lightbox controls
+        this.lightboxClose.addEventListener('click', () => this.closeLightbox());
+        this.lightboxPrev.addEventListener('click', () => this.prevImage());
+        this.lightboxNext.addEventListener('click', () => this.nextImage());
+
+        // Click outside image to close
+        this.lightbox.addEventListener('click', (e) => {
+          if (e.target === this.lightbox) {
+            this.closeLightbox();
+          }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (this.lightbox.classList.contains('active')) {
+            if (e.key === 'Escape') this.closeLightbox();
+            if (e.key === 'ArrowLeft') this.prevImage();
+            if (e.key === 'ArrowRight') this.nextImage();
+          }
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        this.lightbox.addEventListener('touchstart', (e) => {
+          touchStartX = e.touches[0].clientX;
+        });
+
+        this.lightbox.addEventListener('touchend', (e) => {
+          const touchEndX = e.changedTouches[0].clientX;
+          const diff = touchStartX - touchEndX;
+
+          if (diff > 50) {
+            this.nextImage();
+          } else if (diff < -50) {
+            this.prevImage();
+          }
+        });
+      }
+
+      openLightbox(index) {
+        if (index < 0 || index >= this.media.length) return;
+
+        this.currentImageIndex = index;
+        const item = this.media[index];
+
+        this.lightboxImage.src = item.image;
+        this.lightboxImage.alt = item.caption || 'Gallery image';
+        this.lightboxCaption.textContent = item.caption || '';
+        this.lightboxCounter.textContent = `${index + 1} / ${this.media.length}`;
+
+        this.lightbox.classList.add('active');
+        document.body.classList.add('no-scroll');
+      }
+
+      closeLightbox() {
+        this.lightbox.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+      }
+
+      nextImage() {
+        let nextIndex = this.currentImageIndex + 1;
+        if (nextIndex >= this.media.length) {
+          nextIndex = 0; // Loop back to start
+        }
+        this.openLightbox(nextIndex);
+      }
+
+      prevImage() {
+        let prevIndex = this.currentImageIndex - 1;
+        if (prevIndex < 0) {
+          prevIndex = this.media.length - 1; // Loop to end
+        }
+        this.openLightbox(prevIndex);
+      }
+    }
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      new ProjectPageController();
+    });
+  </script>
+  <script src="js/lightbox.js" defer></script>
+</body>
+</html>

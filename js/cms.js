@@ -20,9 +20,19 @@ function getCurrentPageSlug() {
     return 'about';
   } else if (filename === 'contact.html') {
     return 'contact';
+  } else if (filename === 'brand.html') {
+    return 'brand';
+  } else if (filename === 'project.html') {
+    return 'project';
   } else {
     return null;
   }
+}
+
+// Get URL parameter helper
+function getUrlParamCMS(param) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(param);
 }
 
 // Get project slug from cases/{slug}.html
@@ -66,13 +76,23 @@ async function initializeCMS() {
     // Load global content (all pages)
     await loadGlobalContent();
 
+    // Load style settings first
+    await loadStyleSettings();
+
     // Load page-specific content
     if (projectSlug) {
       await loadCaseStudyPage(projectSlug);
+    } else if (pageSlug === 'brand') {
+      const brandSlug = getUrlParamCMS('brand');
+      if (brandSlug) await loadBrandPage(brandSlug);
+    } else if (pageSlug === 'project') {
+      const projSlug = getUrlParamCMS('project');
+      if (projSlug) await loadProjectPage(projSlug);
     } else if (pageSlug === 'home') {
       await loadHomePage();
     } else if (pageSlug === 'work') {
       await loadWorkPage();
+      await loadBrandsGrid();
     } else if (pageSlug === 'about') {
       await loadAboutPage();
     } else if (pageSlug === 'contact') {
@@ -781,6 +801,304 @@ async function populateCaseNav(navData) {
     navContainer.innerHTML = html;
   } catch (error) {
     console.error('Error populating case nav:', error);
+  }
+}
+
+// ============================================
+// BRAND-AWARE LOADING
+// ============================================
+
+// Load brands for work page grid
+async function loadBrandsGrid() {
+  try {
+    const { data: brands } = await sb
+      .from('brands')
+      .select('*')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true });
+
+    const brandsGrid = document.getElementById('brands-grid');
+    if (!brandsGrid || !brands) return;
+
+    brandsGrid.innerHTML = brands.map(brand => {
+      const imgUrl = processImageUrl(brand.featured_image);
+      const logoUrl = brand.logo_url ? processImageUrl(brand.logo_url) : '';
+
+      return `
+        <a href="brand.html?brand=${brand.slug}" class="brand-card">
+          <div class="brand-card-image-container">
+            ${imgUrl ? `<img src="${imgUrl}" alt="${brand.name}" class="brand-card-image" loading="lazy">` : `<div class="brand-card-image" style="background-color: #f5f1ed;"></div>`}
+          </div>
+          <div class="brand-card-content">
+            <h3 class="brand-card-title">${brand.name}</h3>
+            <p class="brand-card-description">${brand.description || ''}</p>
+          </div>
+        </a>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error('Error loading brands grid:', error);
+  }
+}
+
+// Load brand page with projects
+async function loadBrandPage(brandSlug) {
+  try {
+    const { data: brand } = await sb
+      .from('brands')
+      .select('*')
+      .eq('slug', brandSlug)
+      .single();
+
+    if (!brand) return;
+
+    // Update hero
+    const titleEl = document.getElementById('brand-title');
+    const descEl = document.getElementById('brand-description');
+    const breadcrumbEl = document.getElementById('brand-name-breadcrumb');
+
+    if (titleEl) titleEl.textContent = brand.name;
+    if (descEl) descEl.textContent = brand.description || '';
+    if (breadcrumbEl) breadcrumbEl.textContent = brand.name;
+    document.title = `${brand.name} | Justin Ukaegbu | Design`;
+
+    // Fetch projects for this brand
+    const { data: projects } = await sb
+      .from('projects')
+      .select('*')
+      .eq('brand_id', brand.id)
+      .eq('is_visible', true)
+      .neq('status', 'archived')
+      .order('sort_order', { ascending: true });
+
+    const grid = document.getElementById('projects-grid');
+    if (grid && projects && projects.length > 0) {
+      grid.innerHTML = projects.map(project => {
+        const imgUrl = processImageUrl(project.card_image);
+        const typeBadge = project.project_type === 'case-study' ? 'Case Study' : 'Gallery';
+
+        return `
+          <a href="project.html?project=${project.slug}" class="project-card" data-project-card>
+            ${imgUrl ? `<img src="${imgUrl}" alt="${project.title}" class="project-card-image">` : `<div class="project-card-image" style="background-color: var(--cream);"></div>`}
+            <div class="project-card-content">
+              <div class="project-card-header">
+                <h3 class="project-card-title">${project.title}</h3>
+                <span class="project-type-badge">${typeBadge}</span>
+              </div>
+              <p class="project-card-summary">${project.short_description || ''}</p>
+              <div class="project-card-meta">
+                <span class="project-year">${project.year || ''}</span>
+                <div class="project-services">
+                  ${(project.services || '').split(',').slice(0, 2).map(s => `<span class="service-tag">${s.trim()}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      const contactSection = document.getElementById('contact-section');
+      if (contactSection) contactSection.style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Error loading brand page:', error);
+  }
+}
+
+// Load project page with case study or gallery
+async function loadProjectPage(projectSlug) {
+  try {
+    const { data: project } = await sb
+      .from('projects')
+      .select('*, brands(*)')
+      .eq('slug', projectSlug)
+      .single();
+
+    if (!project) return;
+
+    const brand = project.brands;
+
+    // Update page title and meta
+    document.title = `${project.title} | ${brand ? brand.name : ''} | Justin Ukaegbu`;
+
+    // Update OG tags
+    updateMetaTag('og:title', `${project.title} | Justin Ukaegbu`);
+    updateMetaTag('og:description', project.seo_description || project.short_description || '');
+    if (project.seo_image) updateMetaTag('og:image', processImageUrl(project.seo_image));
+
+    // Breadcrumb
+    const brandLink = document.getElementById('breadcrumb-brand-link');
+    if (brandLink && brand) {
+      brandLink.textContent = brand.name;
+      brandLink.href = `brand.html?brand=${brand.slug}`;
+    }
+    const projectBreadcrumb = document.getElementById('breadcrumb-project');
+    if (projectBreadcrumb) projectBreadcrumb.textContent = project.title;
+
+    // Hero
+    const eyebrow = document.getElementById('project-eyebrow');
+    const title = document.getElementById('project-title');
+    const summary = document.getElementById('project-summary');
+    if (eyebrow && brand) eyebrow.textContent = brand.name;
+    if (title) title.textContent = project.title;
+    if (summary) summary.textContent = project.short_description || '';
+
+    // Meta sidebar
+    const metaYear = document.getElementById('meta-year');
+    const metaServices = document.getElementById('meta-services');
+    const metaBrand = document.getElementById('meta-brand');
+    if (metaYear) metaYear.textContent = project.year || '';
+    if (metaServices) metaServices.textContent = project.services || '';
+    if (metaBrand && brand) metaBrand.textContent = brand.name;
+
+    // Load case study if case-study type
+    if (project.project_type === 'case-study') {
+      const { data: caseStudy } = await sb
+        .from('case_studies')
+        .select('*')
+        .eq('project_id', project.id)
+        .single();
+
+      if (caseStudy) {
+        renderCaseStudyContent(caseStudy);
+      }
+    }
+
+    // Load project media for gallery
+    const { data: media } = await sb
+      .from('project_media')
+      .select('*')
+      .eq('project_id', project.id)
+      .order('sort_order', { ascending: true });
+
+    if (media && media.length > 0) {
+      renderProjectGallery(media);
+    }
+
+    // Track analytics
+    trackEvent('project_view', project.id, brand ? brand.id : null);
+  } catch (error) {
+    console.error('Error loading project page:', error);
+  }
+}
+
+// Render case study content into project-content div
+function renderCaseStudyContent(caseStudy) {
+  const content = document.getElementById('project-content');
+  if (!content) return;
+
+  let html = '';
+  const sections = ['overview', 'context', 'objective', 'approach', 'execution'];
+
+  sections.forEach(key => {
+    if (caseStudy[key]) {
+      const title = key.charAt(0).toUpperCase() + key.slice(1);
+      html += `<section class="case-section"><h2>${title}</h2><p>${caseStudy[key]}</p></section>`;
+    }
+  });
+
+  // Metrics
+  if (caseStudy.metrics && caseStudy.metrics.length > 0) {
+    html += '<div class="case-metrics">';
+    caseStudy.metrics.forEach(m => {
+      html += `<div class="metric"><span class="metric-value">${m.value}</span><span class="metric-label">${m.label}</span></div>`;
+    });
+    html += '</div>';
+  }
+
+  // Outcome
+  if (caseStudy.outcome) {
+    html += `<section class="case-section"><h2>Outcome</h2><p>${caseStudy.outcome}</p></section>`;
+  }
+
+  // Quote
+  if (caseStudy.quote) {
+    html += `<blockquote class="about-pullquote">${caseStudy.quote}${caseStudy.quote_author ? `<cite>${caseStudy.quote_author}</cite>` : ''}</blockquote>`;
+  }
+
+  content.innerHTML = html;
+}
+
+// Render project gallery
+function renderProjectGallery(media) {
+  const gallerySection = document.getElementById('gallery-section');
+  if (!gallerySection) return;
+
+  let html = '<div class="gallery-grid" data-lightbox>';
+  media.forEach((item, index) => {
+    const imgUrl = processImageUrl(item.image_url);
+    html += `
+      <div class="gallery-item" data-index="${index}">
+        <img src="${imgUrl}" alt="${item.alt_text || ''}" data-caption="${item.caption || ''}" loading="lazy" class="gallery-image">
+        ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
+      </div>
+    `;
+  });
+  html += '</div>';
+
+  gallerySection.innerHTML = html;
+}
+
+// Update meta tags for SEO
+function updateMetaTag(property, content) {
+  let meta = document.querySelector(`meta[property="${property}"]`);
+  if (!meta) {
+    meta = document.querySelector(`meta[name="${property}"]`);
+  }
+  if (meta) {
+    meta.setAttribute('content', content);
+  }
+}
+
+// ============================================
+// ANALYTICS TRACKING
+// ============================================
+
+async function trackEvent(eventType, projectId, brandId) {
+  try {
+    if (!sb) return;
+    await sb.from('analytics_events').insert([{
+      event_type: eventType,
+      project_id: projectId || null,
+      brand_id: brandId || null,
+      metadata: {
+        url: window.location.href,
+        referrer: document.referrer,
+        timestamp: new Date().toISOString()
+      }
+    }]);
+  } catch (e) {
+    // Silent fail for analytics
+  }
+}
+
+// ============================================
+// STYLE SETTINGS LOADER
+// ============================================
+
+async function loadStyleSettings() {
+  try {
+    if (!sb) return;
+    const { data: styles } = await sb
+      .from('style_settings')
+      .select('*');
+
+    if (!styles) return;
+
+    const root = document.documentElement;
+    styles.forEach(setting => {
+      if (setting.key === 'content_max_width' && setting.value) {
+        root.style.setProperty('--content-max-width', setting.value + 'px');
+      } else if (setting.key === 'accent_color' && setting.value) {
+        root.style.setProperty('--accent', setting.value);
+      } else if (setting.key === 'background_color' && setting.value) {
+        root.style.setProperty('--cream', setting.value);
+      } else if (setting.key === 'text_color' && setting.value) {
+        root.style.setProperty('--ink', setting.value);
+      }
+    });
+  } catch (e) {
+    // Silent fail
   }
 }
 

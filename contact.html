@@ -3,10 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact  |  Justin Ukaegbu</title>
+  <meta name="description" content="Get in touch with Justin Ukaegbu. Open to design leadership, product collaboration, research partnerships, and speaking.">
+  <meta name="author" content="Justin Ukaegbu">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact | Justin Ukaegbu">
+  <meta property="og:description" content="Open to design leadership, product collaboration, research partnerships, and speaking.">
+  <meta property="og:url" content="https://justinukaegbu.com/contact.html">
+  <meta property="og:image" content="https://justinukaegbu.com/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact | Justin Ukaegbu">
+  <meta name="twitter:description" content="Open to design leadership, product collaboration, and speaking.">
+  <meta name="twitter:image" content="https://justinukaegbu.com/assets/og-image.png">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://justinukaegbu.com/contact.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="css/enhancements.css">
+
+  <title>Contact | Justin Ukaegbu</title>
 </head>
 <body>
   <!-- Navigation -->
@@ -32,6 +62,7 @@
   </div>
   <div class="menu-overlay" data-menu-overlay aria-hidden="true"></div>
 
+  <main>
   <!-- Contact Section -->
   <section class="contact-hero">
     <div class="container">
@@ -60,6 +91,8 @@
     </div>
   </section>
 
+  </main>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-grid">
@@ -77,18 +110,21 @@
       </div>
       <div class="footer-section">
         <h4>Connect</h4>
-        <ul data-cms="social-links">
+        <ul>
           <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <p class="footer-copyright" data-cms="copyright">&copy; 2026 Justin Ukaegbu</p>
+        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/data.js"></script>
   <script src="js/cms.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/lightbox.js" defer></script>
 </body>
 </html>

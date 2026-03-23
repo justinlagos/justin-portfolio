@@ -3,12 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Work  |  Justin Ukaegbu | Design. Brand, product, interaction, and educational technology design across the United Kingdom, Nigeria, Dubai, and 50+ countries.">
-  <meta name="keywords" content="Design, Brand Design, Product Design, UX/UI, Interaction Design, Portfolio">
+  <meta name="description" content="Justin Ukaegbu | Work. Brand, product, and interaction design across 50+ countries and 12+ years of practice.">
+  <meta name="keywords" content="Work, Portfolio, Brand Design, Product Design, UX/UI, Interaction Design">
   <meta name="author" content="Justin Ukaegbu">
 
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Work | Justin Ukaegbu">
+  <meta property="og:description" content="Brand, product, and interaction design work across brands and clients.">
+  <meta property="og:url" content="https://justinukaegbu.com/work.html">
+  <meta property="og:image" content="https://justinukaegbu.com/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Work | Justin Ukaegbu">
+  <meta name="twitter:description" content="Brand, product, and interaction design work across brands and clients.">
+  <meta name="twitter:image" content="https://justinukaegbu.com/assets/og-image.png">
+
   <!-- Canonical -->
-  <link rel="canonical" href="https://justinukaegbu.com/work">
+  <link rel="canonical" href="https://justinukaegbu.com/work.html">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -20,14 +33,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Stylesheet -->
+  <!-- Styles -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/enhancements.css">
 
-  <title>Work  |  Justin Ukaegbu | Design</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Work | Justin Ukaegbu</title>
 </head>
 <body>
-
   <!-- Navigation -->
   <nav>
     <div class="nav-container">
@@ -54,131 +66,22 @@
 
   <!-- Main Content -->
   <main>
-    <!-- Page Hero Section -->
-    <section class="hero" aria-label="Work page hero">
-      <div class="hero-container">
-        <div class="hero-left hero-animate">
-          <h1 class="hero-title" data-cms="hero-title">Work</h1>
-          <p class="hero-subtitle" data-cms="hero-subtitle">Design leadership across brand, product, interaction, and educational technology. Work spanning the United Kingdom, Nigeria, Dubai, and 50+ countries.</p>
-        </div>
+    <!-- Hero Section -->
+    <section class="case-hero">
+      <div class="case-hero-content">
+        <span class="eyebrow">DESIGN ACROSS BRANDS</span>
+        <h1 class="case-hero-title">Work</h1>
+        <p class="case-hero-subtitle">
+          Design leadership and creative direction across brand identity, digital product, campaign, and interaction design. Explore the clients and brands I've worked with.
+        </p>
       </div>
     </section>
 
-    <!-- Filter Bar -->
-    <section class="filter-section reveal" aria-label="Project filters">
-      <div class="filter-bar" data-cms="filter-buttons">
-        <button class="filter-btn active" data-filter="All">All</button>
-        <button class="filter-btn" data-filter="Brand">Brand</button>
-        <button class="filter-btn" data-filter="Product">Product</button>
-        <button class="filter-btn" data-filter="Campaign">Campaign</button>
-      </div>
-    </section>
-
-    <!-- Work Grid -->
-    <section class="work-section reveal" aria-label="All projects">
+    <!-- Brands Grid Section -->
+    <section class="work-section reveal" aria-label="Brands and clients">
       <div class="work-container">
-        <div class="work-grid" data-cms="work-grid">
-
-          <!-- 1. Take Back The Mic -->
-          <a href="cases/tbtm.html" class="work-card" data-work-card data-project="campaign">
-            <img src="assets/projects/tbtm/social-1.png" alt="Take Back The Mic" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Take Back The Mic</h3>
-              <p class="work-card-category">Campaign</p>
-              <p class="work-card-year">2021-2024</p>
-            </div>
-          </a>
-
-          <!-- 2. Route to Zero -->
-          <a href="cases/route-to-zero.html" class="work-card" data-work-card data-project="brand">
-            <img src="assets/projects/route-to-zero/web-1.png" alt="Route to Zero" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Route to Zero</h3>
-              <p class="work-card-category">Brand</p>
-              <p class="work-card-year">2024-Present</p>
-            </div>
-          </a>
-
-          <!-- 3. Kavlr -->
-          <a href="cases/kavlr.html" class="work-card" data-work-card data-project="product">
-            <img src="assets/projects/kavlr/landing-page.png" alt="Kavlr" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Kavlr</h3>
-              <p class="work-card-category">Product</p>
-              <p class="work-card-year">2022-2024</p>
-            </div>
-          </a>
-
-          <!-- 4. Syntech Biofuel -->
-          <a href="cases/syntech.html" class="work-card" data-work-card data-project="brand">
-            <div class="work-card-image" style="background-color: #333333;"></div>
-            <div class="work-card-content">
-              <h3 class="work-card-title">Syntech Biofuel</h3>
-              <p class="work-card-category">Brand</p>
-              <p class="work-card-year">2024</p>
-            </div>
-          </a>
-
-          <!-- 5. Tryba -->
-          <a href="cases/tryba.html" class="work-card" data-work-card data-project="product">
-            <img src="assets/projects/tryba/card-black.png" alt="Tryba" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Tryba</h3>
-              <p class="work-card-category">Product</p>
-              <p class="work-card-year">2022-2023</p>
-            </div>
-          </a>
-
-          <!-- 6. HashIT -->
-          <a href="cases/hashit.html" class="work-card" data-work-card data-project="product">
-            <img src="assets/projects/hashit/app.png" alt="HashIT" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">HashIT</h3>
-              <p class="work-card-category">Product</p>
-              <p class="work-card-year">2023-2024</p>
-            </div>
-          </a>
-
-          <!-- 7. EasyJet -->
-          <a href="cases/easyjet.html" class="work-card" data-work-card data-project="campaign">
-            <div class="work-card-image" style="background-color: #FF6600;"></div>
-            <div class="work-card-content">
-              <h3 class="work-card-title">EasyJet</h3>
-              <p class="work-card-category">Campaign</p>
-              <p class="work-card-year">2024</p>
-            </div>
-          </a>
-
-          <!-- 8. Sparkle -->
-          <a href="cases/sparkle.html" class="work-card" data-work-card data-project="brand">
-            <div class="work-card-image" style="background-color: #4CAF50;"></div>
-            <div class="work-card-content">
-              <h3 class="work-card-title">Sparkle</h3>
-              <p class="work-card-category">Brand</p>
-              <p class="work-card-year">2021-2022</p>
-            </div>
-          </a>
-
-          <!-- 9. Polo Luxury -->
-          <a href="cases/polo-luxury.html" class="work-card" data-work-card data-project="brand">
-            <div class="work-card-image" style="background-color: #1a1a1a;"></div>
-            <div class="work-card-content">
-              <h3 class="work-card-title">Polo Luxury</h3>
-              <p class="work-card-category">Brand</p>
-              <p class="work-card-year">2019-2021</p>
-            </div>
-          </a>
-
-          <!-- 10. Vulta -->
-          <a href="cases/vulta.html" class="work-card" data-work-card data-project="product">
-            <div class="work-card-image" style="background-color: #1a0a2e;"></div>
-            <div class="work-card-content">
-              <h3 class="work-card-title">Vulta</h3>
-              <p class="work-card-category">Product</p>
-              <p class="work-card-year">2025</p>
-            </div>
-          </a>
-
+        <div class="brands-grid" id="brands-grid">
+          <!-- Brand cards will be rendered here by JavaScript -->
         </div>
       </div>
     </section>
@@ -215,19 +118,73 @@
       </div>
       <div class="footer-section">
         <h4>Connect</h4>
-        <ul data-cms="social-links">
+        <ul>
           <li><a href="https://linkedin.com/in/justin-ukaegbu" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="mailto:mrjustinukaegbu@gmail.com">Email</a></li>
         </ul>
       </div>
       <div class="footer-section">
-        <p class="footer-copyright" data-cms="copyright">&copy; 2026 Justin Ukaegbu</p>
+        <p class="footer-copyright">&copy; 2026 Justin Ukaegbu</p>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/data.js"></script>
   <script src="js/cms.js"></script>
   <script src="js/main.js" defer></script>
+
+  <!-- Brands Grid Rendering (fallback from data.js, overridden by cms.js if Supabase loads) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const brandsGrid = document.getElementById('brands-grid');
+      const brands = getBrands();
+
+      brands.forEach(brand => {
+        const card = document.createElement('a');
+        card.href = `brand.html?brand=${brand.slug}`;
+        card.className = 'brand-card';
+
+        // Create image container
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'brand-card-image-container';
+
+        if (brand.featuredImage) {
+          const img = document.createElement('img');
+          img.src = brand.featuredImage;
+          img.alt = brand.name;
+          img.className = 'brand-card-image';
+          imageContainer.appendChild(img);
+        } else if (brand.heroColor) {
+          // Fallback to colored placeholder
+          imageContainer.style.backgroundColor = brand.heroColor;
+        } else {
+          // Default placeholder
+          imageContainer.style.backgroundColor = '#f5f1ed';
+        }
+
+        // Create content container
+        const content = document.createElement('div');
+        content.className = 'brand-card-content';
+
+        const title = document.createElement('h3');
+        title.className = 'brand-card-title';
+        title.textContent = brand.name;
+
+        const description = document.createElement('p');
+        description.className = 'brand-card-description';
+        description.textContent = brand.description;
+
+        content.appendChild(title);
+        content.appendChild(description);
+
+        card.appendChild(imageContainer);
+        card.appendChild(content);
+        brandsGrid.appendChild(card);
+      });
+    });
+  </script>
+  <script src="js/lightbox.js" defer></script>
 </body>
 </html>

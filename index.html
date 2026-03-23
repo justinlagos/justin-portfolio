@@ -36,9 +36,9 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/enhancements.css">
 
   <title>Justin Ukaegbu | Design</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -107,14 +107,14 @@
 
     <!-- Clients Bar -->
     <section class="clients-bar" aria-label="Trusted clients">
-      <div class="clients-container" data-cms="clients-container">
-        <span class="client">TBTM</span>
+      <div class="clients-container">
+        <a href="brand.html?brand=take-back-the-mic" class="client">TBTM</a>
         <span class="client">Mastercard</span>
-        <span class="client">Route to Zero</span>
-        <span class="client">HashIT</span>
-        <span class="client">Kavlr</span>
-        <span class="client">Syntech</span>
-        <span class="client">Tryba</span>
+        <a href="brand.html?brand=route-to-zero" class="client">Route to Zero</a>
+        <a href="brand.html?brand=hashit" class="client">HashIT</a>
+        <a href="brand.html?brand=kavlr" class="client">Kavlr</a>
+        <a href="brand.html?brand=syntech-biofuel" class="client">Syntech</a>
+        <a href="brand.html?brand=tryba" class="client">Tryba</a>
         <span class="client">Access Bank</span>
       </div>
     </section>
@@ -124,70 +124,29 @@
       <div class="work-container">
         <h2 class="section-title">Selected Work</h2>
 
-        <div class="work-grid" data-cms="work-grid">
-          <!-- Take Back The Mic -->
-          <a href="cases/tbtm.html" class="work-card" data-work-card>
-            <img src="assets/projects/tbtm/social-1.png" alt="Take Back The Mic" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Take Back The Mic</h3>
-              <p class="work-card-category">Brand, Digital, Interactive</p>
-              <p class="work-card-year">2021-2024</p>
-            </div>
-          </a>
-
-          <!-- Route to Zero -->
-          <a href="cases/route-to-zero.html" class="work-card" data-work-card>
-            <img src="assets/projects/route-to-zero/web-1.png" alt="Route to Zero" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Route to Zero</h3>
-              <p class="work-card-category">Brand, Web, Communications</p>
-              <p class="work-card-year">2024-Present</p>
-            </div>
-          </a>
-
-          <!-- Kavlr -->
-          <a href="cases/kavlr.html" class="work-card" data-work-card>
-            <img src="assets/projects/kavlr/landing-page.png" alt="Kavlr" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Kavlr</h3>
-              <p class="work-card-category">Product, UX/UI</p>
-              <p class="work-card-year">2022-2024</p>
-            </div>
-          </a>
-
-          <!-- Syntech Biofuel -->
-          <a href="cases/syntech.html" class="work-card" data-work-card>
-            <img src="assets/projects/syntech/social-1.jpg" alt="Syntech Biofuel" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Syntech Biofuel</h3>
-              <p class="work-card-category">Brand, Campaign, 3D</p>
-              <p class="work-card-year">2024</p>
-            </div>
-          </a>
-
-          <!-- Tryba -->
-          <a href="cases/tryba.html" class="work-card" data-work-card>
-            <img src="assets/projects/tryba/card-black.png" alt="Tryba" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">Tryba</h3>
-              <p class="work-card-category">Product, Brand, Campaign</p>
-              <p class="work-card-year">2022-2023</p>
-            </div>
-          </a>
-
-          <!-- HashIT -->
-          <a href="cases/hashit.html" class="work-card" data-work-card>
-            <img src="assets/projects/hashit/app.png" alt="HashIT" class="work-card-image">
-            <div class="work-card-content">
-              <h3 class="work-card-title">HashIT</h3>
-              <p class="work-card-category">Product, Fintech</p>
-              <p class="work-card-year">2023-2024</p>
-            </div>
-          </a>
+        <div class="work-grid" id="home-work-grid">
+          <!-- Dynamically populated from data.js -->
         </div>
 
         <div class="work-footer">
           <a href="work.html" class="view-all-link">View All Work</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Preview -->
+    <section class="about-preview reveal" aria-label="About preview">
+      <div class="container">
+        <div class="about-preview-grid">
+          <div class="about-preview-content">
+            <span class="eyebrow">ABOUT</span>
+            <h2 class="section-title">Twelve years across brand, product, and interaction design</h2>
+            <p class="about-preview-text">Practice shaped across Nigeria, the UK, Dubai, and work in fifty countries. Building design systems and digital products that work at scale. Now focused on products that combine design, technology, and learning.</p>
+            <a href="about.html" class="view-all-link">Read More</a>
+          </div>
+          <div class="about-preview-image">
+            <img src="assets/about/justin-bw.png" alt="Justin Ukaegbu" loading="lazy">
+          </div>
         </div>
       </div>
     </section>
@@ -257,7 +216,46 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/data.js"></script>
   <script src="js/cms.js"></script>
   <script src="js/main.js" defer></script>
+  <script src="js/lightbox.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const grid = document.getElementById('home-work-grid');
+      if (!grid) return;
+
+      // Show first 5 brands as featured work (PRD: 3-5)
+      const brands = getBrands().slice(0, 5);
+      brands.forEach(function(brand) {
+        const projects = getProjectsForBrand(brand.id);
+        const firstProject = projects[0];
+        const services = firstProject ? firstProject.services.slice(0, 3).join(', ') : '';
+        const year = firstProject ? firstProject.year : '';
+
+        const card = document.createElement('a');
+        card.href = 'brand.html?brand=' + brand.slug;
+        card.className = 'work-card';
+        card.setAttribute('data-work-card', '');
+
+        let imgHtml = '';
+        if (brand.featuredImage) {
+          imgHtml = '<img src="' + brand.featuredImage + '" alt="' + brand.name + '" class="work-card-image" loading="lazy">';
+        } else if (brand.heroColor) {
+          imgHtml = '<div class="work-card-image" style="background-color: ' + brand.heroColor + ';"></div>';
+        }
+
+        card.innerHTML = imgHtml +
+          '<div class="work-card-content">' +
+            '<h3 class="work-card-title">' + brand.name + '</h3>' +
+            '<p class="work-card-category">' + services + '</p>' +
+            '<p class="work-card-year">' + year + '</p>' +
+          '</div>';
+
+        grid.appendChild(card);
+      });
+    });
+  </script>
 </body>
 </html>
