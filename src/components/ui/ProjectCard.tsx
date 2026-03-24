@@ -64,9 +64,9 @@ export function ProjectCard({ project, brandSlug }: ProjectCardProps) {
           </span>
         </div>
 
-        {project.services && project.services.length > 0 && (
+        {project.services && (project.services as any).length > 0 && (
           <p className="text-xs text-ink-muted line-clamp-1">
-            {project.services.join(', ')}
+            {Array.isArray(project.services) ? project.services.join(', ') : String(project.services)}
           </p>
         )}
       </div>

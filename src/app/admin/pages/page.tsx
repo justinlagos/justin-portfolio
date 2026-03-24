@@ -73,7 +73,13 @@ export default function PagesPage() {
   }
 
   const handleEdit = (page: Page) => {
-    setFormData(page)
+    setFormData({
+      title: page.title || '',
+      slug: page.slug || '',
+      content: page.content || {},
+      seo_title: page.seo_title || '',
+      seo_description: page.seo_description || '',
+    })
     setEditingId(page.id)
 
     const fields = Object.entries(page.content || {}).map(([key, value]) => ({
@@ -103,9 +109,13 @@ export default function PagesPage() {
         }
       })
 
-      const pagePayload = {
-        ...formData,
+      // Explicitly build payload — pages table has no created_at column
+      const pagePayload: Record<string, any> = {
+        title: formData.title,
+        slug: formData.slug,
         content,
+        seo_title: formData.seo_title || null,
+        seo_description: formData.seo_description || null,
         updated_at: new Date().toISOString(),
       }
 
@@ -118,12 +128,7 @@ export default function PagesPage() {
         if (updateError) throw updateError
         setSuccess('Page updated successfully')
       } else {
-        const { error: insertError } = await supabase.from('pages').insert([
-          {
-            ...pagePayload,
-            created_at: new Date().toISOString(),
-          },
-        ])
+        const { error: insertError } = await supabase.from('pages').insert([pagePayload])
 
         if (insertError) throw insertError
         setSuccess('Page created successfully')
@@ -131,9 +136,10 @@ export default function PagesPage() {
 
       resetForm()
       fetchPages()
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to save page:', err)
-      setError('Failed to save page')
+      const msg = err?.message || err?.details || 'Unknown error'
+      setError(`Failed to save page: ${msg}`)
     }
   }
 

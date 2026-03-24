@@ -23,6 +23,7 @@ import {
   ExternalLink,
   Menu,
   X,
+  Stethoscope,
 } from 'lucide-react'
 
 interface NavItemConfig {
@@ -47,6 +48,7 @@ const navItems: NavItemConfig[] = [
   { href: '/admin/style-controls', icon: <Sliders size={18} />, label: 'Style Controls' },
   { href: '/admin/site-settings', icon: <Settings size={18} />, label: 'Site Settings' },
   { href: '/admin/analytics', icon: <BarChart3 size={18} />, label: 'Analytics' },
+  { href: '/admin/diagnostics', icon: <Stethoscope size={18} />, label: 'Diagnostics' },
 ]
 
 export default function AdminLayout({

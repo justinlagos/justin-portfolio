@@ -103,24 +103,36 @@ export default function ProjectsPage() {
         return
       }
 
-      const services = Array.isArray(formData.services)
+      // Serialize services: store as comma-separated string for text column
+      const servicesRaw = Array.isArray(formData.services)
         ? formData.services
         : typeof formData.services === 'string'
         ? (formData.services as string).split(',').map((s: string) => s.trim())
         : []
+      const servicesStr = servicesRaw.filter(Boolean).join(', ')
 
-      const submitData = {
-        ...formData,
-        services,
+      // Explicitly build payload — never spread full formData to avoid sending joined/extra fields
+      const payload: Record<string, any> = {
+        title: formData.title,
+        slug: formData.slug,
+        brand_id: formData.brand_id,
+        type: formData.type,
+        summary: formData.summary,
+        year: formData.year,
+        services: servicesStr,
+        featured_image: formData.featured_image || null,
+        is_featured: formData.is_featured || false,
+        is_visible: formData.is_visible ?? true,
+        sort_order: formData.sort_order || 0,
+        seo_title: formData.seo_title || null,
+        seo_description: formData.seo_description || null,
+        updated_at: new Date().toISOString(),
       }
 
       if (editingId) {
         const { error: updateError } = await supabase
           .from('projects')
-          .update({
-            ...submitData,
-            updated_at: new Date().toISOString(),
-          })
+          .update(payload)
           .eq('id', editingId)
 
         if (updateError) throw updateError
@@ -128,10 +140,8 @@ export default function ProjectsPage() {
       } else {
         const { error: insertError } = await supabase.from('projects').insert([
           {
-            ...submitData,
-            slug: submitData.slug,
+            ...payload,
             created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
           },
         ])
 
@@ -141,18 +151,34 @@ export default function ProjectsPage() {
 
       resetForm()
       loadData()
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to save project:', err)
-      setError('Failed to save project')
+      const msg = err?.message || err?.details || 'Unknown error'
+      setError(`Failed to save project: ${msg}`)
     }
   }
 
   const handleEdit = (project: any) => {
+    // Only copy fields that exist in our form — exclude id, timestamps, and joined relations
+    const services = typeof project.services === 'string'
+      ? project.services.split(',').map((s: string) => s.trim()).filter(Boolean)
+      : Array.isArray(project.services)
+      ? project.services
+      : []
     setFormData({
-      ...project,
-      services: typeof project.services === 'string'
-        ? project.services.split(',')
-        : project.services,
+      title: project.title || '',
+      slug: project.slug || '',
+      brand_id: project.brand_id || '',
+      type: project.type || project.project_type || 'gallery',
+      summary: project.summary || project.short_description || '',
+      year: project.year || '',
+      services,
+      featured_image: project.featured_image || project.card_image || '',
+      is_featured: project.is_featured || false,
+      is_visible: project.is_visible ?? true,
+      sort_order: project.sort_order || 0,
+      seo_title: project.seo_title || '',
+      seo_description: project.seo_description || '',
     })
     setEditingId(project.id)
     setShowForm(true)

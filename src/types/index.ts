@@ -26,7 +26,7 @@ export interface Project {
   type: 'case-study' | 'gallery'
   summary: string
   year: string
-  services: string[]
+  services: string[] | string
   featured_image: string | null
   is_featured: boolean
   is_visible: boolean

@@ -22,6 +22,7 @@ export default function SocialLinksPage() {
   const [formData, setFormData] = useState({
     platform: '',
     url: '',
+    label: '',
     sort_order: 0,
     is_visible: true,
   })
@@ -87,7 +88,13 @@ export default function SocialLinksPage() {
   }
 
   const handleEdit = (item: SocialLink) => {
-    setFormData(item)
+    setFormData({
+      platform: item.platform || '',
+      url: item.url || '',
+      label: (item as any).label || '',
+      sort_order: item.sort_order || 0,
+      is_visible: item.is_visible ?? true,
+    })
     setEditingId(item.id)
     setShowForm(true)
   }
@@ -105,7 +112,7 @@ export default function SocialLinksPage() {
   }
 
   const resetForm = () => {
-    setFormData({ platform: '', url: '', sort_order: 0, is_visible: true })
+    setFormData({ platform: '', url: '', label: '', sort_order: 0, is_visible: true })
     setEditingId(null)
     setShowForm(false)
   }
@@ -166,17 +173,29 @@ export default function SocialLinksPage() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-white">URL</label>
+                <label className="mb-2 block text-sm font-medium text-white">Label</label>
                 <input
                   type="text"
-                  name="url"
-                  value={formData.url}
+                  name="label"
+                  value={formData.label}
                   onChange={handleInputChange}
                   className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-                  placeholder="https://..."
-                  required
+                  placeholder="Display label (e.g., @justindesigns)"
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-white">URL</label>
+              <input
+                type="text"
+                name="url"
+                value={formData.url}
+                onChange={handleInputChange}
+                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                placeholder="https://..."
+                required
+              />
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">

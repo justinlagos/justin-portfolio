@@ -25,7 +25,9 @@ export default function ProductsPage() {
     title: '',
     description: '',
     url: '',
+    icon: '',
     sort_order: 0,
+    is_visible: true,
   })
 
   useEffect(() => {
@@ -54,10 +56,15 @@ export default function ProductsPage() {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target as HTMLInputElement
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'sort_order' ? parseInt(value) : value,
+      [name]:
+        type === 'checkbox'
+          ? (e.target as HTMLInputElement).checked
+          : name === 'sort_order'
+          ? parseInt(value) || 0
+          : value,
     }))
   }
 
@@ -89,18 +96,21 @@ export default function ProductsPage() {
 
       resetForm()
       loadItems()
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to save product:', err)
-      setError('Failed to save product')
+      const msg = err?.message || err?.details || 'Unknown error'
+      setError(`Failed to save product: ${msg}`)
     }
   }
 
   const handleEdit = (item: Product) => {
     setFormData({
-      title: item.title,
-      description: item.description,
+      title: item.title || '',
+      description: item.description || '',
       url: item.url || '',
-      sort_order: item.sort_order,
+      icon: item.icon || '',
+      sort_order: item.sort_order || 0,
+      is_visible: item.is_visible ?? true,
     })
     setEditingId(item.id)
     setShowForm(true)
@@ -127,7 +137,9 @@ export default function ProductsPage() {
       title: '',
       description: '',
       url: '',
+      icon: '',
       sort_order: 0,
+      is_visible: true,
     })
     setEditingId(null)
     setShowForm(false)
@@ -199,27 +211,56 @@ export default function ProductsPage() {
               />
             </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white">URL</label>
-              <input
-                type="text"
-                name="url"
-                value={formData.url}
-                onChange={handleInputChange}
-                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-                placeholder="https://..."
-              />
+            <div className="grid gap-6 md:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">URL</label>
+                <input
+                  type="text"
+                  name="url"
+                  value={formData.url}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="https://..."
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">Icon</label>
+                <input
+                  type="text"
+                  name="icon"
+                  value={formData.icon}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="Icon name or emoji"
+                />
+              </div>
             </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white">Sort Order</label>
-              <input
-                type="number"
-                name="sort_order"
-                value={formData.sort_order}
-                onChange={handleInputChange}
-                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-              />
+            <div className="grid gap-6 md:grid-cols-3">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">Sort Order</label>
+                <input
+                  type="number"
+                  name="sort_order"
+                  value={formData.sort_order}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="flex items-center gap-3 mt-8">
+                  <input
+                    type="checkbox"
+                    name="is_visible"
+                    checked={formData.is_visible}
+                    onChange={handleInputChange}
+                    className="h-4 w-4 rounded border-[#404040] bg-[#1a1a1a] accent-[#C8622A]"
+                  />
+                  <span className="text-sm font-medium text-white">Visible</span>
+                </label>
+              </div>
             </div>
 
             <div className="flex gap-4">

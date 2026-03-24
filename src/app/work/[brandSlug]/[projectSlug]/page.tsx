@@ -80,12 +80,16 @@ export default async function ProjectPage({ params }: Props) {
                 <p className="text-ink">{project.year}</p>
               </div>
             )}
-            {project.services && project.services.length > 0 && (
+            {project.services && (project.services as any).length > 0 && (
               <div>
                 <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-ink-muted mb-1">
                   Services
                 </p>
-                <p className="text-ink">{project.services.join(', ')}</p>
+                <p className="text-ink">
+                  {Array.isArray(project.services)
+                    ? project.services.join(', ')
+                    : String(project.services)}
+                </p>
               </div>
             )}
             <div>

@@ -88,13 +88,27 @@ export default function BrandsPage() {
         return
       }
 
+      // Explicitly build payload — never spread full formData to avoid extra fields
+      const payload: Record<string, any> = {
+        name: formData.name,
+        slug: formData.slug,
+        description: formData.description,
+        long_description: formData.long_description || null,
+        hero_color: formData.hero_color || null,
+        featured_image: formData.featured_image || null,
+        logo_url: formData.logo_url || null,
+        is_featured: formData.is_featured || false,
+        is_visible: formData.is_visible ?? true,
+        sort_order: formData.sort_order || 0,
+        seo_title: formData.seo_title || null,
+        seo_description: formData.seo_description || null,
+        updated_at: new Date().toISOString(),
+      }
+
       if (editingId) {
         const { error: updateError } = await supabase
           .from('brands')
-          .update({
-            ...formData,
-            updated_at: new Date().toISOString(),
-          })
+          .update(payload)
           .eq('id', editingId)
 
         if (updateError) throw updateError
@@ -102,10 +116,8 @@ export default function BrandsPage() {
       } else {
         const { error: insertError } = await supabase.from('brands').insert([
           {
-            ...formData,
-            slug: formData.slug,
+            ...payload,
             created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
           },
         ])
 
@@ -115,14 +127,28 @@ export default function BrandsPage() {
 
       resetForm()
       fetchBrands()
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to save brand:', err)
-      setError('Failed to save brand')
+      const msg = err?.message || err?.details || 'Unknown error'
+      setError(`Failed to save brand: ${msg}`)
     }
   }
 
   const handleEdit = (brand: Brand) => {
-    setFormData(brand)
+    setFormData({
+      name: brand.name || '',
+      slug: brand.slug || '',
+      description: brand.description || '',
+      long_description: brand.long_description || '',
+      hero_color: brand.hero_color || '',
+      featured_image: brand.featured_image || '',
+      logo_url: brand.logo_url || '',
+      is_featured: brand.is_featured || false,
+      is_visible: brand.is_visible ?? true,
+      sort_order: brand.sort_order || 0,
+      seo_title: brand.seo_title || '',
+      seo_description: brand.seo_description || '',
+    })
     setEditingId(brand.id)
     setShowForm(true)
   }

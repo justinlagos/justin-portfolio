@@ -72,7 +72,10 @@ export default function CountriesPage() {
   }
 
   const handleEdit = (item: Country) => {
-    setFormData(item)
+    setFormData({
+      name: item.name || '',
+      sort_order: item.sort_order || 0,
+    })
     setEditingId(item.id)
     setShowForm(true)
   }

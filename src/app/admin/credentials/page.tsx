@@ -6,9 +6,11 @@ import { Plus, Edit2, Trash2, X } from 'lucide-react'
 
 interface Credential {
   id: string
+  number: string
   title: string
   description: string
   sort_order: number
+  is_visible: boolean
 }
 
 export default function CredentialsPage() {
@@ -19,9 +21,11 @@ export default function CredentialsPage() {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState({
+    number: '',
     title: '',
     description: '',
     sort_order: 0,
+    is_visible: true,
   })
 
   useEffect(() => {
@@ -50,10 +54,15 @@ export default function CredentialsPage() {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target as HTMLInputElement
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'sort_order' ? parseInt(value) : value,
+      [name]:
+        type === 'checkbox'
+          ? (e.target as HTMLInputElement).checked
+          : name === 'sort_order'
+          ? parseInt(value) || 0
+          : value,
     }))
   }
 
@@ -85,14 +94,21 @@ export default function CredentialsPage() {
 
       resetForm()
       loadItems()
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to save credential:', err)
-      setError('Failed to save credential')
+      const msg = err?.message || err?.details || 'Unknown error'
+      setError(`Failed to save credential: ${msg}`)
     }
   }
 
   const handleEdit = (item: Credential) => {
-    setFormData(item)
+    setFormData({
+      number: item.number || '',
+      title: item.title || '',
+      description: item.description || '',
+      sort_order: item.sort_order || 0,
+      is_visible: item.is_visible ?? true,
+    })
     setEditingId(item.id)
     setShowForm(true)
   }
@@ -115,9 +131,11 @@ export default function CredentialsPage() {
 
   const resetForm = () => {
     setFormData({
+      number: '',
       title: '',
       description: '',
       sort_order: 0,
+      is_visible: true,
     })
     setEditingId(null)
     setShowForm(false)
@@ -164,17 +182,31 @@ export default function CredentialsPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-                placeholder="Credential title"
-                required
-              />
+            <div className="grid gap-6 md:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">Number/Value</label>
+                <input
+                  type="text"
+                  name="number"
+                  value={formData.number}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="e.g., 10+"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="Credential title"
+                  required
+                />
+              </div>
             </div>
 
             <div>
@@ -189,15 +221,30 @@ export default function CredentialsPage() {
               />
             </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white">Sort Order</label>
-              <input
-                type="number"
-                name="sort_order"
-                value={formData.sort_order}
-                onChange={handleInputChange}
-                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-              />
+            <div className="grid gap-6 md:grid-cols-3">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">Sort Order</label>
+                <input
+                  type="number"
+                  name="sort_order"
+                  value={formData.sort_order}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="flex items-center gap-3 mt-8">
+                  <input
+                    type="checkbox"
+                    name="is_visible"
+                    checked={formData.is_visible}
+                    onChange={handleInputChange}
+                    className="h-4 w-4 rounded border-[#404040] bg-[#1a1a1a] accent-[#C8622A]"
+                  />
+                  <span className="text-sm font-medium text-white">Visible</span>
+                </label>
+              </div>
             </div>
 
             <div className="flex gap-4">
