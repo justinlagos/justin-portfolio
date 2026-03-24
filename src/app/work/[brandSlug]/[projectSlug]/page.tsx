@@ -11,6 +11,8 @@ import { getBrandBySlug, getProjectBySlug } from '@/lib/data'
 import { getStorageUrl } from '@/lib/utils'
 import type { Metadata } from 'next'
 
+export const revalidate = 60
+
 interface Props {
   params: Promise<{ brandSlug: string; projectSlug: string }>
 }

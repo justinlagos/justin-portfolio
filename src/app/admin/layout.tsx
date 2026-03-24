@@ -58,6 +58,8 @@ export default function AdminLayout({
   const [loading, setLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [pageTitle, setPageTitle] = useState('Dashboard')
+  const [publishing, setPublishing] = useState(false)
+  const [publishMessage, setPublishMessage] = useState('')
   const router = useRouter()
   const pathname = usePathname()
 
@@ -95,6 +97,30 @@ export default function AdminLayout({
     // Close sidebar on route change (mobile)
     setSidebarOpen(false)
   }, [pathname])
+
+  const handlePublish = async () => {
+    try {
+      setPublishing(true)
+      setPublishMessage('')
+      const { data: { session } } = await supabase.auth.getSession()
+      const res = await fetch('/api/revalidate', {
+        method: 'POST',
+        headers: session?.access_token
+          ? { Authorization: `Bearer ${session.access_token}` }
+          : {},
+      })
+      if (res.ok) {
+        setPublishMessage('Published! Changes are now live.')
+      } else {
+        setPublishMessage('Publish failed. Try again.')
+      }
+    } catch {
+      setPublishMessage('Publish failed. Try again.')
+    } finally {
+      setPublishing(false)
+      setTimeout(() => setPublishMessage(''), 4000)
+    }
+  }
 
   const handleLogout = async () => {
     try {
@@ -184,6 +210,18 @@ export default function AdminLayout({
             <h2 className="text-lg font-semibold text-white truncate">{pageTitle}</h2>
           </div>
           <div className="flex items-center gap-2 md:gap-4">
+            {publishMessage && (
+              <span className={`text-xs font-medium ${publishMessage.includes('live') ? 'text-green-400' : 'text-red-400'}`}>
+                {publishMessage}
+              </span>
+            )}
+            <button
+              onClick={handlePublish}
+              disabled={publishing}
+              className="flex items-center gap-2 rounded-lg bg-green-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50"
+            >
+              {publishing ? 'Publishing...' : 'Publish'}
+            </button>
             <a
               href="/"
               target="_blank"

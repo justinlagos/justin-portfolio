@@ -6,6 +6,8 @@ import { ProjectCard } from '@/components/ui/ProjectCard'
 import { getBrandBySlug, getProjectsForBrand } from '@/lib/data'
 import type { Metadata } from 'next'
 
+export const revalidate = 60
+
 interface Props {
   params: Promise<{ brandSlug: string }>
 }
