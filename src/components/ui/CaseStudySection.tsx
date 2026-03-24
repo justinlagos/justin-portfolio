@@ -1,3 +1,4 @@
+import Container from "@/components/layout/Container";
 import Eyebrow from "./Eyebrow";
 import { cn } from "@/lib/utils";
 
@@ -12,23 +13,25 @@ export default function CaseStudySection({
   content,
   className,
 }: CaseStudySectionProps) {
-  const paragraphs = content.split("\n\n");
+  if (!content) return null;
+
+  const paragraphs = content.split("\n\n").filter(Boolean);
 
   return (
-    <section className={cn("mb-12", className)}>
-      <Eyebrow className="block mb-4">
-        {title}
-      </Eyebrow>
-      <div className="prose prose-sm max-w-none">
-        {paragraphs.map((paragraph, index) => (
-          <p
-            key={index}
-            className="text-base leading-relaxed text-ink mb-4 last:mb-0"
-          >
-            {paragraph}
-          </p>
-        ))}
-      </div>
+    <section className={cn("py-12 md:py-16", className)}>
+      <Container narrow>
+        <Eyebrow className="block mb-4">{title}</Eyebrow>
+        <div className="space-y-4">
+          {paragraphs.map((paragraph, index) => (
+            <p
+              key={index}
+              className="text-base leading-relaxed text-ink-soft"
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </Container>
     </section>
   );
 }

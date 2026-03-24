@@ -5,6 +5,8 @@ import { BrandCard } from '@/components/ui/BrandCard'
 import { getBrands } from '@/lib/data'
 import type { Brand } from '@/types'
 
+export const revalidate = 60
+
 export const metadata = {
   title: 'Work - Justin Ukaegbu',
   description:
@@ -12,13 +14,7 @@ export const metadata = {
 }
 
 export default async function WorkPage() {
-  let brands: Brand[] = []
-
-  try {
-    brands = await getBrands()
-  } catch {
-    // Will render empty state
-  }
+  const brands = await getBrands()
 
   return (
     <>

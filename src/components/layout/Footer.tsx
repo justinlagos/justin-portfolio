@@ -1,6 +1,35 @@
-import Link from 'next/link'
+'use client'
 
-export default function Footer() {
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+interface FooterLink {
+  label: string
+  href: string
+}
+
+interface SocialLinkData {
+  platform: string
+  url: string
+}
+
+interface FooterProps {
+  navLinks?: FooterLink[]
+  socialLinks?: SocialLinkData[]
+}
+
+const FALLBACK_NAV: FooterLink[] = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+]
+
+export default function Footer({ navLinks, socialLinks }: FooterProps) {
+  const pathname = usePathname()
+  const isAdmin = pathname?.startsWith('/admin')
+  if (isAdmin) return null
+
+  const links = navLinks && navLinks.length > 0 ? navLinks : FALLBACK_NAV
   const year = new Date().getFullYear()
 
   return (
@@ -23,11 +52,7 @@ export default function Footer() {
               Navigation
             </p>
             <div className="flex flex-col gap-2.5">
-              {[
-                { label: 'Work', href: '/work' },
-                { label: 'About', href: '/about' },
-                { label: 'Contact', href: '/contact' },
-              ].map((link) => (
+              {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -51,14 +76,28 @@ export default function Footer() {
               >
                 mrjustinukaegbu@gmail.com
               </a>
-              <a
-                href="https://linkedin.com/in/justin-ukaegbu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-ink-soft hover:text-accent transition-colors"
-              >
-                LinkedIn
-              </a>
+              {socialLinks && socialLinks.length > 0 ? (
+                socialLinks.map((link, idx) => (
+                  <a
+                    key={idx}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-ink-soft hover:text-accent transition-colors"
+                  >
+                    {link.platform}
+                  </a>
+                ))
+              ) : (
+                <a
+                  href="https://linkedin.com/in/justin-ukaegbu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-ink-soft hover:text-accent transition-colors"
+                >
+                  LinkedIn
+                </a>
+              )}
             </div>
           </div>
         </div>

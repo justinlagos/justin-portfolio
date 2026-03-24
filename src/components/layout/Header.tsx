@@ -2,23 +2,47 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 
-const NAV_LINKS = [
+interface NavLink {
+  label: string
+  href: string
+}
+
+// Hardcoded fallback in case CMS data fails to load
+const FALLBACK_LINKS: NavLink[] = [
   { label: 'Work', href: '/work' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]
 
-export default function Header() {
+interface HeaderProps {
+  navLinks?: NavLink[]
+}
+
+export default function Header({ navLinks }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+
+  const links = navLinks && navLinks.length > 0 ? navLinks : FALLBACK_LINKS
+
+  // Don't render header on admin routes
+  const isAdmin = pathname?.startsWith('/admin')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
+
+  if (isAdmin) return null
 
   return (
     <header
@@ -38,11 +62,15 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-10">
-          {NAV_LINKS.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-[13px] font-medium tracking-[0.08em] uppercase text-ink-muted hover:text-ink transition-colors"
+              className={`text-[13px] font-medium tracking-[0.08em] uppercase transition-colors ${
+                pathname === link.href || pathname?.startsWith(link.href + '/')
+                  ? 'text-ink'
+                  : 'text-ink-muted hover:text-ink'
+              }`}
             >
               {link.label}
             </Link>
@@ -62,12 +90,16 @@ export default function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <nav className="md:hidden bg-cream border-t border-rule px-6 pb-8 pt-4 fade-in">
-          {NAV_LINKS.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="block py-3 text-[15px] font-medium tracking-wide text-ink-soft hover:text-accent transition-colors"
+              className={`block py-3 text-[15px] font-medium tracking-wide transition-colors ${
+                pathname === link.href
+                  ? 'text-accent'
+                  : 'text-ink-soft hover:text-accent'
+              }`}
             >
               {link.label}
             </Link>

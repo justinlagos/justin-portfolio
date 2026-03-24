@@ -3,120 +3,149 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 
-interface Stats {
-  brands: number
-  projects: number
-  media: number
+interface DashboardStats {
+  totalProjects: number
+  totalBrands: number
+  publishedProjects: number
+  totalViews: number
 }
 
-export default function AdminDashboard() {
-  const [stats, setStats] = useState<Stats>({
-    brands: 0,
-    projects: 0,
-    media: 0,
+interface RecentProject {
+  id: string
+  title: string
+  brand_name: string
+  is_visible: boolean
+  created_at: string
+}
+
+export default function DashboardPage() {
+  const [stats, setStats] = useState<DashboardStats>({
+    totalProjects: 0,
+    totalBrands: 0,
+    publishedProjects: 0,
+    totalViews: 0,
   })
+  const [recentProjects, setRecentProjects] = useState<RecentProject[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const loadDashboardData = async () => {
       try {
-        setLoading(true)
-        setError('')
+        // Get total projects
+        const { count: projectCount } = await supabase
+          .from('projects')
+          .select('*', { count: 'exact', head: true })
 
-        const [brandsData, projectsData, mediaData] = await Promise.all([
-          supabase.from('brands').select('count', { count: 'exact' }),
-          supabase.from('projects').select('count', { count: 'exact' }),
-          supabase.from('project_media').select('count', { count: 'exact' }),
-        ])
+        // Get total brands
+        const { count: brandCount } = await supabase
+          .from('brands')
+          .select('*', { count: 'exact', head: true })
+
+        // Get published projects
+        const { count: publishedCount } = await supabase
+          .from('projects')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_visible', true)
+
+        // Get recent projects with brand names
+        const { data: projects } = await supabase
+          .from('projects')
+          .select('id, title, is_visible, created_at, brands(name)')
+          .order('created_at', { ascending: false })
+          .limit(5)
 
         setStats({
-          brands: brandsData.count || 0,
-          projects: projectsData.count || 0,
-          media: mediaData.count || 0,
+          totalProjects: projectCount || 0,
+          totalBrands: brandCount || 0,
+          publishedProjects: publishedCount || 0,
+          totalViews: 0,
         })
-      } catch (err) {
-        console.error('Failed to fetch stats:', err)
-        setError('Failed to load dashboard stats')
+
+        if (projects) {
+          setRecentProjects(
+            projects.map((p: any) => ({
+              id: p.id,
+              title: p.title,
+              brand_name: p.brands?.name || 'Unknown',
+              is_visible: p.is_visible,
+              created_at: p.created_at,
+            }))
+          )
+        }
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchStats()
+    loadDashboardData()
   }, [])
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-white-warm"></div>
-          <p className="text-white-warm">Loading dashboard...</p>
-        </div>
-      </div>
-    )
+    return <div className="text-white">Loading dashboard...</div>
   }
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-white-warm">Dashboard</h1>
-        <p className="mt-2 text-ink-soft">Welcome to your portfolio admin panel</p>
+    <div className="space-y-8">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard title="Total Projects" value={stats.totalProjects} />
+        <StatCard title="Total Brands" value={stats.totalBrands} />
+        <StatCard title="Published Projects" value={stats.publishedProjects} />
+        <StatCard title="Total Views" value={stats.totalViews} />
       </div>
 
-      {error && (
-        <div className="mb-6 rounded-lg bg-red-500/20 px-6 py-4 text-red-200">
-          {error}
+      {/* Recent Projects Table */}
+      <div className="rounded-lg border border-[#404040] bg-[#252525] p-6">
+        <h3 className="mb-6 text-lg font-semibold text-white">Recent Projects</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-[#404040] text-left text-sm font-medium text-[#888888]">
+                <th className="px-4 py-3">Title</th>
+                <th className="px-4 py-3">Brand</th>
+                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentProjects.map((project) => (
+                <tr
+                  key={project.id}
+                  className="border-b border-[#404040] text-sm transition-colors hover:bg-[#2d2d2d]"
+                >
+                  <td className="px-4 py-3 text-white">{project.title}</td>
+                  <td className="px-4 py-3 text-white">{project.brand_name}</td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
+                        project.is_visible
+                          ? 'bg-green-600/20 text-green-400'
+                          : 'bg-[#404040] text-[#888888]'
+                      }`}
+                    >
+                      {project.is_visible ? 'Published' : 'Draft'}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-[#888888]">
+                    {new Date(project.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
-
-      <div className="grid gap-6 md:grid-cols-3">
-        <StatCard
-          title="Brands"
-          count={stats.brands}
-          icon="🎨"
-          href="/admin/brands"
-        />
-        <StatCard
-          title="Projects"
-          count={stats.projects}
-          icon="📁"
-          href="/admin/projects"
-        />
-        <StatCard
-          title="Media Items"
-          count={stats.media}
-          icon="🖼"
-          href="/admin/projects"
-        />
       </div>
     </div>
   )
 }
 
-function StatCard({
-  title,
-  count,
-  icon,
-  href,
-}: {
-  title: string
-  count: number
-  icon: string
-  href: string
-}) {
+function StatCard({ title, value }: { title: string; value: number }) {
   return (
-    <a
-      href={href}
-      className="rounded-lg border border-ink-soft bg-ink-muted p-6 transition-all hover:border-accent hover:shadow-lg"
-    >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm font-medium text-ink-soft">{title}</p>
-          <p className="mt-2 text-5xl font-bold text-white-warm">{count}</p>
-        </div>
-        <div className="text-4xl">{icon}</div>
-      </div>
-    </a>
+    <div className="rounded-lg border border-[#404040] bg-[#252525] p-6">
+      <p className="mb-2 text-sm font-medium text-[#888888]">{title}</p>
+      <p className="text-4xl font-bold text-white">{value}</p>
+    </div>
   )
 }

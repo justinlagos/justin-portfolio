@@ -153,13 +153,10 @@ export default function PagesPage() {
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-4xl font-bold text-white-warm">Pages</h1>
-          <p className="mt-2 text-ink-soft">Manage page content</p>
-        </div>
+        <h1 className="text-2xl font-bold text-white">Pages</h1>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 rounded-lg bg-accent px-4 py-2 font-medium text-ink transition-colors hover:bg-accent-light"
+          className="flex items-center gap-2 rounded-lg bg-[#C8622A] px-4 py-2 font-medium text-white transition-colors hover:bg-[#d97535]"
         >
           <Plus size={20} />
           New Page
@@ -167,56 +164,179 @@ export default function PagesPage() {
       </div>
 
       {error && (
-        <div className="mb-6 rounded-lg bg-red-500/20 px-6 py-4 text-red-200">
-          {error}
-        </div>
+        <div className="mb-6 rounded-lg bg-red-600/20 px-6 py-4 text-red-400">{error}</div>
       )}
 
       {success && (
-        <div className="mb-6 rounded-lg bg-green-500/20 px-6 py-4 text-green-200">
-          {success}
-        </div>
+        <div className="mb-6 rounded-lg bg-green-600/20 px-6 py-4 text-green-400">{success}</div>
       )}
 
       {showForm && (
-        <PageForm
-          formData={formData}
-          contentFields={contentFields}
-          editingId={editingId}
-          onInputChange={handleInputChange}
-          onContentFieldChange={handleContentFieldChange}
-          onAddField={addContentField}
-          onRemoveField={removeContentField}
-          onSubmit={handleSubmit}
-          onCancel={resetForm}
-        />
+        <div className="mb-8 rounded-lg border border-[#404040] bg-[#252525] p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-white">
+              {editingId ? 'Edit Page' : 'Create New Page'}
+            </h2>
+            <button
+              onClick={resetForm}
+              className="rounded-lg p-2 text-[#888888] transition-colors hover:bg-[#2d2d2d] hover:text-white"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid gap-6 md:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title || ''}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="Page title"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">Slug</label>
+                <input
+                  type="text"
+                  name="slug"
+                  value={formData.slug || ''}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="page-slug"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">SEO Title</label>
+                <input
+                  type="text"
+                  name="seo_title"
+                  value={formData.seo_title || ''}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="SEO title"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">SEO Description</label>
+                <textarea
+                  name="seo_description"
+                  value={formData.seo_description || ''}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                  placeholder="SEO description"
+                  rows={2}
+                />
+              </div>
+            </div>
+
+            {/* Content Fields */}
+            <div className="border-t border-[#404040] pt-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">Content Fields</h3>
+                <button
+                  type="button"
+                  onClick={addContentField}
+                  className="flex items-center gap-1 rounded-lg bg-[#C8622A]/20 px-3 py-1 text-xs font-medium text-[#C8622A] transition-colors hover:bg-[#C8622A]/30"
+                >
+                  <Plus size={14} />
+                  Add Field
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {contentFields.map((field, index) => (
+                  <div key={index} className="rounded-lg border border-[#404040] bg-[#1a1a1a] p-4">
+                    <div className="space-y-3">
+                      <input
+                        type="text"
+                        placeholder="Field key (e.g., hero_title)"
+                        value={field.key}
+                        onChange={(e) => handleContentFieldChange(index, 'key', e.target.value)}
+                        className="w-full rounded-lg border border-[#404040] bg-[#252525] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                      />
+                      <textarea
+                        placeholder="Field value"
+                        value={field.value}
+                        onChange={(e) => handleContentFieldChange(index, 'value', e.target.value)}
+                        className="w-full rounded-lg border border-[#404040] bg-[#252525] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
+                        rows={3}
+                      />
+                      <div className="flex justify-end">
+                        <button
+                          type="button"
+                          onClick={() => removeContentField(index)}
+                          className="rounded-lg p-2 text-[#888888] transition-colors hover:bg-red-600/20 hover:text-red-400"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {contentFields.length === 0 && (
+                  <div className="rounded-lg border border-[#404040] bg-[#1a1a1a] p-6 text-center">
+                    <p className="text-[#888888]">No content fields yet. Add one to get started.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                className="rounded-lg bg-[#C8622A] px-6 py-2 font-medium text-white transition-colors hover:bg-[#d97535]"
+              >
+                {editingId ? 'Update Page' : 'Create Page'}
+              </button>
+              <button
+                type="button"
+                onClick={resetForm}
+                className="rounded-lg border border-[#404040] px-6 py-2 font-medium text-white transition-colors hover:bg-[#2d2d2d]"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       )}
 
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-white-warm"></div>
-            <p className="text-white-warm">Loading pages...</p>
+            <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-[#C8622A] border-t-white"></div>
+            <p className="text-white">Loading pages...</p>
           </div>
         </div>
       ) : pages.length === 0 ? (
-        <div className="rounded-lg border border-ink-soft bg-ink-muted p-12 text-center">
-          <p className="text-ink-soft">No pages yet. Create your first page!</p>
+        <div className="rounded-lg border border-[#404040] bg-[#252525] p-12 text-center">
+          <p className="text-[#888888]">No pages yet. Create your first page!</p>
         </div>
       ) : (
         <div className="space-y-3">
           {pages.map((page) => (
             <div
               key={page.id}
-              className="flex items-center justify-between rounded-lg border border-ink-soft bg-ink-muted p-6"
+              className="flex items-center justify-between rounded-lg border border-[#404040] bg-[#252525] p-6"
             >
               <div>
-                <h3 className="text-lg font-semibold text-white-warm">{page.title}</h3>
-                <p className="mt-1 text-sm text-ink-soft">/{page.slug}</p>
+                <h3 className="text-lg font-semibold text-white">{page.title}</h3>
+                <p className="mt-1 text-sm text-[#888888]">/{page.slug}</p>
               </div>
               <button
                 onClick={() => handleEdit(page)}
-                className="rounded-lg p-2 text-ink-soft transition-colors hover:bg-ink-soft/30 hover:text-white-warm"
+                className="rounded-lg p-2 text-[#888888] transition-colors hover:bg-[#2d2d2d] hover:text-white"
               >
                 <Edit2 size={20} />
               </button>
@@ -224,181 +344,6 @@ export default function PagesPage() {
           ))}
         </div>
       )}
-    </div>
-  )
-}
-
-function PageForm({
-  formData,
-  contentFields,
-  editingId,
-  onInputChange,
-  onContentFieldChange,
-  onAddField,
-  onRemoveField,
-  onSubmit,
-  onCancel,
-}: {
-  formData: Partial<Page>
-  contentFields: Array<{ key: string; value: string }>
-  editingId: string | null
-  onInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void
-  onContentFieldChange: (index: number, field: 'key' | 'value', value: string) => void
-  onAddField: () => void
-  onRemoveField: (index: number) => void
-  onSubmit: (e: React.FormEvent) => void
-  onCancel: () => void
-}) {
-  return (
-    <div className="mb-8 rounded-lg border border-ink-soft bg-ink-muted p-6">
-      <h2 className="mb-6 text-2xl font-bold text-white-warm">
-        {editingId ? 'Edit Page' : 'Create New Page'}
-      </h2>
-
-      <form onSubmit={onSubmit} className="space-y-6">
-        {/* Basic Info */}
-        <div>
-          <h3 className="mb-4 text-lg font-semibold text-white-warm">Basic Information</h3>
-          <div className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-white-warm">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title || ''}
-                  onChange={onInputChange}
-                  className="w-full rounded-lg border border-ink-soft bg-ink-soft/30 px-4 py-2 text-white-warm placeholder-ink-soft transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                  placeholder="Page title"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-white-warm">
-                  Slug
-                </label>
-                <input
-                  type="text"
-                  name="slug"
-                  value={formData.slug || ''}
-                  onChange={onInputChange}
-                  className="w-full rounded-lg border border-ink-soft bg-ink-soft/30 px-4 py-2 text-white-warm placeholder-ink-soft transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                  placeholder="page-slug"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SEO */}
-        <div className="border-t border-ink-soft pt-6">
-          <h3 className="mb-4 text-lg font-semibold text-white-warm">SEO</h3>
-          <div className="space-y-6">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white-warm">
-                SEO Title
-              </label>
-              <input
-                type="text"
-                name="seo_title"
-                value={formData.seo_title || ''}
-                onChange={onInputChange}
-                className="w-full rounded-lg border border-ink-soft bg-ink-soft/30 px-4 py-2 text-white-warm placeholder-ink-soft transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                placeholder="SEO title"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white-warm">
-                SEO Description
-              </label>
-              <textarea
-                name="seo_description"
-                value={formData.seo_description || ''}
-                onChange={onInputChange}
-                className="w-full rounded-lg border border-ink-soft bg-ink-soft/30 px-4 py-2 text-white-warm placeholder-ink-soft transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                placeholder="SEO description"
-                rows={2}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Content Fields */}
-        <div className="border-t border-ink-soft pt-6">
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white-warm">Content Fields</h3>
-            <button
-              type="button"
-              onClick={onAddField}
-              className="rounded-lg bg-accent/20 px-3 py-1 text-xs font-medium text-accent-light transition-colors hover:bg-accent/30"
-            >
-              Add Field
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            {contentFields.map((field, index) => (
-              <div key={index} className="rounded-lg border border-ink-soft bg-ink-soft/30 p-4">
-                <div className="space-y-3">
-                  <input
-                    type="text"
-                    placeholder="Field key (e.g., hero_title)"
-                    value={field.key}
-                    onChange={(e) => onContentFieldChange(index, 'key', e.target.value)}
-                    className="w-full rounded-lg border border-ink-soft bg-ink-soft/30 px-4 py-2 text-white-warm placeholder-ink-soft transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                  />
-                  <textarea
-                    placeholder="Field value"
-                    value={field.value}
-                    onChange={(e) => onContentFieldChange(index, 'value', e.target.value)}
-                    className="w-full rounded-lg border border-ink-soft bg-ink-soft/30 px-4 py-2 text-white-warm placeholder-ink-soft transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                    rows={3}
-                  />
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => onRemoveField(index)}
-                      className="rounded-lg p-2 text-ink-soft transition-colors hover:bg-red-500/20 hover:text-red-200"
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {contentFields.length === 0 && (
-              <div className="rounded-lg border border-ink-soft bg-ink-soft/20 p-6 text-center">
-                <p className="text-ink-soft">No content fields yet. Add one to get started!</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Form Actions */}
-        <div className="border-t border-ink-soft pt-6 flex gap-4">
-          <button
-            type="submit"
-            className="rounded-lg bg-accent px-6 py-2 font-medium text-ink transition-colors hover:bg-accent-light"
-          >
-            {editingId ? 'Update Page' : 'Create Page'}
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-lg border border-ink-soft px-6 py-2 font-medium text-white-warm transition-colors hover:bg-ink-soft/30"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
     </div>
   )
 }

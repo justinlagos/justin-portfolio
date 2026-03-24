@@ -10,5 +10,5 @@ export function getStorageUrl(path: string): string {
   if (!path) return ''
   if (path.startsWith('http')) return path
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL
-  return `${base}/storage/v1/object/public/portfolio/${path}`
+  return `${base}/storage/v1/object/public/portfolio-images/${path}`
 }
