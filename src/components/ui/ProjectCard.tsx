@@ -32,14 +32,29 @@ export function ProjectCard({ project, brandSlug }: ProjectCardProps) {
       <div className="group">
         <div className="relative w-full aspect-[3/2] bg-cream-dark mb-4 overflow-hidden rounded">
           {imageUrl && !imageError ? (
-            <Image
-              src={imageUrl}
-              alt={project.title}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              onError={() => setImageError(true)}
-            />
+            <>
+              <Image
+                src={imageUrl}
+                alt={project.title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                onError={() => setImageError(true)}
+              />
+              {project.slug === 'route-to-zero' && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="relative w-[38%] aspect-square">
+                    <Image
+                      src="/assets/projects/route-to-zero/logo-mark.svg"
+                      alt="Route to Zero logo"
+                      fill
+                      className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
+                      sizes="(max-width: 768px) 40vw, 20vw"
+                    />
+                  </div>
+                </div>
+              )}
+            </>
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-cream-dark">
               <span className="font-serif text-2xl text-ink-muted/40">{project.title.charAt(0)}</span>

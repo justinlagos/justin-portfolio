@@ -162,13 +162,13 @@ export default function RouteToZeroCaseStudy() {
               sizes="(max-width: 1280px) 100vw, 1280px"
             />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-[32%] max-w-[360px] aspect-square">
+              <div className="relative w-[34%] max-w-[420px] aspect-square">
                 <Image
-                  src={`${IMG}/img09_65071b0b41.jpg`}
+                  src={`${IMG}/logo-mark.svg`}
                   alt="Route to Zero logo"
                   fill
                   className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
-                  sizes="(max-width: 1280px) 32vw, 360px"
+                  sizes="(max-width: 1280px) 34vw, 420px"
                   priority
                 />
               </div>
