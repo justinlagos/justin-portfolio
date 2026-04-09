@@ -48,7 +48,7 @@ export function ProjectCard({ project, brandSlug }: ProjectCardProps) {
                       src="/assets/projects/route-to-zero/logo-mark.svg"
                       alt="Route to Zero logo"
                       fill
-                      className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
+                      className="object-contain brightness-0 invert drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
                       sizes="(max-width: 768px) 40vw, 20vw"
                     />
                   </div>
