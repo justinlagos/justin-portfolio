@@ -53,7 +53,7 @@ export default async function Home() {
             <div className="hidden md:block">
               <div className="relative w-full aspect-[3/4] rounded-sm overflow-hidden">
                 <Image
-                  src="/assets/about/justin-portrait.png"
+                  src="/assets/about/justin-portrait.jpg"
                   alt="Justin Ukaegbu"
                   fill
                   className="object-cover"
