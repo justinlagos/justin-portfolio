@@ -7,6 +7,7 @@ import Eyebrow from '@/components/ui/Eyebrow'
 import CaseStudySection from '@/components/ui/CaseStudySection'
 import MetricsGrid from '@/components/ui/MetricsGrid'
 import { Gallery } from '@/components/ui/Gallery'
+import RouteToZeroCaseStudy from '@/components/case-studies/RouteToZeroCaseStudy'
 import { getBrandBySlug, getProjectBySlug } from '@/lib/data'
 import { getStorageUrl } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -39,6 +40,11 @@ export default async function ProjectPage({ params }: Props) {
 
   const project = await getProjectBySlug(projectSlug)
   if (!project) notFound()
+
+  // Special-cased rich case study for Route to Zero
+  if (projectSlug === 'route-to-zero' || projectSlug === 'route-to-zero-brand') {
+    return <RouteToZeroCaseStudy />
+  }
 
   const coverImage = project.media?.find((m) => m.is_cover) || project.media?.[0]
 
