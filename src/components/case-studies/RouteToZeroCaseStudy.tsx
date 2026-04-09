@@ -167,7 +167,7 @@ export default function RouteToZeroCaseStudy() {
                   src={`${IMG}/logo-mark.svg`}
                   alt="Route to Zero logo"
                   fill
-                  className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+                  className="object-contain brightness-0 invert drop-shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
                   sizes="(max-width: 1280px) 34vw, 420px"
                   priority
                 />
