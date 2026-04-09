@@ -149,10 +149,10 @@ export default function RouteToZeroCaseStudy() {
         </Container>
       </Section>
 
-      {/* Cover / Hero image on brand teal */}
+      {/* Cover / Hero image with centred logo overlay */}
       <Section className="pt-0 pb-24">
         <Container>
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-[#1A3636]">
+          <div className="relative w-full aspect-[16/9] overflow-hidden bg-[#8DB600]">
             <Image
               src={`${IMG}/img01_7aa7926323.jpg`}
               alt="Route to Zero brand identity cover"
@@ -161,6 +161,18 @@ export default function RouteToZeroCaseStudy() {
               priority
               sizes="(max-width: 1280px) 100vw, 1280px"
             />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-[32%] max-w-[360px] aspect-square">
+                <Image
+                  src={`${IMG}/img09_65071b0b41.jpg`}
+                  alt="Route to Zero logo"
+                  fill
+                  className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+                  sizes="(max-width: 1280px) 32vw, 360px"
+                  priority
+                />
+              </div>
+            </div>
           </div>
         </Container>
       </Section>
