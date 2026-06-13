@@ -11,11 +11,11 @@ export const revalidate = 120
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Justin Ukaegbu - Design Leader',
-    template: '%s - Justin Ukaegbu',
+    default: 'Justin Ukaegbu — Design Leader',
+    template: '%s — Justin Ukaegbu',
   },
   description:
-    'Brand, product, and interaction design across 12+ years and 50+ countries. Building design systems and digital products that work at scale.',
+    'Design leader shaping brands and digital products across 50+ countries. 1.1B+ impressions. Webby-nominated.',
   icons: {
     icon: '/assets/favicon.png',
     apple: '/assets/apple-touch-icon.png',
@@ -24,29 +24,26 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_GB',
     siteName: 'Justin Ukaegbu',
-    title: 'Justin Ukaegbu - Design Leader',
+    title: 'Justin Ukaegbu — Design Leader',
     description:
-      'Brand, product, and interaction design across 12+ years and 50+ countries.',
+      'Design leader shaping brands and digital products across 50+ countries.',
     images: [
       {
         url: '/assets/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Justin Ukaegbu - Design Leader',
+        alt: 'Justin Ukaegbu — Design Leader',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Justin Ukaegbu - Design Leader',
+    title: 'Justin Ukaegbu — Design Leader',
     description:
-      'Brand, product, and interaction design across 12+ years and 50+ countries.',
+      'Design leader shaping brands and digital products across 50+ countries.',
     images: ['/assets/og-image.png'],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 }
 
 export default async function RootLayout({
@@ -75,11 +72,11 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-cream text-ink font-sans">
+      <body className="min-h-screen flex flex-col bg-bg text-text font-sans">
         <Header navLinks={navLinks} />
         <main className="flex-1">{children}</main>
         <Footer navLinks={navLinks} socialLinks={socialData} />

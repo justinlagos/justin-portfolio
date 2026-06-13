@@ -1,6 +1,6 @@
 import Container from '@/components/layout/Container'
 import Section from '@/components/layout/Section'
-import Eyebrow from '@/components/ui/Eyebrow'
+import ScrollReveal from '@/components/ui/ScrollReveal'
 import { getPage, getCredentials, getProducts } from '@/lib/data'
 
 export const revalidate = 60
@@ -8,7 +8,7 @@ export const revalidate = 60
 export async function generateMetadata() {
   const page = await getPage('about')
   return {
-    title: page?.seo_title || 'About',
+    title: page?.seo_title || 'About — Justin Ukaegbu',
     description:
       page?.seo_description ||
       'Designer working across brand, product, and interaction design. Twelve years of practice shaped across Nigeria, the UK, Dubai, and work in fifty countries.',
@@ -22,7 +22,7 @@ export default async function AboutPage() {
     getProducts(),
   ])
 
-  const content = page?.content as Record<string, any> || {}
+  const content = (page?.content as Record<string, any>) || {}
   const introParagraphs: string[] = content.intro_paragraphs || [
     'Designer working across brand, product, and interaction design. Twelve years of practice shaped across Nigeria, the UK, Dubai, and work in fifty countries.',
     'Built platforms used by hundreds of thousands. Designed campaigns that reached 1.1 billion impressions. Led brand work for organisations operating at government level.',
@@ -34,34 +34,49 @@ export default async function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <Section className="pt-36 md:pt-44 pb-16">
+      <section className="pt-32 md:pt-40 pb-16 md:pb-20">
         <Container>
-          <Eyebrow className="mb-5">About</Eyebrow>
-          <h1 className="font-serif text-[2.75rem] md:text-[4rem] text-ink leading-[1.08] mb-8 max-w-3xl">
-            Justin Ukaegbu
+          <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-6 animate-fade-up">
+            About
+          </p>
+          <h1 className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-bold leading-[0.95] tracking-tight mb-8 animate-fade-up">
+            Justin<br />Ukaegbu<span className="text-accent">.</span>
           </h1>
+          <p className="text-lg md:text-xl text-text-secondary max-w-xl leading-relaxed animate-fade-up-delay">
+            Designer, creative director, and builder — shaping brands and products that matter.
+          </p>
         </Container>
-      </Section>
+      </section>
 
       {/* Intro */}
-      <Section className="pt-0 pb-20">
+      <section className="pb-20 md:pb-28">
         <Container narrow>
-          <div className="space-y-6 text-lg text-ink-soft leading-relaxed">
+          <div className="space-y-6">
             {introParagraphs.map((p: string, i: number) => (
-              <p key={i}>{p}</p>
+              <ScrollReveal key={i} delay={i * 0.06}>
+                <p className="text-lg text-text-secondary leading-relaxed">
+                  {p}
+                </p>
+              </ScrollReveal>
             ))}
           </div>
         </Container>
-      </Section>
+      </section>
 
       {/* Design Practice */}
       {storyParagraphs.length > 0 && (
-        <Section className="bg-white-warm">
+        <Section light>
           <Container narrow>
-            <Eyebrow className="mb-4">{storyTitle}</Eyebrow>
-            <div className="space-y-6 text-ink-soft leading-relaxed">
+            <ScrollReveal>
+              <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+                {storyTitle}
+              </p>
+            </ScrollReveal>
+            <div className="space-y-6">
               {storyParagraphs.map((p: string, i: number) => (
-                <p key={i}>{p}</p>
+                <ScrollReveal key={i} delay={i * 0.06}>
+                  <p className="text-text-dark-secondary leading-relaxed">{p}</p>
+                </ScrollReveal>
               ))}
             </div>
           </Container>
@@ -70,49 +85,65 @@ export default async function AboutPage() {
 
       {/* Credentials */}
       {credentials.length > 0 && (
-        <Section>
+        <section className="py-20 md:py-28">
           <Container>
-            <Eyebrow className="mb-10">Credentials</Eyebrow>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
-              {credentials.map((item) => (
-                <div key={item.id} className="py-4 border-b border-rule">
-                  <p className="font-serif text-lg text-ink mb-1">{item.title}</p>
-                  {item.description && (
-                    <p className="text-sm text-ink-muted">{item.description}</p>
-                  )}
-                </div>
+            <ScrollReveal>
+              <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-10">
+                Credentials
+              </p>
+            </ScrollReveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-6">
+              {credentials.map((item, i) => (
+                <ScrollReveal key={item.id} delay={i * 0.04}>
+                  <div className="py-5 border-b border-border">
+                    <p className="font-display text-lg font-semibold text-text tracking-tight mb-1">
+                      {item.title}
+                    </p>
+                    {item.description && (
+                      <p className="text-sm text-text-muted">{item.description}</p>
+                    )}
+                  </div>
+                </ScrollReveal>
               ))}
             </div>
           </Container>
-        </Section>
+        </section>
       )}
 
       {/* Independent Products */}
       {products.length > 0 && (
-        <Section className="bg-white-warm">
+        <Section dark>
           <Container>
-            <Eyebrow className="mb-10">Independent Products</Eyebrow>
+            <ScrollReveal>
+              <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-10">
+                Independent Products
+              </p>
+            </ScrollReveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              {products.map((item) => (
-                <div key={item.id}>
-                  <p className="font-serif text-xl text-ink mb-2">
-                    {item.url ? (
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-accent transition-colors"
-                      >
-                        {item.title}
-                      </a>
-                    ) : (
-                      item.title
+              {products.map((item, i) => (
+                <ScrollReveal key={item.id} delay={i * 0.06}>
+                  <div>
+                    <p className="font-display text-xl font-semibold text-text tracking-tight mb-2">
+                      {item.url ? (
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-accent transition-colors"
+                        >
+                          {item.title}
+                        </a>
+                      ) : (
+                        item.title
+                      )}
+                    </p>
+                    {item.description && (
+                      <p className="text-text-secondary leading-relaxed">
+                        {item.description}
+                      </p>
                     )}
-                  </p>
-                  {item.description && (
-                    <p className="text-ink-muted leading-relaxed">{item.description}</p>
-                  )}
-                </div>
+                  </div>
+                </ScrollReveal>
               ))}
             </div>
           </Container>

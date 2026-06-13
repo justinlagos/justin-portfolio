@@ -1,8 +1,19 @@
 /**
- * Fix missing images in the live database.
+ * Fix mismatched image-to-brand assignments in the live database.
  *
- * Updates project featured_image paths and inserts project_media rows
- * so gallery images appear on the deployed site.
+ * Several image files in public/assets/projects/ are stored in the wrong
+ * brand folder — the actual content doesn't match the folder name:
+ *
+ *   tbtm/social-design.png  → actually Syntech Biofuel Instagram
+ *   tbtm/social-1.png       → actually Syntech social post
+ *   tbtm/social-2.png       → actually Syntech social post
+ *   tbtm/social-3.png       → actually Syntech social post
+ *   tbtm/debit-cards.png    → actually Kavlr VISA debit cards
+ *   tryba/card-green.png    → actually Kavlr green card
+ *   tryba/card-black.png    → actually Kavlr black card
+ *
+ * This script reassigns images to the correct brand/project in the DB
+ * regardless of which folder the file lives in on disk.
  *
  * Run with:  node --env-file=.env.local scripts/fix-images.mjs
  */
@@ -18,69 +29,97 @@ if (!DATABASE_URL) {
 const sql = neon(DATABASE_URL);
 
 async function run() {
-  console.log('Fixing image paths...');
+  console.log('Fixing image-to-brand assignments...\n');
 
   // ── 1. Update project featured_image paths ──
-  await sql`UPDATE projects SET featured_image = '/assets/projects/tbtm/social-design.png' WHERE slug = 'tbtm-brand-campaign'`;
-  await sql`UPDATE projects SET featured_image = '/assets/projects/tbtm/debit-cards.png' WHERE slug = 'tbtm-access-bank'`;
+  // TBTM Brand Campaign — use Reachout Medical handbook (the only genuine TBTM image)
+  await sql`UPDATE projects SET featured_image = '/assets/projects/tbtm/reachout.png' WHERE slug = 'tbtm-brand-campaign'`;
+  // TBTM Access Bank — use the Access Bank brand guide (NOT debit-cards which is Kavlr)
+  await sql`UPDATE projects SET featured_image = '/assets/projects/tbtm/access-branding.png' WHERE slug = 'tbtm-access-bank'`;
+  // Route to Zero — correct as-is
   await sql`UPDATE projects SET featured_image = '/assets/projects/route-to-zero/img01_7aa7926323.jpg' WHERE slug = 'route-to-zero-brand' OR slug = 'route-to-zero'`;
+  // Kavlr — correct as-is
   await sql`UPDATE projects SET featured_image = '/assets/projects/kavlr/landing-page.png' WHERE slug = 'kavlr-product'`;
-  await sql`UPDATE projects SET featured_image = '/assets/projects/syntech/truck.png' WHERE slug = 'syntech-brand'`;
-  await sql`UPDATE projects SET featured_image = '/assets/projects/tryba/card-green.png' WHERE slug = 'tryba-product'`;
+  // Syntech — use the Instagram mockup (currently in tbtm/ folder but is Syntech content)
+  await sql`UPDATE projects SET featured_image = '/assets/projects/tbtm/social-design.png' WHERE slug = 'syntech-brand'`;
+  // Tryba — no genuine Tryba images exist; clear featured image
+  await sql`UPDATE projects SET featured_image = NULL WHERE slug = 'tryba-product'`;
+  // HashIT — correct as-is
   await sql`UPDATE projects SET featured_image = '/assets/projects/hashit/app.png' WHERE slug = 'hashit-app'`;
 
   console.log('Project featured_image paths updated.');
 
-  // ── 1b. Update brand featured_image paths ──
-  await sql`UPDATE brands SET featured_image = '/assets/projects/tbtm/social-design.png' WHERE slug = 'take-back-the-mic'`;
+  // ── 2. Update brand featured_image paths ──
+  await sql`UPDATE brands SET featured_image = '/assets/projects/tbtm/reachout.png' WHERE slug = 'take-back-the-mic'`;
   await sql`UPDATE brands SET featured_image = '/assets/projects/route-to-zero/img01_7aa7926323.jpg' WHERE slug = 'route-to-zero'`;
   await sql`UPDATE brands SET featured_image = '/assets/projects/kavlr/landing-page.png' WHERE slug = 'kavlr'`;
-  await sql`UPDATE brands SET featured_image = '/assets/projects/syntech/truck.png' WHERE slug = 'syntech-biofuel'`;
-  await sql`UPDATE brands SET featured_image = '/assets/projects/tryba/card-green.png' WHERE slug = 'tryba'`;
+  await sql`UPDATE brands SET featured_image = '/assets/projects/tbtm/social-design.png' WHERE slug = 'syntech-biofuel'`;
+  await sql`UPDATE brands SET featured_image = NULL WHERE slug = 'tryba'`;
   await sql`UPDATE brands SET featured_image = '/assets/projects/hashit/app.png' WHERE slug = 'hashit'`;
 
   console.log('Brand featured_image paths updated.');
 
-  // ── 2. Clear existing project_media (safe — it was empty) ──
+  // ── 3. Clear existing project_media ──
   await sql`DELETE FROM project_media`;
 
-  // ── 3. Insert project_media rows ──
+  // ── 4. Insert project_media rows with CORRECT brand assignments ──
   await sql`
     WITH project_data AS (
       SELECT slug, id FROM projects
     )
     INSERT INTO project_media (project_id, image_url, alt_text, is_cover, sort_order) VALUES
-      -- TBTM Brand Campaign
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-design.png', 'TBTM social media design system', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-1.png', 'TBTM social media post 1', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-2.png', 'TBTM social media post 2', false, 3),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-3.png', 'TBTM social media post 3', false, 4),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/reachout.png', 'TBTM Reachout campaign', false, 5),
-      -- TBTM Access Bank
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/debit-cards.png', 'Access Bank x TBTM debit card designs', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-logo.png', 'Access Bank x TBTM partnership logo', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-branding.png', 'Access Bank x TBTM branding', false, 3),
-      -- Kavlr Product
+      -- ═══════════════════════════════════════════
+      -- TBTM Brand Campaign — Reachout Medical only
+      -- ═══════════════════════════════════════════
+      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/reachout.png', 'Reachout Medical agency worker handbook', true, 1),
+
+      -- ═══════════════════════════════════════════════════
+      -- TBTM Access Bank — Access Bank branding & logo
+      -- (NOT debit-cards.png — that shows Kavlr cards!)
+      -- ═══════════════════════════════════════════════════
+      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-branding.png', 'Access Bank brand guide — more than banking', true, 1),
+      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-logo.png', 'Access Bank x Diamond merger logo', false, 2),
+
+      -- ═══════════════════════════════════════════════════════
+      -- Kavlr Product — web/app designs PLUS the card images
+      -- that were misplaced in tbtm/ and tryba/ folders
+      -- ═══════════════════════════════════════════════════════
       ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/landing-page.png', 'Kavlr landing page design', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/dashboard.png', 'Kavlr business dashboard', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-1.png', 'Kavlr desktop view 1', false, 3),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-2.png', 'Kavlr desktop view 2', false, 4),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/booking-1.png', 'Kavlr booking flow', false, 5),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/mobile.png', 'Kavlr mobile design', false, 6),
-      -- Syntech Brand
-      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/truck.png', 'Syntech branded truck', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-1.jpg', 'Syntech social campaign 1', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-2.jpg', 'Syntech social campaign 2', false, 3),
-      -- Tryba Product
-      ((SELECT id FROM project_data WHERE slug = 'tryba-product'), '/assets/projects/tryba/card-green.png', 'Tryba green card design', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'tryba-product'), '/assets/projects/tryba/card-black.png', 'Tryba black card design', false, 2),
-      -- HashIT App
-      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/app.png', 'HashIT app design', true, 1),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/dashboard.png', 'Kavlr booking dashboard', false, 2),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-1.png', 'Kavlr business banking page', false, 3),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-2.png', 'Kavlr desktop landing page', false, 4),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/booking-1.png', 'Kavlr mobile booking flow', false, 5),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/mobile.png', 'Kavlr mobile screens', false, 6),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/logo.png', 'Kavlr logo sketches', false, 7),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/tryba/card-green.png', 'Kavlr green VISA card in mailer', false, 8),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/tryba/card-black.png', 'Kavlr black VISA card', false, 9),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/tbtm/debit-cards.png', 'Kavlr blue and green VISA debit cards', false, 10),
+
+      -- ══════════════════════════════════════════════════════════
+      -- Syntech Brand — truck/logo from syntech/ PLUS the social
+      -- media images that were misplaced in the tbtm/ folder
+      -- ══════════════════════════════════════════════════════════
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-design.png', 'Syntech Biofuel Instagram profile mockup', true, 1),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/truck.png', 'Syntech Biofuel branded truck', false, 2),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/logo.png', 'Syntech Biofuel logo', false, 3),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-1.jpg', 'Syntech decarbonise social post', false, 4),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-2.jpg', 'Syntech sustainability social post', false, 5),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-1.png', 'Syntech social media grid 1', false, 6),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-2.png', 'Syntech social media grid 2', false, 7),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-3.png', 'Syntech social media grid 3', false, 8),
+
+      -- ═══════════════════════════════
+      -- HashIT App — all correct as-is
+      -- ═══════════════════════════════
+      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/app.png', 'HashIT app dashboard and quick actions', true, 1),
       ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/appstore-1.png', 'HashIT app store screenshot 1', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/appstore-2.png', 'HashIT app store screenshot 2', false, 3),
+      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/appstore-2.png', 'HashIT social features', false, 3),
       ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/crowdpool.png', 'HashIT crowdpool feature', false, 4),
-      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/navigation.png', 'HashIT navigation design', false, 5),
-      -- Route to Zero
+      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/navigation.png', 'HashIT navigation close-up', false, 5),
+
+      -- ═══════════════════════════════════
+      -- Route to Zero — all correct as-is
+      -- ═══════════════════════════════════
       ((SELECT id FROM project_data WHERE slug IN ('route-to-zero-brand','route-to-zero') LIMIT 1), '/assets/projects/route-to-zero/img01_7aa7926323.jpg', 'Route to Zero hero landscape', true, 1),
       ((SELECT id FROM project_data WHERE slug IN ('route-to-zero-brand','route-to-zero') LIMIT 1), '/assets/projects/route-to-zero/img02_2b4f266ae1.jpg', 'Route to Zero logo sketch', false, 2),
       ((SELECT id FROM project_data WHERE slug IN ('route-to-zero-brand','route-to-zero') LIMIT 1), '/assets/projects/route-to-zero/img03_55dedd27fb.jpg', 'Route to Zero logo construction', false, 3),
@@ -92,8 +131,37 @@ async function run() {
   `;
 
   console.log('Project media rows inserted.');
-  console.log('');
-  console.log('Done! All image paths fixed.');
+
+  // ── 5. Verify ──
+  const brands = await sql`SELECT slug, featured_image FROM brands ORDER BY slug`;
+  console.log('\nBrand → featured_image:');
+  for (const b of brands) {
+    console.log(`  ${b.slug} → ${b.featured_image || '(none)'}`);
+  }
+
+  const projects = await sql`SELECT slug, featured_image FROM projects ORDER BY slug`;
+  console.log('\nProject → featured_image:');
+  for (const p of projects) {
+    console.log(`  ${p.slug} → ${p.featured_image || '(none)'}`);
+  }
+
+  const media = await sql`
+    SELECT p.slug, pm.image_url
+    FROM project_media pm
+    JOIN projects p ON p.id = pm.project_id
+    ORDER BY p.slug, pm.sort_order
+  `;
+  console.log('\nProject media assignments:');
+  let currentSlug = '';
+  for (const m of media) {
+    if (m.slug !== currentSlug) {
+      currentSlug = m.slug;
+      console.log(`\n  ${m.slug}:`);
+    }
+    console.log(`    ${m.image_url}`);
+  }
+
+  console.log('\n\nDone! All image assignments corrected.');
 }
 
 run().catch((err) => {

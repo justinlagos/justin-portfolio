@@ -1,11 +1,8 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import Container from '@/components/layout/Container'
-import Section from '@/components/layout/Section'
-import Breadcrumb from '@/components/ui/Breadcrumb'
-import Eyebrow from '@/components/ui/Eyebrow'
-import CaseStudySection from '@/components/ui/CaseStudySection'
-import MetricsGrid from '@/components/ui/MetricsGrid'
+import ScrollReveal from '@/components/ui/ScrollReveal'
 import { Gallery } from '@/components/ui/Gallery'
 import RouteToZeroCaseStudy from '@/components/case-studies/RouteToZeroCaseStudy'
 import { getBrandBySlug, getProjectBySlug } from '@/lib/data'
@@ -22,13 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { projectSlug } = await params
   try {
     const project = await getProjectBySlug(projectSlug)
-    if (!project) return { title: 'Project Not Found' }
+    if (!project) return { title: 'Not Found' }
     return {
-      title: `${project.title} - Justin Ukaegbu`,
+      title: project.title,
       description: project.seo_description || project.summary,
     }
   } catch {
-    return { title: 'Project - Justin Ukaegbu' }
+    return { title: 'Project' }
   }
 }
 
@@ -41,139 +38,214 @@ export default async function ProjectPage({ params }: Props) {
   const project = await getProjectBySlug(projectSlug)
   if (!project) notFound()
 
-  // Special-cased rich case study for Route to Zero
+  // Route to Zero special case study
   if (projectSlug === 'route-to-zero' || projectSlug === 'route-to-zero-brand') {
     return <RouteToZeroCaseStudy />
   }
 
   const coverImage = project.media?.find((m) => m.is_cover) || project.media?.[0]
+  const services = Array.isArray(project.services)
+    ? project.services
+    : typeof project.services === 'string'
+    ? project.services.split(',').map((s: string) => s.trim())
+    : []
 
   return (
     <>
-      {/* Breadcrumb */}
-      <Section className="pt-32 pb-0">
+      {/* Header */}
+      <section className="pt-32 md:pt-40 pb-10">
         <Container>
-          <Breadcrumb
-            items={[
-              { label: 'Work', href: '/work' },
-              { label: brand.name, href: `/work/${brandSlug}` },
-              { label: project.title },
-            ]}
-          />
-        </Container>
-      </Section>
+          <Link
+            href={`/work/${brandSlug}`}
+            className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent transition-colors mb-8"
+          >
+            &larr; {brand.name}
+          </Link>
 
-      {/* Project Header */}
-      <Section className="pt-8 pb-12">
-        <Container>
-          <Eyebrow className="mb-4">
-            {project.type === 'case-study' ? 'Case Study' : 'Gallery'}
-          </Eyebrow>
-          <h1 className="font-serif text-[2.5rem] md:text-[3.5rem] text-ink leading-[1.1] mb-5 max-w-3xl">
-            {project.title}
-          </h1>
-          <p className="text-lg text-ink-soft leading-relaxed max-w-2xl mb-10">
-            {project.summary}
-          </p>
+          <div className="max-w-3xl">
+            <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+              {brand.name}
+            </p>
+            <h1 className="font-display text-[clamp(2rem,5vw,4rem)] font-bold leading-[0.95] tracking-tight mb-6">
+              {project.title}<span className="text-accent">.</span>
+            </h1>
+            <p className="text-lg text-text-secondary leading-relaxed">
+              {project.summary}
+            </p>
+          </div>
 
           {/* Meta */}
-          <div className="flex flex-wrap gap-10 pt-8 border-t border-rule">
+          <div className="flex flex-wrap gap-10 mt-10 pt-8 border-t border-border">
             {project.year && (
               <div>
-                <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-ink-muted mb-1">
+                <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-text-muted mb-1">
                   Year
                 </p>
-                <p className="text-ink">{project.year}</p>
+                <p className="text-text text-sm">{project.year}</p>
               </div>
             )}
-            {project.services && (project.services as any).length > 0 && (
+            {services.length > 0 && (
               <div>
-                <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-ink-muted mb-1">
+                <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-text-muted mb-1">
                   Services
                 </p>
-                <p className="text-ink">
-                  {Array.isArray(project.services)
-                    ? project.services.join(', ')
-                    : String(project.services)}
-                </p>
+                <p className="text-text text-sm">{services.join(', ')}</p>
               </div>
             )}
             <div>
-              <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-ink-muted mb-1">
+              <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-text-muted mb-1">
                 Client
               </p>
-              <p className="text-ink">{brand.name}</p>
+              <p className="text-text text-sm">{brand.name}</p>
             </div>
           </div>
         </Container>
-      </Section>
+      </section>
 
       {/* Cover Image */}
       {coverImage && (
-        <Section className="pt-0 pb-16">
-          <Container>
-            <div className="relative w-full aspect-video overflow-hidden bg-cream-dark">
+        <section className="pb-16 md:pb-20">
+          <Container wide>
+            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-sm bg-bg-elevated">
               <Image
                 src={getStorageUrl(coverImage.image_url)}
                 alt={coverImage.alt_text || project.title}
                 fill
                 className="object-cover"
                 priority
-                sizes="(max-width: 1280px) 100vw, 1280px"
+                sizes="100vw"
               />
             </div>
           </Container>
-        </Section>
+        </section>
       )}
 
-      {/* Case Study Sections */}
+      {/* Case Study Content */}
       {project.type === 'case-study' && project.case_study && (
-        <>
-          {project.case_study.overview && (
-            <CaseStudySection title="Overview" content={project.case_study.overview} />
-          )}
-          {project.case_study.context && (
-            <CaseStudySection title="Context" content={project.case_study.context} />
-          )}
-          {project.case_study.objective && (
-            <CaseStudySection title="Objective" content={project.case_study.objective} />
-          )}
-          {project.case_study.approach && (
-            <CaseStudySection title="Approach" content={project.case_study.approach} />
-          )}
-          {project.case_study.execution && (
-            <CaseStudySection title="Execution" content={project.case_study.execution} />
-          )}
-          {project.case_study.outcome && (
-            <CaseStudySection title="Outcome" content={project.case_study.outcome} />
-          )}
+        <section className="py-16 md:py-24">
+          <Container narrow>
+            {project.case_study.overview && (
+              <ScrollReveal>
+                <div className="mb-16">
+                  <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+                    Overview
+                  </p>
+                  <p className="text-lg text-text-secondary leading-relaxed">
+                    {project.case_study.overview}
+                  </p>
+                </div>
+              </ScrollReveal>
+            )}
 
-          {/* Metrics */}
-          {project.case_study.metrics && project.case_study.metrics.length > 0 && (
-            <Section className="bg-white-warm">
-              <Container>
-                <Eyebrow className="mb-8">Key Metrics</Eyebrow>
-                <MetricsGrid metrics={project.case_study.metrics} />
-              </Container>
-            </Section>
-          )}
-        </>
+            {project.case_study.context && (
+              <ScrollReveal>
+                <div className="mb-16">
+                  <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+                    Context
+                  </p>
+                  <p className="text-text-secondary leading-relaxed">
+                    {project.case_study.context}
+                  </p>
+                </div>
+              </ScrollReveal>
+            )}
+
+            {project.case_study.objective && (
+              <ScrollReveal>
+                <div className="mb-16">
+                  <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+                    Objective
+                  </p>
+                  <p className="text-text-secondary leading-relaxed">
+                    {project.case_study.objective}
+                  </p>
+                </div>
+              </ScrollReveal>
+            )}
+
+            {project.case_study.approach && (
+              <ScrollReveal>
+                <div className="mb-16">
+                  <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+                    Approach
+                  </p>
+                  <p className="text-text-secondary leading-relaxed">
+                    {project.case_study.approach}
+                  </p>
+                </div>
+              </ScrollReveal>
+            )}
+
+            {project.case_study.execution && (
+              <ScrollReveal>
+                <div className="mb-16">
+                  <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+                    Execution
+                  </p>
+                  <p className="text-text-secondary leading-relaxed">
+                    {project.case_study.execution}
+                  </p>
+                </div>
+              </ScrollReveal>
+            )}
+
+            {project.case_study.outcome && (
+              <ScrollReveal>
+                <div className="mb-16">
+                  <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-4">
+                    Outcome
+                  </p>
+                  <p className="text-text-secondary leading-relaxed">
+                    {project.case_study.outcome}
+                  </p>
+                </div>
+              </ScrollReveal>
+            )}
+
+            {/* Metrics */}
+            {project.case_study.metrics && project.case_study.metrics.length > 0 && (
+              <ScrollReveal>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-t border-b border-border">
+                  {project.case_study.metrics.map((metric, i) => (
+                    <div key={i}>
+                      <p className="font-display text-3xl font-bold text-accent tracking-tight">
+                        {metric.value}
+                      </p>
+                      <p className="text-sm text-text-muted mt-1">{metric.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </ScrollReveal>
+            )}
+          </Container>
+        </section>
       )}
 
       {/* Gallery */}
       {project.media && project.media.length > 0 && (
-        <Section>
+        <section className="py-16 md:py-24">
           <Container>
-            {project.type === 'gallery' && (
-              <Eyebrow className="mb-10">Gallery</Eyebrow>
-            )}
-            {project.type === 'case-study' && (
-              <Eyebrow className="mb-10">Project Images</Eyebrow>
-            )}
-            <Gallery images={project.media} />
+            <ScrollReveal>
+              <p className="text-[13px] font-medium tracking-[0.2em] uppercase text-accent mb-10">
+                Project Gallery
+              </p>
+              <Gallery images={project.media} />
+            </ScrollReveal>
           </Container>
-        </Section>
+        </section>
       )}
+
+      {/* Back link */}
+      <section className="pb-20 md:pb-28">
+        <Container>
+          <Link
+            href="/work"
+            className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent transition-colors"
+          >
+            &larr; Back to all work
+          </Link>
+        </Container>
+      </section>
     </>
   )
 }

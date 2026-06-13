@@ -3,109 +3,123 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X } from 'lucide-react'
-
-interface NavLink {
-  label: string
-  href: string
-}
-
-// Hardcoded fallback in case CMS data fails to load
-const FALLBACK_LINKS: NavLink[] = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-]
 
 interface HeaderProps {
-  navLinks?: NavLink[]
+  navLinks: { label: string; href: string }[]
 }
 
 export default function Header({ navLinks }: HeaderProps) {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
 
-  const links = navLinks && navLinks.length > 0 ? navLinks : FALLBACK_LINKS
-
-  // Don't render header on admin routes
-  const isAdmin = pathname?.startsWith('/admin')
-
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => {
-    setMenuOpen(false)
+    setIsOpen(false)
   }, [pathname])
 
-  if (isAdmin) return null
+  // Hide on admin pages
+  if (pathname?.startsWith('/admin')) return null
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-cream/95 backdrop-blur-md border-b border-rule'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-[1280px] mx-auto px-6 md:px-10 flex items-center justify-between h-16 md:h-20">
-        <Link
-          href="/"
-          className="font-serif text-lg font-semibold tracking-tight text-ink hover:text-accent transition-colors"
-        >
-          Justin Ukaegbu
-        </Link>
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? 'bg-bg/90 backdrop-blur-md border-b border-border'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="max-w-[1440px] mx-auto px-6 md:px-10 flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <Link href="/" className="relative z-50">
+            <span className="font-display text-lg font-bold tracking-tight text-text">
+              JU<span className="text-accent">.</span>
+            </span>
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-10">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-[13px] font-medium tracking-[0.08em] uppercase transition-colors ${
-                pathname === link.href || pathname?.startsWith(link.href + '/')
-                  ? 'text-ink'
-                  : 'text-ink-muted hover:text-ink'
-              }`}
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-[13px] font-medium tracking-[0.08em] uppercase transition-colors duration-300 ${
+                  pathname === link.href || pathname?.startsWith(link.href + '/')
+                    ? 'text-text'
+                    : 'text-text-secondary hover:text-text'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href="mailto:mrjustinukaegbu@gmail.com"
+              className="text-[13px] font-medium tracking-[0.08em] uppercase text-accent hover:text-accent-hover transition-colors duration-300"
             >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+              Let&apos;s Talk
+            </a>
+          </nav>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden p-2 text-ink"
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="relative z-50 md:hidden w-8 h-8 flex flex-col items-center justify-center gap-1.5"
+            aria-label="Toggle menu"
+          >
+            <span
+              className={`block w-6 h-[1.5px] bg-text transition-all duration-300 ${
+                isOpen ? 'rotate-45 translate-y-[4.5px]' : ''
+              }`}
+            />
+            <span
+              className={`block w-6 h-[1.5px] bg-text transition-all duration-300 ${
+                isOpen ? '-rotate-45 -translate-y-[4.5px]' : ''
+              }`}
+            />
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-bg transition-opacity duration-500 md:hidden ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="flex flex-col items-start justify-center h-full px-10">
+          <nav className="flex flex-col gap-6">
+            {navLinks.map((link, i) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`font-display text-4xl font-bold tracking-tight transition-all duration-500 ${
+                  isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                } ${
+                  pathname === link.href ? 'text-accent' : 'text-text hover:text-accent'
+                }`}
+                style={{ transitionDelay: isOpen ? `${0.1 + i * 0.05}s` : '0s' }}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href="mailto:mrjustinukaegbu@gmail.com"
+              className={`font-display text-4xl font-bold tracking-tight text-accent hover:text-accent-hover transition-all duration-500 ${
+                isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+              }`}
+              style={{ transitionDelay: isOpen ? `${0.1 + navLinks.length * 0.05}s` : '0s' }}
+            >
+              Let&apos;s Talk
+            </a>
+          </nav>
+        </div>
       </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <nav className="md:hidden bg-cream border-t border-rule px-6 pb-8 pt-4 fade-in">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className={`block py-3 text-[15px] font-medium tracking-wide transition-colors ${
-                pathname === link.href
-                  ? 'text-accent'
-                  : 'text-ink-soft hover:text-accent'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-      )}
-    </header>
+    </>
   )
 }

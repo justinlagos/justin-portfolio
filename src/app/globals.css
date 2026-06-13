@@ -1,21 +1,47 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #F5F2EC;
-  --color-cream-dark: #EDE8E0;
-  --color-ink: #141210;
-  --color-ink-soft: #3A3530;
-  --color-ink-muted: #8A8070;
-  --color-accent: #C8622A;
-  --color-accent-light: #F0D4C0;
-  --color-rule: #D8D0C4;
-  --color-white-warm: #FDFCFA;
+  /* ── Backgrounds ── */
+  --color-bg: #0A0A0A;
+  --color-bg-elevated: #141414;
+  --color-bg-light: #F7F6F3;
+  --color-surface: #FFFFFF;
 
+  /* ── Text ── */
+  --color-text: #FFFFFF;
+  --color-text-secondary: #888888;
+  --color-text-muted: #555555;
+  --color-text-dark: #0A0A0A;
+  --color-text-dark-secondary: #444444;
+
+  /* ── Accent ── */
+  --color-accent: #E8572A;
+  --color-accent-hover: #FF6B3D;
+  --color-accent-soft: rgba(232, 87, 42, 0.15);
+
+  /* ── Borders ── */
+  --color-border: #222222;
+  --color-border-light: #E0DDD8;
+
+  /* ── Legacy compat ── */
+  --color-cream: #F7F6F3;
+  --color-cream-dark: #EDEBE6;
+  --color-ink: #0A0A0A;
+  --color-ink-soft: #444444;
+  --color-ink-muted: #888888;
+  --color-rule: #222222;
+  --color-white-warm: #F7F6F3;
+  --color-accent-light: rgba(232, 87, 42, 0.3);
+
+  /* ── Fonts ── */
+  --font-display: 'Syne', 'Arial Black', sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
 }
 
-/* ── Base ── */
+/* ═══════════════════
+   BASE
+   ═══════════════════ */
 
 html {
   scroll-behavior: smooth;
@@ -25,37 +51,60 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-cream);
-  color: var(--color-ink);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 ::selection {
-  background-color: var(--color-accent-light);
-  color: var(--color-ink);
+  background-color: var(--color-accent);
+  color: var(--color-text);
 }
 
-/* ── Typography ── */
+/* ═══════════════════
+   TYPOGRAPHY
+   ═══════════════════ */
 
-h1, h2, h3, h4 {
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+}
+
+h4 {
   font-family: var(--font-serif);
   font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 p {
   line-height: 1.75;
 }
 
-/* ── Transitions ── */
+/* ═══════════════════
+   SCROLL REVEAL
+   ═══════════════════ */
 
-.fade-in {
-  animation: fadeIn 0.6s ease both;
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fade-up {
-  animation: fadeUp 0.7s ease both;
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ═══════════════════
+   ANIMATIONS
+   ═══════════════════ */
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -63,17 +112,56 @@ p {
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Lightbox ── */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-fade-in { animation: fadeIn 0.6s ease both; }
+.animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-up-delay { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+.animate-slide-in { animation: slideIn 0.6s ease both; }
+.animate-marquee { animation: marquee 30s linear infinite; }
+
+/* ═══════════════════
+   IMAGE HOVER
+   ═══════════════════ */
+
+.img-hover {
+  overflow: hidden;
+}
+
+.img-hover img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.img-hover:hover img {
+  transform: scale(1.05);
+}
+
+/* ═══════════════════
+   LIGHTBOX
+   ═══════════════════ */
 
 .lightbox-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0, 0, 0, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,21 +174,55 @@ p {
   object-fit: contain;
 }
 
-/* ── Scrollbar ── */
+/* ═══════════════════
+   SCROLLBAR
+   ═══════════════════ */
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-cream);
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-rule);
-  border-radius: 3px;
+  background: var(--color-border);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink-muted);
+  background: var(--color-text-muted);
+}
+
+/* ═══════════════════
+   UTILITIES
+   ═══════════════════ */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.line-accent {
+  width: 48px;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+/* ═══════════════════
+   REDUCED MOTION
+   ═══════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-marquee {
+    animation: none;
+  }
 }

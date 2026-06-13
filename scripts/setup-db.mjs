@@ -251,11 +251,11 @@ async function run() {
   // --- Brands ---
   await sql`
     INSERT INTO brands (name, slug, description, long_description, featured_image, is_featured, sort_order, hero_color) VALUES
-      ('Take Back The Mic', 'take-back-the-mic', 'Pan-African music and cultural competition operating across 50 countries, backed by MTN and partnered with Mastercard.', 'Three seasons of brand, digital product, interactive festival, and campaign work spanning virtual environments, crypto rewards, and Mastercard partnership design.', '/assets/projects/tbtm/social-design.png', true, 1, NULL),
+      ('Take Back The Mic', 'take-back-the-mic', 'Pan-African music and cultural competition operating across 50 countries, backed by MTN and partnered with Mastercard.', 'Three seasons of brand, digital product, interactive festival, and campaign work spanning virtual environments, crypto rewards, and Mastercard partnership design.', '/assets/projects/tbtm/reachout.png', true, 1, NULL),
       ('Route to Zero', 'route-to-zero', 'Business-led membership organisation operating at government level, engaging Westminster and industry leaders on net zero policy.', 'Complete brand identity, website, and communications design. The work shapes how the organisation engages government, industry leaders, and the public.', '/assets/projects/route-to-zero/img01_7aa7926323.jpg', true, 2, NULL),
       ('Kavlr', 'kavlr', 'Digital booking and management platform for the beauty and wellness industry.', 'End-to-end product design including booking flow, business dashboard, client management, and mobile-responsive design system.', '/assets/projects/kavlr/landing-page.png', true, 3, NULL),
       ('Syntech Biofuel', 'syntech-biofuel', 'Sustainable biofuel company transforming waste into clean energy across Africa and the Middle East.', 'Brand identity and 3D campaign work positioning Syntech as a leader in sustainable biofuel production.', '/assets/projects/syntech/truck.png', true, 4, NULL),
-      ('Tryba', 'tryba', 'Digital payment and financial technology platform built for emerging markets.', '', '/assets/projects/tryba/card-green.png', true, 5, NULL),
+      ('Tryba', 'tryba', 'Digital payment and financial technology platform built for emerging markets.', '', NULL, true, 5, NULL),
       ('HashIT', 'hashit', 'Fintech application for digital asset management, payments, and crypto exchange.', '', '/assets/projects/hashit/app.png', false, 6, NULL),
       ('EasyJet', 'easyjet', 'European low-cost airline. Campaign and visual design work.', '', NULL, false, 7, '#FF6600'),
       ('Sparkle', 'sparkle', 'Digital banking platform for Nigerians, offering seamless financial services.', '', NULL, false, 8, '#4CAF50'),
@@ -269,12 +269,12 @@ async function run() {
       SELECT slug, id FROM brands
     )
     INSERT INTO projects (brand_id, title, slug, type, summary, year, services, featured_image, is_featured, sort_order) VALUES
-      ((SELECT id FROM brand_ids WHERE slug = 'take-back-the-mic'), 'Brand Identity and Campaign', 'tbtm-brand-campaign', 'case-study', 'Complete brand identity, digital product, and interactive platform for Africa''s largest music competition.', '2021 to 2024', 'Brand Identity, Digital Product, Campaign, Interactive', '/assets/projects/tbtm/social-design.png', true, 1),
-      ((SELECT id FROM brand_ids WHERE slug = 'take-back-the-mic'), 'Access Bank Partnership', 'tbtm-access-bank', 'gallery', 'Brand collateral, debit card design, and social media campaign for the Access Bank x TBTM partnership.', '2022 to 2023', 'Card Design, Brand Collateral, Social Media', '/assets/projects/tbtm/debit-cards.png', false, 2),
+      ((SELECT id FROM brand_ids WHERE slug = 'take-back-the-mic'), 'Brand Identity and Campaign', 'tbtm-brand-campaign', 'case-study', 'Complete brand identity, digital product, and interactive platform for Africa''s largest music competition.', '2021 to 2024', 'Brand Identity, Digital Product, Campaign, Interactive', '/assets/projects/tbtm/reachout.png', true, 1),
+      ((SELECT id FROM brand_ids WHERE slug = 'take-back-the-mic'), 'Access Bank Partnership', 'tbtm-access-bank', 'gallery', 'Brand collateral and social media campaign for the Access Bank x TBTM partnership.', '2022 to 2023', 'Brand Collateral, Social Media', '/assets/projects/tbtm/access-branding.png', false, 2),
       ((SELECT id FROM brand_ids WHERE slug = 'route-to-zero'), 'Brand Identity and Website', 'route-to-zero-brand', 'case-study', 'Brand identity, website, and communications for a business-led membership organisation operating at government level.', '2024 to Present', 'Brand Identity, Web Design, Communications', '/assets/projects/route-to-zero/img01_7aa7926323.jpg', true, 1),
       ((SELECT id FROM brand_ids WHERE slug = 'kavlr'), 'Product Design and UX', 'kavlr-product', 'case-study', 'End-to-end product design for a digital booking and management platform in the beauty and wellness industry.', '2022 to 2024', 'Product Design, UX/UI, Design System', '/assets/projects/kavlr/landing-page.png', true, 1),
       ((SELECT id FROM brand_ids WHERE slug = 'syntech-biofuel'), 'Brand and Campaign', 'syntech-brand', 'case-study', 'Brand identity and campaign design for a sustainable biofuel company.', '2024', 'Brand Identity, Campaign, 3D Visualisation', '/assets/projects/syntech/truck.png', true, 1),
-      ((SELECT id FROM brand_ids WHERE slug = 'tryba'), 'Product and Brand Design', 'tryba-product', 'gallery', 'Product design and brand identity for a digital payment platform in emerging markets.', '2022 to 2023', 'Product Design, Brand Identity, Campaign', '/assets/projects/tryba/card-green.png', false, 1),
+      ((SELECT id FROM brand_ids WHERE slug = 'tryba'), 'Product and Brand Design', 'tryba-product', 'gallery', 'Product design and brand identity for a digital payment platform in emerging markets.', '2022 to 2023', 'Product Design, Brand Identity, Campaign', NULL, false, 1),
       ((SELECT id FROM brand_ids WHERE slug = 'hashit'), 'App Design and UX', 'hashit-app', 'gallery', 'Product design for a fintech application covering digital asset management, payments, and crypto exchange.', '2023 to 2024', 'Product Design, UX/UI, Fintech', '/assets/projects/hashit/app.png', false, 1),
       ((SELECT id FROM brand_ids WHERE slug = 'easyjet'), 'Campaign Design', 'easyjet-campaign', 'gallery', 'Visual design and campaign work for the European airline.', '2024', 'Campaign, Visual Design', NULL, false, 1),
       ((SELECT id FROM brand_ids WHERE slug = 'sparkle'), 'Brand Design', 'sparkle-brand', 'gallery', 'Brand design for a Nigerian digital banking platform.', '2021 to 2022', 'Brand Identity, Digital Design', NULL, false, 1),
@@ -494,36 +494,38 @@ async function run() {
       SELECT slug, id FROM projects
     )
     INSERT INTO project_media (project_id, image_url, alt_text, is_cover, sort_order) VALUES
-      -- TBTM Brand Campaign
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-design.png', 'TBTM social media design system', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-1.png', 'TBTM social media post 1', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-2.png', 'TBTM social media post 2', false, 3),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/social-3.png', 'TBTM social media post 3', false, 4),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/reachout.png', 'TBTM Reachout campaign', false, 5),
-      -- TBTM Access Bank
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/debit-cards.png', 'Access Bank x TBTM debit card designs', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-logo.png', 'Access Bank x TBTM partnership logo', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-branding.png', 'Access Bank x TBTM branding', false, 3),
-      -- Kavlr Product
+      -- TBTM Brand Campaign (reachout.png is the only genuine TBTM image)
+      ((SELECT id FROM project_data WHERE slug = 'tbtm-brand-campaign'), '/assets/projects/tbtm/reachout.png', 'Reachout Medical agency worker handbook', true, 1),
+      -- TBTM Access Bank (access-branding + logo; NOT debit-cards which is Kavlr)
+      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-branding.png', 'Access Bank brand guide — more than banking', true, 1),
+      ((SELECT id FROM project_data WHERE slug = 'tbtm-access-bank'), '/assets/projects/tbtm/access-logo.png', 'Access Bank x Diamond merger logo', false, 2),
+      -- Kavlr Product (web/app designs + card images from tbtm/ and tryba/ folders)
       ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/landing-page.png', 'Kavlr landing page design', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/dashboard.png', 'Kavlr business dashboard', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-1.png', 'Kavlr desktop view 1', false, 3),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-2.png', 'Kavlr desktop view 2', false, 4),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/booking-1.png', 'Kavlr booking flow', false, 5),
-      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/mobile.png', 'Kavlr mobile design', false, 6),
-      -- Syntech Brand
-      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/truck.png', 'Syntech branded truck', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-1.jpg', 'Syntech social campaign 1', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-2.jpg', 'Syntech social campaign 2', false, 3),
-      -- Tryba Product
-      ((SELECT id FROM project_data WHERE slug = 'tryba-product'), '/assets/projects/tryba/card-green.png', 'Tryba green card design', true, 1),
-      ((SELECT id FROM project_data WHERE slug = 'tryba-product'), '/assets/projects/tryba/card-black.png', 'Tryba black card design', false, 2),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/dashboard.png', 'Kavlr booking dashboard', false, 2),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-1.png', 'Kavlr business banking page', false, 3),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/desktop-2.png', 'Kavlr desktop landing page', false, 4),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/booking-1.png', 'Kavlr mobile booking flow', false, 5),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/mobile.png', 'Kavlr mobile screens', false, 6),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/kavlr/logo.png', 'Kavlr logo sketches', false, 7),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/tryba/card-green.png', 'Kavlr green VISA card in mailer', false, 8),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/tryba/card-black.png', 'Kavlr black VISA card', false, 9),
+      ((SELECT id FROM project_data WHERE slug = 'kavlr-product'), '/assets/projects/tbtm/debit-cards.png', 'Kavlr blue and green VISA debit cards', false, 10),
+      -- Syntech Brand (truck/logo from syntech/ + social media from tbtm/ folder)
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-design.png', 'Syntech Biofuel Instagram profile mockup', true, 1),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/truck.png', 'Syntech Biofuel branded truck', false, 2),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/logo.png', 'Syntech Biofuel logo', false, 3),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-1.jpg', 'Syntech decarbonise social post', false, 4),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/syntech/social-2.jpg', 'Syntech sustainability social post', false, 5),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-1.png', 'Syntech social media grid 1', false, 6),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-2.png', 'Syntech social media grid 2', false, 7),
+      ((SELECT id FROM project_data WHERE slug = 'syntech-brand'), '/assets/projects/tbtm/social-3.png', 'Syntech social media grid 3', false, 8),
+      -- Tryba Product (no genuine Tryba images exist in repo)
       -- HashIT App
-      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/app.png', 'HashIT app design', true, 1),
+      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/app.png', 'HashIT app dashboard and quick actions', true, 1),
       ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/appstore-1.png', 'HashIT app store screenshot 1', false, 2),
-      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/appstore-2.png', 'HashIT app store screenshot 2', false, 3),
+      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/appstore-2.png', 'HashIT social features', false, 3),
       ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/crowdpool.png', 'HashIT crowdpool feature', false, 4),
-      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/navigation.png', 'HashIT navigation design', false, 5),
+      ((SELECT id FROM project_data WHERE slug = 'hashit-app'), '/assets/projects/hashit/navigation.png', 'HashIT navigation close-up', false, 5),
       -- Route to Zero (gallery images for the standard gallery view)
       ((SELECT id FROM project_data WHERE slug = 'route-to-zero-brand'), '/assets/projects/route-to-zero/img01_7aa7926323.jpg', 'Route to Zero hero landscape', true, 1),
       ((SELECT id FROM project_data WHERE slug = 'route-to-zero-brand'), '/assets/projects/route-to-zero/img02_2b4f266ae1.jpg', 'Route to Zero logo sketch', false, 2),
