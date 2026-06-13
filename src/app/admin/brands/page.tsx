@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Brand } from '@/types'
 import { Plus, Edit2, Trash2, X } from 'lucide-react'
 import FileUpload from '@/components/admin/FileUpload'
@@ -35,12 +34,9 @@ export default function BrandsPage() {
     try {
       setLoading(true)
       setError('')
-      const { data, error: fetchError } = await supabase
-        .from('brands')
-        .select('*')
-        .order('sort_order', { ascending: true })
-
-      if (fetchError) throw fetchError
+      const res = await fetch('/api/admin/brands')
+      if (!res.ok) throw new Error(await res.text())
+      const data = await res.json()
       setBrands(data || [])
     } catch (err) {
       console.error('Failed to fetch brands:', err)
@@ -88,7 +84,6 @@ export default function BrandsPage() {
         return
       }
 
-      // Explicitly build payload — never spread full formData to avoid extra fields
       const payload: Record<string, any> = {
         name: formData.name,
         slug: formData.slug,
@@ -106,22 +101,23 @@ export default function BrandsPage() {
       }
 
       if (editingId) {
-        const { error: updateError } = await supabase
-          .from('brands')
-          .update(payload)
-          .eq('id', editingId)
-
-        if (updateError) throw updateError
+        const res = await fetch('/api/admin/brands', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...payload }),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Brand updated successfully')
       } else {
-        const { error: insertError } = await supabase.from('brands').insert([
-          {
+        const res = await fetch('/api/admin/brands', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             ...payload,
             created_at: new Date().toISOString(),
-          },
-        ])
-
-        if (insertError) throw insertError
+          }),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Brand created successfully')
       }
 
@@ -129,7 +125,7 @@ export default function BrandsPage() {
       fetchBrands()
     } catch (err: any) {
       console.error('Failed to save brand:', err)
-      const msg = err?.message || err?.details || 'Unknown error'
+      const msg = err?.message || 'Unknown error'
       setError(`Failed to save brand: ${msg}`)
     }
   }
@@ -160,12 +156,12 @@ export default function BrandsPage() {
       setError('')
       setSuccess('')
 
-      const { error: deleteError } = await supabase
-        .from('brands')
-        .delete()
-        .eq('id', id)
-
-      if (deleteError) throw deleteError
+      const res = await fetch('/api/admin/brands', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Brand deleted successfully')
       fetchBrands()
     } catch (err) {

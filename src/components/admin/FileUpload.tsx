@@ -1,8 +1,11 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Upload, X, Film, Image as ImageIcon } from 'lucide-react'
+
+// TODO: Implement file storage uploads. Previously used Supabase Storage.
+// Options: Vercel Blob, Cloudinary, AWS S3, or similar.
+// For now, files can only be added via URL input.
 
 interface FileUploadProps {
   value: string
@@ -39,34 +42,9 @@ export default function FileUpload({
       return
     }
 
-    try {
-      setUploading(true)
-      setError('')
-
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
-
-      const { data, error: uploadError } = await supabase.storage
-        .from('portfolio-images')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false,
-        })
-
-      if (uploadError) throw uploadError
-
-      // Get the public URL
-      const { data: urlData } = supabase.storage
-        .from('portfolio-images')
-        .getPublicUrl(data.path)
-
-      onChange(urlData.publicUrl)
-    } catch (err: any) {
-      console.error('Upload failed:', err)
-      setError(err.message || 'Upload failed')
-    } finally {
-      setUploading(false)
-    }
+    // TODO: Implement actual file upload to your storage provider
+    // For now, show an error directing users to paste a URL instead
+    setError('File upload not yet configured. Please paste a URL directly.')
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

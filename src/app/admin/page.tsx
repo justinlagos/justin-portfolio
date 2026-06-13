@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 
 interface DashboardStats {
   totalProjects: number
@@ -31,47 +30,45 @@ export default function DashboardPage() {
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
-        // Get total projects
-        const { count: projectCount } = await supabase
-          .from('projects')
-          .select('*', { count: 'exact', head: true })
+        // Fetch projects and brands from API
+        const [projectsRes, brandsRes] = await Promise.all([
+          fetch('/api/admin/projects'),
+          fetch('/api/admin/brands'),
+        ])
 
-        // Get total brands
-        const { count: brandCount } = await supabase
-          .from('brands')
-          .select('*', { count: 'exact', head: true })
+        const projects = projectsRes.ok ? await projectsRes.json() : []
+        const brands = brandsRes.ok ? await brandsRes.json() : []
 
-        // Get published projects
-        const { count: publishedCount } = await supabase
-          .from('projects')
-          .select('*', { count: 'exact', head: true })
-          .eq('is_visible', true)
-
-        // Get recent projects with brand names
-        const { data: projects } = await supabase
-          .from('projects')
-          .select('id, title, is_visible, created_at, brands(name)')
-          .order('created_at', { ascending: false })
-          .limit(5)
+        const publishedCount = projects.filter((p: any) => p.is_visible).length
 
         setStats({
-          totalProjects: projectCount || 0,
-          totalBrands: brandCount || 0,
-          publishedProjects: publishedCount || 0,
+          totalProjects: projects.length,
+          totalBrands: brands.length,
+          publishedProjects: publishedCount,
           totalViews: 0,
         })
 
-        if (projects) {
-          setRecentProjects(
-            projects.map((p: any) => ({
-              id: p.id,
-              title: p.title,
-              brand_name: p.brands?.name || 'Unknown',
-              is_visible: p.is_visible,
-              created_at: p.created_at,
-            }))
-          )
+        // Build brand lookup map
+        const brandMap = new Map<string, string>()
+        for (const b of brands) {
+          brandMap.set(b.id, b.name)
         }
+
+        // Get 5 most recent projects
+        const sorted = [...projects].sort(
+          (a: any, b: any) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        )
+
+        setRecentProjects(
+          sorted.slice(0, 5).map((p: any) => ({
+            id: p.id,
+            title: p.title,
+            brand_name: brandMap.get(p.brand_id) || 'Unknown',
+            is_visible: p.is_visible,
+            created_at: p.created_at,
+          }))
+        )
       } catch (error) {
         console.error('Failed to load dashboard data:', error)
       } finally {

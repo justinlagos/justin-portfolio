@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 
 export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true)
@@ -17,11 +16,9 @@ export default function AnalyticsPage() {
 
   const loadAnalytics = async () => {
     try {
-      const { data, error: fetchError } = await supabase
-        .from('analytics_events')
-        .select('*')
-
-      if (fetchError && fetchError.code !== 'PGRST116') throw fetchError
+      const res = await fetch('/api/admin/analytics_events')
+      if (!res.ok) throw new Error(await res.text())
+      const data = await res.json()
 
       setStats({
         totalEvents: data?.length || 0,
@@ -68,7 +65,7 @@ export default function AnalyticsPage() {
       <div className="mt-8 rounded-lg border border-[#404040] bg-[#252525] p-6">
         <h2 className="mb-4 text-lg font-bold text-white">About Analytics</h2>
         <p className="text-white">
-          Analytics tracking is configured in your Supabase database. Events are logged when users visit your site.
+          Analytics tracking is configured in your database. Events are logged when users visit your site.
         </p>
       </div>
     </div>

@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
-import { Plus, Trash2, X } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 
 interface StyleSetting {
   id: string
@@ -25,12 +24,9 @@ export default function StyleControlsPage() {
   const loadItems = async () => {
     try {
       setLoading(true)
-      const { data, error: fetchError } = await supabase
-        .from('style_settings')
-        .select('*')
-        .order('key', { ascending: true })
-      if (fetchError) throw fetchError
-      setItems(data || [])
+      const res = await fetch('/api/admin/style_settings')
+      if (!res.ok) throw new Error(await res.text())
+      setItems(await res.json())
     } catch (err) {
       setError('Failed to load style settings')
     } finally {
@@ -56,11 +52,12 @@ export default function StyleControlsPage() {
     }
 
     try {
-      const { error: err } = await supabase
-        .from('style_settings')
-        .update({ value: newValue })
-        .eq('id', item.id)
-      if (err) throw err
+      const res = await fetch('/api/admin/style_settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: item.id, value: newValue }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Updated')
       cancelEdit(item.id)
       loadItems()
@@ -72,8 +69,12 @@ export default function StyleControlsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return
     try {
-      const { error: err } = await supabase.from('style_settings').delete().eq('id', id)
-      if (err) throw err
+      const res = await fetch('/api/admin/style_settings', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Deleted')
       loadItems()
     } catch (err) {

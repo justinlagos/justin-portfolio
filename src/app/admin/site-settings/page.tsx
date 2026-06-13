@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Plus, Trash2 } from 'lucide-react'
 
 interface SiteSetting {
@@ -26,12 +25,9 @@ export default function SiteSettingsPage() {
   const loadItems = async () => {
     try {
       setLoading(true)
-      const { data, error: fetchError } = await supabase
-        .from('site_settings')
-        .select('*')
-        .order('key', { ascending: true })
-      if (fetchError) throw fetchError
-      setItems(data || [])
+      const res = await fetch('/api/admin/site_settings')
+      if (!res.ok) throw new Error(await res.text())
+      setItems(await res.json())
     } catch (err) {
       setError('Failed to load settings')
     } finally {
@@ -57,11 +53,12 @@ export default function SiteSettingsPage() {
     }
 
     try {
-      const { error: err } = await supabase
-        .from('site_settings')
-        .update({ value: newValue })
-        .eq('id', item.id)
-      if (err) throw err
+      const res = await fetch('/api/admin/site_settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: item.id, value: newValue }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Updated')
       cancelEdit(item.id)
       loadItems()
@@ -78,10 +75,12 @@ export default function SiteSettingsPage() {
     }
 
     try {
-      const { error: err } = await supabase
-        .from('site_settings')
-        .insert([{ key: newSetting.key, value: newSetting.value }])
-      if (err) throw err
+      const res = await fetch('/api/admin/site_settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newSetting),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Setting added')
       setNewSetting({ key: '', value: '' })
       loadItems()
@@ -93,8 +92,12 @@ export default function SiteSettingsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return
     try {
-      const { error: err } = await supabase.from('site_settings').delete().eq('id', id)
-      if (err) throw err
+      const res = await fetch('/api/admin/site_settings', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Deleted')
       loadItems()
     } catch (err) {

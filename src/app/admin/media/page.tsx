@@ -1,10 +1,26 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
-import { Project, ProjectMedia } from '@/types'
-import { Plus, Trash2, X, Film, Image as ImageIcon, GripVertical } from 'lucide-react'
+import { Plus, Trash2, X, Film, Image as ImageIcon } from 'lucide-react'
 import FileUpload from '@/components/admin/FileUpload'
+
+interface Project {
+  id: string
+  title: string
+  slug: string
+  [key: string]: any
+}
+
+interface ProjectMedia {
+  id: string
+  project_id: string
+  image_url: string
+  caption: string
+  alt_text: string
+  is_cover: boolean
+  sort_order: number
+  [key: string]: any
+}
 
 export default function MediaPage() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -33,12 +49,11 @@ export default function MediaPage() {
     try {
       setLoading(true)
       setError('')
-      const { data, error: fetchError } = await supabase
-        .from('projects')
-        .select('*')
-        .order('title', { ascending: true })
-
-      if (fetchError) throw fetchError
+      const res = await fetch('/api/admin/projects')
+      if (!res.ok) throw new Error(await res.text())
+      const data = await res.json()
+      // Sort by title client-side
+      data.sort((a: Project, b: Project) => (a.title || '').localeCompare(b.title || ''))
       setProjects(data || [])
     } catch (err) {
       console.error('Failed to load projects:', err)
@@ -54,14 +69,14 @@ export default function MediaPage() {
       return
     }
     try {
-      const { data, error: fetchError } = await supabase
-        .from('project_media')
-        .select('*')
-        .eq('project_id', projectId)
-        .order('sort_order', { ascending: true })
-
-      if (fetchError) throw fetchError
-      setMediaItems(data || [])
+      const res = await fetch('/api/admin/project_media')
+      if (!res.ok) throw new Error(await res.text())
+      const allMedia: ProjectMedia[] = await res.json()
+      // Filter by project_id and sort by sort_order client-side
+      const filtered = allMedia
+        .filter((m) => m.project_id === projectId)
+        .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+      setMediaItems(filtered)
     } catch (err) {
       console.error('Failed to load media:', err)
       setError('Failed to load media')
@@ -109,18 +124,20 @@ export default function MediaPage() {
         ? Math.max(...mediaItems.map((m) => m.sort_order)) + 1
         : 0
 
-      const { error: insertError } = await supabase.from('project_media').insert([
-        {
+      const res = await fetch('/api/admin/project_media', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           project_id: selectedProjectId,
           image_url: mediaUrl,
           caption: formData.caption,
           alt_text: formData.alt_text,
           is_cover: formData.is_cover,
           sort_order: nextOrder,
-        },
-      ])
+        }),
+      })
 
-      if (insertError) throw insertError
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Media added successfully')
       setFormData({
         image_url: '',
@@ -143,12 +160,13 @@ export default function MediaPage() {
     if (!confirm('Are you sure?')) return
 
     try {
-      const { error: deleteError } = await supabase
-        .from('project_media')
-        .delete()
-        .eq('id', id)
+      const res = await fetch('/api/admin/project_media', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
 
-      if (deleteError) throw deleteError
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Media deleted successfully')
       loadMedia(selectedProjectId)
     } catch (err) {
@@ -159,19 +177,25 @@ export default function MediaPage() {
 
   const handleSetCover = async (id: string) => {
     try {
-      // Unset all covers for this project
-      await supabase
-        .from('project_media')
-        .update({ is_cover: false })
-        .eq('project_id', selectedProjectId)
+      // Unset all covers for this project by updating each one
+      for (const media of mediaItems) {
+        if (media.is_cover) {
+          await fetch('/api/admin/project_media', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: media.id, is_cover: false }),
+          })
+        }
+      }
 
       // Set this one as cover
-      const { error: updateError } = await supabase
-        .from('project_media')
-        .update({ is_cover: true })
-        .eq('id', id)
+      const res = await fetch('/api/admin/project_media', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, is_cover: true }),
+      })
 
-      if (updateError) throw updateError
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Cover image updated')
       loadMedia(selectedProjectId)
     } catch (err) {

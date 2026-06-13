@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -68,10 +67,9 @@ export default function AdminLayout({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession()
-        setIsLoggedIn(!!session)
+        const res = await fetch('/api/admin/auth')
+        const data = await res.json()
+        setIsLoggedIn(data.authenticated === true)
       } catch (error) {
         console.error('Auth check failed:', error)
         setIsLoggedIn(false)
@@ -81,14 +79,6 @@ export default function AdminLayout({
     }
 
     checkAuth()
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsLoggedIn(!!session)
-    })
-
-    return () => subscription?.unsubscribe()
   }, [])
 
   useEffect(() => {
@@ -104,12 +94,8 @@ export default function AdminLayout({
     try {
       setPublishing(true)
       setPublishMessage('')
-      const { data: { session } } = await supabase.auth.getSession()
       const res = await fetch('/api/revalidate', {
         method: 'POST',
-        headers: session?.access_token
-          ? { Authorization: `Bearer ${session.access_token}` }
-          : {},
       })
       if (res.ok) {
         setPublishMessage('Published! Changes are now live.')
@@ -126,9 +112,9 @@ export default function AdminLayout({
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut()
+      await fetch('/api/admin/auth', { method: 'DELETE' })
       setIsLoggedIn(false)
-      router.push('/admin')
+      router.push('/admin/login')
     } catch (error) {
       console.error('Logout failed:', error)
     }
@@ -146,7 +132,20 @@ export default function AdminLayout({
   }
 
   if (!isLoggedIn) {
-    return <LoginForm />
+    // If we're already on the login page, render children (the login form)
+    if (pathname === '/admin/login') {
+      return <>{children}</>
+    }
+    // Otherwise redirect to login
+    router.push('/admin/login')
+    return (
+      <div className="fixed inset-0 z-[9999] flex h-screen items-center justify-center bg-[#1a1a1a] text-white">
+        <div className="text-center">
+          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-[#C8622A] border-t-white"></div>
+          <p className="text-sm text-[#888888]">Redirecting to login...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -267,91 +266,5 @@ function NavLink({
       {icon}
       <span className="truncate">{label}</span>
     </Link>
-  )
-}
-
-function LoginForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const router = useRouter()
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-
-      if (signInError) {
-        if (signInError.message.includes('Invalid login')) {
-          setError('Incorrect email or password. Please try again.')
-        } else {
-          setError(signInError.message)
-        }
-        setLoading(false)
-        return
-      }
-
-      router.push('/admin')
-    } catch {
-      setError('Something went wrong. Please try again.')
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div className="fixed inset-0 z-[9999] flex h-screen items-center justify-center bg-[#1a1a1a] text-white px-4">
-      <div className="w-full max-w-md">
-        <div className="rounded-lg border border-[#404040] bg-[#252525] p-8">
-          <h1 className="mb-2 text-2xl font-bold text-white">Admin Login</h1>
-          <p className="mb-6 text-sm text-[#888888]">Sign in to manage your portfolio</p>
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2.5 text-white placeholder-[#666666] transition-all focus:border-[#C8622A] focus:outline-none"
-                placeholder="you@example.com"
-                required
-                autoFocus
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2.5 text-white placeholder-[#666666] transition-all focus:border-[#C8622A] focus:outline-none"
-                placeholder="Password"
-                required
-              />
-            </div>
-
-            {error && (
-              <div className="rounded-lg bg-red-600/15 border border-red-600/30 px-4 py-3 text-sm text-red-400">{error}</div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-[#C8622A] px-4 py-2.5 font-medium text-white transition-colors hover:bg-[#d97535] disabled:opacity-50"
-            >
-              {loading ? 'Signing in...' : 'Sign in'}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
   )
 }

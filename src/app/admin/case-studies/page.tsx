@@ -1,9 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
-import { Project } from '@/types'
-import { Plus, Trash2, X } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
+
+interface Project {
+  id: string
+  title: string
+  slug: string
+  type: string
+  [key: string]: any
+}
 
 interface Metric {
   value: string
@@ -24,6 +30,7 @@ export default function CaseStudiesPage() {
     quote_author: '',
     metrics: [] as Metric[],
   })
+  const [existingId, setExistingId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -36,14 +43,14 @@ export default function CaseStudiesPage() {
     try {
       setLoading(true)
       setError('')
-      const { data, error: fetchError } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('type', 'case-study')
-        .order('title', { ascending: true })
-
-      if (fetchError) throw fetchError
-      setProjects(data || [])
+      const res = await fetch('/api/admin/projects')
+      if (!res.ok) throw new Error(await res.text())
+      const data: Project[] = await res.json()
+      // Filter to case-study type and sort by title
+      const caseStudyProjects = data
+        .filter((p) => p.type === 'case-study')
+        .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+      setProjects(caseStudyProjects)
     } catch (err) {
       console.error('Failed to load projects:', err)
       setError('Failed to load projects')
@@ -54,27 +61,26 @@ export default function CaseStudiesPage() {
 
   const loadCaseStudy = async (projectId: string) => {
     try {
-      const { data, error: fetchError } = await supabase
-        .from('case_studies')
-        .select('*')
-        .eq('project_id', projectId)
-        .single()
+      const res = await fetch('/api/admin/case_studies')
+      if (!res.ok) throw new Error(await res.text())
+      const allStudies = await res.json()
+      const study = allStudies.find((s: any) => s.project_id === projectId)
 
-      if (fetchError && fetchError.code !== 'PGRST116') throw fetchError
-
-      if (data) {
+      if (study) {
+        setExistingId(study.id)
         setFormData({
-          overview: data.overview || '',
-          context: data.context || '',
-          objective: data.objective || '',
-          approach: data.approach || '',
-          execution: data.execution || '',
-          outcome: data.outcome || '',
-          quote: data.quote || '',
-          quote_author: data.quote_author || '',
-          metrics: data.metrics || [],
+          overview: study.overview || '',
+          context: study.context || '',
+          objective: study.objective || '',
+          approach: study.approach || '',
+          execution: study.execution || '',
+          outcome: study.outcome || '',
+          quote: study.quote || '',
+          quote_author: study.quote_author || '',
+          metrics: study.metrics || [],
         })
       } else {
+        setExistingId(null)
         resetForm()
       }
     } catch (err) {
@@ -133,36 +139,36 @@ export default function CaseStudiesPage() {
       setError('')
       setSuccess('')
 
-      const { data: existing } = await supabase
-        .from('case_studies')
-        .select('id')
-        .eq('project_id', selectedProjectId)
-        .single()
-
-      if (existing) {
-        const { error: updateError } = await supabase
-          .from('case_studies')
-          .update({
+      if (existingId) {
+        // Update existing
+        const res = await fetch('/api/admin/case_studies', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: existingId,
             ...formData,
             updated_at: new Date().toISOString(),
-          })
-          .eq('id', existing.id)
-
-        if (updateError) throw updateError
+          }),
+        })
+        if (!res.ok) throw new Error(await res.text())
       } else {
-        const { error: insertError } = await supabase.from('case_studies').insert([
-          {
+        // Create new
+        const res = await fetch('/api/admin/case_studies', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             project_id: selectedProjectId,
             ...formData,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
-          },
-        ])
-
-        if (insertError) throw insertError
+          }),
+        })
+        if (!res.ok) throw new Error(await res.text())
       }
 
       setSuccess('Case study saved successfully')
+      // Reload to get the id if it was a new insert
+      loadCaseStudy(selectedProjectId)
     } catch (err) {
       console.error('Failed to save case study:', err)
       setError('Failed to save case study')

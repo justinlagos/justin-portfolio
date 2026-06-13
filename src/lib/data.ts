@@ -1,186 +1,177 @@
-import { supabase } from './supabase'
+import { sql } from './db'
 import type { Brand, Project, ProjectMedia, Page, SiteSetting, SocialLink, NavItem } from '@/types'
 
 // ── Brands ──
 
 export async function getBrands(): Promise<Brand[]> {
-  const { data, error } = await supabase
-    .from('brands')
-    .select('*')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch brands:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM brands WHERE is_visible = true ORDER BY sort_order ASC`
+    return rows as Brand[]
+  } catch (e) {
+    console.error('Failed to fetch brands:', e)
     return []
   }
-  return data ?? []
 }
 
 export async function getFeaturedBrands(): Promise<Brand[]> {
-  const { data, error } = await supabase
-    .from('brands')
-    .select('*')
-    .eq('is_visible', true)
-    .eq('is_featured', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch featured brands:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM brands WHERE is_visible = true AND is_featured = true ORDER BY sort_order ASC`
+    return rows as Brand[]
+  } catch (e) {
+    console.error('Failed to fetch featured brands:', e)
     return []
   }
-  return data ?? []
 }
 
 export async function getBrandBySlug(slug: string): Promise<Brand | null> {
   if (!slug) return null
-  const { data, error } = await supabase
-    .from('brands')
-    .select('*')
-    .eq('slug', slug)
-    .single()
-  if (error) return null
-  return data
+  try {
+    const rows = await sql()`SELECT * FROM brands WHERE slug = ${slug} LIMIT 1`
+    return (rows[0] as Brand) ?? null
+  } catch {
+    return null
+  }
 }
 
 // ── Projects ──
 
 export async function getProjectsForBrand(brandId: string): Promise<Project[]> {
   if (!brandId) return []
-  const { data, error } = await supabase
-    .from('projects')
-    .select('*, media:project_media(*)')
-    .eq('brand_id', brandId)
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch projects for brand:', error.message)
+  try {
+    const projects = await sql()`SELECT * FROM projects WHERE brand_id = ${brandId} AND is_visible = true ORDER BY sort_order ASC`
+    // Attach media
+    for (const p of projects) {
+      const media = await sql()`SELECT * FROM project_media WHERE project_id = ${p.id} ORDER BY sort_order ASC`
+      ;(p as any).media = media
+    }
+    return projects as Project[]
+  } catch (e) {
+    console.error('Failed to fetch projects for brand:', e)
     return []
   }
-  return data ?? []
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   if (!slug) return null
-  const { data, error } = await supabase
-    .from('projects')
-    .select('*, brand:brands(*), media:project_media(*)')
-    .eq('slug', slug)
-    .single()
-  if (error) return null
+  try {
+    const rows = await sql()`SELECT * FROM projects WHERE slug = ${slug} LIMIT 1`
+    const project = rows[0] as any
+    if (!project) return null
 
-  if (data?.type === 'case-study') {
-    const { data: cs } = await supabase
-      .from('case_studies')
-      .select('*')
-      .eq('project_id', data.id)
-      .single()
-    data.case_study = cs
+    // Attach brand
+    const brandRows = await sql()`SELECT * FROM brands WHERE id = ${project.brand_id} LIMIT 1`
+    project.brand = brandRows[0] ?? null
+
+    // Attach media
+    const media = await sql()`SELECT * FROM project_media WHERE project_id = ${project.id} ORDER BY sort_order ASC`
+    project.media = media
+
+    // Attach case study
+    if (project.type === 'case-study') {
+      const csRows = await sql()`SELECT * FROM case_studies WHERE project_id = ${project.id} LIMIT 1`
+      project.case_study = csRows[0] ?? null
+    }
+
+    return project as Project
+  } catch {
+    return null
   }
-
-  if (data?.media) {
-    data.media.sort((a: ProjectMedia, b: ProjectMedia) => a.sort_order - b.sort_order)
-  }
-
-  return data
 }
 
 export async function getFeaturedProjects(): Promise<Project[]> {
-  const { data, error } = await supabase
-    .from('projects')
-    .select('*, brand:brands(name, slug), media:project_media(*)')
-    .eq('is_visible', true)
-    .eq('is_featured', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch featured projects:', error.message)
+  try {
+    const projects = await sql()`SELECT p.*, row_to_json(b.*) as brand FROM projects p LEFT JOIN brands b ON b.id = p.brand_id WHERE p.is_visible = true AND p.is_featured = true ORDER BY p.sort_order ASC`
+    // Attach media
+    for (const p of projects) {
+      const media = await sql()`SELECT * FROM project_media WHERE project_id = ${p.id} ORDER BY sort_order ASC`
+      ;(p as any).media = media
+      // brand comes as a JSON object from row_to_json — parse if string
+      if (typeof (p as any).brand === 'string') {
+        (p as any).brand = JSON.parse((p as any).brand)
+      }
+    }
+    return projects as Project[]
+  } catch (e) {
+    console.error('Failed to fetch featured projects:', e)
     return []
   }
-  return data ?? []
 }
 
 export async function getAllProjects(): Promise<Project[]> {
-  const { data, error } = await supabase
-    .from('projects')
-    .select('*, brand:brands(name, slug)')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch all projects:', error.message)
+  try {
+    const projects = await sql()`SELECT p.*, row_to_json(b.*) as brand FROM projects p LEFT JOIN brands b ON b.id = p.brand_id WHERE p.is_visible = true ORDER BY p.sort_order ASC`
+    for (const p of projects) {
+      if (typeof (p as any).brand === 'string') {
+        (p as any).brand = JSON.parse((p as any).brand)
+      }
+    }
+    return projects as Project[]
+  } catch (e) {
+    console.error('Failed to fetch all projects:', e)
     return []
   }
-  return data ?? []
 }
 
 // ── Media ──
 
 export async function getMediaForProject(projectId: string): Promise<ProjectMedia[]> {
   if (!projectId) return []
-  const { data, error } = await supabase
-    .from('project_media')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch media:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM project_media WHERE project_id = ${projectId} ORDER BY sort_order ASC`
+    return rows as ProjectMedia[]
+  } catch (e) {
+    console.error('Failed to fetch media:', e)
     return []
   }
-  return data ?? []
 }
 
 // ── Pages ──
 
 export async function getPage(slug: string): Promise<Page | null> {
   if (!slug) return null
-  const { data, error } = await supabase
-    .from('pages')
-    .select('*')
-    .eq('slug', slug)
-    .single()
-  if (error) return null
-  return data
+  try {
+    const rows = await sql()`SELECT * FROM pages WHERE slug = ${slug} LIMIT 1`
+    return (rows[0] as Page) ?? null
+  } catch {
+    return null
+  }
 }
 
 // ── Settings ──
 
 export async function getSettings(): Promise<Record<string, string>> {
-  const { data, error } = await supabase
-    .from('site_settings')
-    .select('*')
-  if (error) {
-    console.error('Failed to fetch settings:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM site_settings`
+    const map: Record<string, string> = {}
+    rows.forEach((s: any) => { map[s.key] = s.value })
+    return map
+  } catch (e) {
+    console.error('Failed to fetch settings:', e)
     return {}
   }
-  const map: Record<string, string> = {}
-  data?.forEach((s: SiteSetting) => { map[s.key] = s.value })
-  return map
 }
 
 export async function getSocialLinks(): Promise<SocialLink[]> {
-  const { data, error } = await supabase
-    .from('social_links')
-    .select('*')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch social links:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM social_links WHERE is_visible = true ORDER BY sort_order ASC`
+    return rows as SocialLink[]
+  } catch (e) {
+    console.error('Failed to fetch social links:', e)
     return []
   }
-  return data ?? []
 }
 
 export async function getNavItems(): Promise<NavItem[]> {
-  const { data, error } = await supabase
-    .from('nav_items')
-    .select('*')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch nav items:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM nav_items WHERE is_visible = true ORDER BY sort_order ASC`
+    return rows as NavItem[]
+  } catch (e) {
+    console.error('Failed to fetch nav items:', e)
     return []
   }
-  return data ?? []
 }
 
-// ── Stats ── (DB uses 'number' column, not 'value')
+// ── Stats ──
 
 export interface Stat {
   id: string
@@ -190,15 +181,13 @@ export interface Stat {
 }
 
 export async function getStats(): Promise<Stat[]> {
-  const { data, error } = await supabase
-    .from('stats')
-    .select('*')
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch stats:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM stats ORDER BY sort_order ASC`
+    return rows as Stat[]
+  } catch (e) {
+    console.error('Failed to fetch stats:', e)
     return []
   }
-  return data ?? []
 }
 
 // ── Clients ──
@@ -213,19 +202,16 @@ export interface ClientItem {
 }
 
 export async function getClients(): Promise<ClientItem[]> {
-  const { data, error } = await supabase
-    .from('clients')
-    .select('*')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch clients:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM clients WHERE is_visible = true ORDER BY sort_order ASC`
+    return rows as ClientItem[]
+  } catch (e) {
+    console.error('Failed to fetch clients:', e)
     return []
   }
-  return data ?? []
 }
 
-// ── Credentials ── (DB uses 'number', 'title', 'description', 'is_visible')
+// ── Credentials ──
 
 export interface CredentialItem {
   id: string
@@ -237,19 +223,16 @@ export interface CredentialItem {
 }
 
 export async function getCredentials(): Promise<CredentialItem[]> {
-  const { data, error } = await supabase
-    .from('credentials')
-    .select('*')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch credentials:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM credentials WHERE is_visible = true ORDER BY sort_order ASC`
+    return rows as CredentialItem[]
+  } catch (e) {
+    console.error('Failed to fetch credentials:', e)
     return []
   }
-  return data ?? []
 }
 
-// ── Products ── (DB uses 'title', 'description', 'url', 'icon', 'is_visible')
+// ── Products ──
 
 export interface ProductItem {
   id: string
@@ -262,14 +245,11 @@ export interface ProductItem {
 }
 
 export async function getProducts(): Promise<ProductItem[]> {
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
-  if (error) {
-    console.error('Failed to fetch products:', error.message)
+  try {
+    const rows = await sql()`SELECT * FROM products WHERE is_visible = true ORDER BY sort_order ASC`
+    return rows as ProductItem[]
+  } catch (e) {
+    console.error('Failed to fetch products:', e)
     return []
   }
-  return data ?? []
 }

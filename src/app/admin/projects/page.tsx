@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Brand, Project } from '@/types'
 import { Plus, Edit2, Trash2, X } from 'lucide-react'
 import FileUpload from '@/components/admin/FileUpload'
@@ -38,20 +37,30 @@ export default function ProjectsPage() {
       setLoading(true)
       setError('')
 
-      const { data: projectsData, error: projectsError } = await supabase
-        .from('projects')
-        .select('*, brands(name)')
-        .order('sort_order', { ascending: true })
+      const [projectsRes, brandsRes] = await Promise.all([
+        fetch('/api/admin/projects'),
+        fetch('/api/admin/brands'),
+      ])
 
-      const { data: brandsData, error: brandsError } = await supabase
-        .from('brands')
-        .select('*')
-        .order('sort_order', { ascending: true })
+      if (!projectsRes.ok) throw new Error(await projectsRes.text())
+      if (!brandsRes.ok) throw new Error(await brandsRes.text())
 
-      if (projectsError) throw projectsError
-      if (brandsError) throw brandsError
+      const projectsData = await projectsRes.json()
+      const brandsData = await brandsRes.json()
 
-      setProjects(projectsData || [])
+      // Build brand lookup for display
+      const brandMap = new Map<string, string>()
+      for (const b of brandsData) {
+        brandMap.set(b.id, b.name)
+      }
+
+      // Attach brand name to projects for display
+      const enrichedProjects = projectsData.map((p: any) => ({
+        ...p,
+        brands: { name: brandMap.get(p.brand_id) || 'Unknown' },
+      }))
+
+      setProjects(enrichedProjects)
       setBrands(brandsData || [])
     } catch (err) {
       console.error('Failed to load data:', err)
@@ -103,7 +112,6 @@ export default function ProjectsPage() {
         return
       }
 
-      // Serialize services: store as comma-separated string for text column
       const servicesRaw = Array.isArray(formData.services)
         ? formData.services
         : typeof formData.services === 'string'
@@ -111,7 +119,6 @@ export default function ProjectsPage() {
         : []
       const servicesStr = servicesRaw.filter(Boolean).join(', ')
 
-      // Explicitly build payload — never spread full formData to avoid sending joined/extra fields
       const payload: Record<string, any> = {
         title: formData.title,
         slug: formData.slug,
@@ -130,22 +137,23 @@ export default function ProjectsPage() {
       }
 
       if (editingId) {
-        const { error: updateError } = await supabase
-          .from('projects')
-          .update(payload)
-          .eq('id', editingId)
-
-        if (updateError) throw updateError
+        const res = await fetch('/api/admin/projects', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...payload }),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Project updated successfully')
       } else {
-        const { error: insertError } = await supabase.from('projects').insert([
-          {
+        const res = await fetch('/api/admin/projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             ...payload,
             created_at: new Date().toISOString(),
-          },
-        ])
-
-        if (insertError) throw insertError
+          }),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Project created successfully')
       }
 
@@ -153,13 +161,12 @@ export default function ProjectsPage() {
       loadData()
     } catch (err: any) {
       console.error('Failed to save project:', err)
-      const msg = err?.message || err?.details || 'Unknown error'
+      const msg = err?.message || 'Unknown error'
       setError(`Failed to save project: ${msg}`)
     }
   }
 
   const handleEdit = (project: any) => {
-    // Only copy fields that exist in our form — exclude id, timestamps, and joined relations
     const services = typeof project.services === 'string'
       ? project.services.split(',').map((s: string) => s.trim()).filter(Boolean)
       : Array.isArray(project.services)
@@ -191,12 +198,12 @@ export default function ProjectsPage() {
       setError('')
       setSuccess('')
 
-      const { error: deleteError } = await supabase
-        .from('projects')
-        .delete()
-        .eq('id', id)
-
-      if (deleteError) throw deleteError
+      const res = await fetch('/api/admin/projects', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Project deleted successfully')
       loadData()
     } catch (err) {

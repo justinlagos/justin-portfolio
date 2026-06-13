@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Plus, Edit2, Trash2, X } from 'lucide-react'
 
 interface Credential {
@@ -36,12 +35,9 @@ export default function CredentialsPage() {
     try {
       setLoading(true)
       setError('')
-      const { data, error: fetchError } = await supabase
-        .from('credentials')
-        .select('*')
-        .order('sort_order', { ascending: true })
-
-      if (fetchError) throw fetchError
+      const res = await fetch('/api/admin/credentials')
+      if (!res.ok) throw new Error(await res.text())
+      const data = await res.json()
       setItems(data || [])
     } catch (err) {
       console.error('Failed to load credentials:', err)
@@ -78,17 +74,20 @@ export default function CredentialsPage() {
       }
 
       if (editingId) {
-        const { error: updateError } = await supabase
-          .from('credentials')
-          .update(formData)
-          .eq('id', editingId)
-
-        if (updateError) throw updateError
+        const res = await fetch('/api/admin/credentials', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...formData }),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Credential updated successfully')
       } else {
-        const { error: insertError } = await supabase.from('credentials').insert([formData])
-
-        if (insertError) throw insertError
+        const res = await fetch('/api/admin/credentials', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Credential created successfully')
       }
 
@@ -118,9 +117,12 @@ export default function CredentialsPage() {
 
     try {
       setError('')
-      const { error: deleteError } = await supabase.from('credentials').delete().eq('id', id)
-
-      if (deleteError) throw deleteError
+      const res = await fetch('/api/admin/credentials', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Credential deleted successfully')
       loadItems()
     } catch (err) {
@@ -185,130 +187,54 @@ export default function CredentialsPage() {
             <div className="grid gap-6 md:grid-cols-2">
               <div>
                 <label className="mb-2 block text-sm font-medium text-white">Number/Value</label>
-                <input
-                  type="text"
-                  name="number"
-                  value={formData.number}
-                  onChange={handleInputChange}
-                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-                  placeholder="e.g., 10+"
-                />
+                <input type="text" name="number" value={formData.number} onChange={handleInputChange} className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none" placeholder="e.g., 10+" />
               </div>
-
               <div>
                 <label className="mb-2 block text-sm font-medium text-white">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-                  placeholder="Credential title"
-                  required
-                />
+                <input type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none" placeholder="Credential title" required />
               </div>
             </div>
-
             <div>
               <label className="mb-2 block text-sm font-medium text-white">Description</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-                placeholder="Description"
-                rows={3}
-              />
+              <textarea name="description" value={formData.description} onChange={handleInputChange} className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none" placeholder="Description" rows={3} />
             </div>
-
             <div className="grid gap-6 md:grid-cols-3">
               <div>
                 <label className="mb-2 block text-sm font-medium text-white">Sort Order</label>
-                <input
-                  type="number"
-                  name="sort_order"
-                  value={formData.sort_order}
-                  onChange={handleInputChange}
-                  className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none"
-                />
+                <input type="number" name="sort_order" value={formData.sort_order} onChange={handleInputChange} className="w-full rounded-lg border border-[#404040] bg-[#1a1a1a] px-4 py-2 text-white placeholder-[#888888] transition-all focus:border-[#C8622A] focus:outline-none" />
               </div>
-
               <div>
                 <label className="flex items-center gap-3 mt-8">
-                  <input
-                    type="checkbox"
-                    name="is_visible"
-                    checked={formData.is_visible}
-                    onChange={handleInputChange}
-                    className="h-4 w-4 rounded border-[#404040] bg-[#1a1a1a] accent-[#C8622A]"
-                  />
+                  <input type="checkbox" name="is_visible" checked={formData.is_visible} onChange={handleInputChange} className="h-4 w-4 rounded border-[#404040] bg-[#1a1a1a] accent-[#C8622A]" />
                   <span className="text-sm font-medium text-white">Visible</span>
                 </label>
               </div>
             </div>
-
             <div className="flex gap-4">
-              <button
-                type="submit"
-                className="rounded-lg bg-[#C8622A] px-6 py-2 font-medium text-white transition-colors hover:bg-[#d97535]"
-              >
-                {editingId ? 'Update' : 'Create'}
-              </button>
-              <button
-                type="button"
-                onClick={resetForm}
-                className="rounded-lg border border-[#404040] px-6 py-2 font-medium text-white transition-colors hover:bg-[#2d2d2d]"
-              >
-                Cancel
-              </button>
+              <button type="submit" className="rounded-lg bg-[#C8622A] px-6 py-2 font-medium text-white transition-colors hover:bg-[#d97535]">{editingId ? 'Update' : 'Create'}</button>
+              <button type="button" onClick={resetForm} className="rounded-lg border border-[#404040] px-6 py-2 font-medium text-white transition-colors hover:bg-[#2d2d2d]">Cancel</button>
             </div>
           </form>
         </div>
       )}
 
       {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="text-center">
-            <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-[#C8622A] border-t-white"></div>
-            <p className="text-white">Loading...</p>
-          </div>
-        </div>
+        <div className="flex items-center justify-center py-12"><div className="text-center"><div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-[#C8622A] border-t-white"></div><p className="text-white">Loading...</p></div></div>
       ) : items.length === 0 ? (
-        <div className="rounded-lg border border-[#404040] bg-[#252525] p-12 text-center">
-          <p className="text-[#888888]">No credentials yet</p>
-        </div>
+        <div className="rounded-lg border border-[#404040] bg-[#252525] p-12 text-center"><p className="text-[#888888]">No credentials yet</p></div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-[#404040] bg-[#252525]">
           <table className="w-full">
-            <thead>
-              <tr className="border-b border-[#404040] text-left text-sm font-medium text-[#888888]">
-                <th className="px-6 py-4">Title</th>
-                <th className="px-6 py-4">Order</th>
-                <th className="px-6 py-4">Actions</th>
-              </tr>
-            </thead>
+            <thead><tr className="border-b border-[#404040] text-left text-sm font-medium text-[#888888]"><th className="px-6 py-4">Title</th><th className="px-6 py-4">Order</th><th className="px-6 py-4">Actions</th></tr></thead>
             <tbody>
               {items.map((item) => (
-                <tr
-                  key={item.id}
-                  className="border-b border-[#404040] text-sm transition-colors hover:bg-[#2d2d2d] last:border-0"
-                >
+                <tr key={item.id} className="border-b border-[#404040] text-sm transition-colors hover:bg-[#2d2d2d] last:border-0">
                   <td className="px-6 py-4 text-white">{item.title}</td>
                   <td className="px-6 py-4 text-white">{item.sort_order}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="rounded-lg p-2 text-[#888888] transition-colors hover:bg-[#2d2d2d] hover:text-white"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="rounded-lg p-2 text-[#888888] transition-colors hover:bg-red-600/20 hover:text-red-400"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      <button onClick={() => handleEdit(item)} className="rounded-lg p-2 text-[#888888] transition-colors hover:bg-[#2d2d2d] hover:text-white"><Edit2 size={16} /></button>
+                      <button onClick={() => handleDelete(item.id)} className="rounded-lg p-2 text-[#888888] transition-colors hover:bg-red-600/20 hover:text-red-400"><Trash2 size={16} /></button>
                     </div>
                   </td>
                 </tr>

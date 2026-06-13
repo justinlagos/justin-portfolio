@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Plus, Edit2, Trash2, X } from 'lucide-react'
 import FileUpload from '@/components/admin/FileUpload'
 
@@ -36,13 +35,9 @@ export default function ClientsPage() {
   const loadItems = async () => {
     try {
       setLoading(true)
-      const { data, error: fetchError } = await supabase
-        .from('clients')
-        .select('*')
-        .order('sort_order', { ascending: true })
-
-      if (fetchError) throw fetchError
-      setItems(data || [])
+      const res = await fetch('/api/admin/clients')
+      if (!res.ok) throw new Error(await res.text())
+      setItems(await res.json())
     } catch (err) {
       console.error('Failed to load clients:', err)
       setError('Failed to load clients')
@@ -73,15 +68,20 @@ export default function ClientsPage() {
 
     try {
       if (editingId) {
-        const { error: updateError } = await supabase
-          .from('clients')
-          .update(formData)
-          .eq('id', editingId)
-        if (updateError) throw updateError
+        const res = await fetch('/api/admin/clients', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...formData }),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Client updated successfully')
       } else {
-        const { error: insertError } = await supabase.from('clients').insert([formData])
-        if (insertError) throw insertError
+        const res = await fetch('/api/admin/clients', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Client created successfully')
       }
       resetForm()
@@ -107,8 +107,12 @@ export default function ClientsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return
     try {
-      const { error: deleteError } = await supabase.from('clients').delete().eq('id', id)
-      if (deleteError) throw deleteError
+      const res = await fetch('/api/admin/clients', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       setSuccess('Client deleted successfully')
       loadItems()
     } catch (err) {

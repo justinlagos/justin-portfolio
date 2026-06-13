@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Page } from '@/types'
 import { Edit2, Plus, X } from 'lucide-react'
 
@@ -29,12 +28,9 @@ export default function PagesPage() {
     try {
       setLoading(true)
       setError('')
-      const { data, error: fetchError } = await supabase
-        .from('pages')
-        .select('*')
-        .order('slug', { ascending: true })
-
-      if (fetchError) throw fetchError
+      const res = await fetch('/api/admin/pages')
+      if (!res.ok) throw new Error(await res.text())
+      const data = await res.json()
       setPages(data || [])
     } catch (err) {
       console.error('Failed to fetch pages:', err)
@@ -101,7 +97,6 @@ export default function PagesPage() {
         return
       }
 
-      // Build content object from fields
       const content: Record<string, string> = {}
       contentFields.forEach(({ key, value }) => {
         if (key.trim()) {
@@ -109,7 +104,6 @@ export default function PagesPage() {
         }
       })
 
-      // Explicitly build payload — pages table has no created_at column
       const pagePayload: Record<string, any> = {
         title: formData.title,
         slug: formData.slug,
@@ -120,17 +114,20 @@ export default function PagesPage() {
       }
 
       if (editingId) {
-        const { error: updateError } = await supabase
-          .from('pages')
-          .update(pagePayload)
-          .eq('id', editingId)
-
-        if (updateError) throw updateError
+        const res = await fetch('/api/admin/pages', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...pagePayload }),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Page updated successfully')
       } else {
-        const { error: insertError } = await supabase.from('pages').insert([pagePayload])
-
-        if (insertError) throw insertError
+        const res = await fetch('/api/admin/pages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(pagePayload),
+        })
+        if (!res.ok) throw new Error(await res.text())
         setSuccess('Page created successfully')
       }
 
