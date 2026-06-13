@@ -11,6 +11,6 @@ export function getStorageUrl(path: string): string {
   if (path.startsWith('http')) return path
   // Local public assets (e.g. "/assets/projects/foo.jpg") pass through unchanged.
   if (path.startsWith('/')) return path
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL
-  return `${base}/storage/v1/object/public/portfolio-images/${path}`
+  // Bare paths (e.g. "assets/projects/foo.jpg") are treated as local public assets.
+  return `/${path}`
 }
