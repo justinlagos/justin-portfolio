@@ -110,24 +110,24 @@ async function run() {
 
   // Insert all 12 images in display order
   const tbtmImages = [
-    { path: '/assets/projects/tbtm/festival-flyer-2021.jpg',       caption: '2021 I-Festival campaign flyer with full speaker lineup',        order: 1 },
-    { path: '/assets/projects/tbtm/nyc-billboard-01.jpg',           caption: 'NYC Times Square billboard placement',                          order: 2 },
-    { path: '/assets/projects/tbtm/nyc-billboard-05.jpg',           caption: 'NYC Times Square billboard with featured artist',                order: 3 },
-    { path: '/assets/projects/tbtm/nyc-billboard-08.jpg',           caption: 'Times Square building display for I-Festival',                   order: 4 },
-    { path: '/assets/projects/tbtm/panel-culture-currency.jpg',     caption: 'Speaker panel: Turning Culture Into Currency',                   order: 5 },
-    { path: '/assets/projects/tbtm/panel-innovation-africa.jpg',    caption: 'Speaker panel: Future of Innovation in Africa',                  order: 6 },
-    { path: '/assets/projects/tbtm/festival-tile-2022.jpg',         caption: '2022 I-Festival hero tile',                                     order: 7 },
-    { path: '/assets/projects/tbtm/festival-partners-2022.jpg',     caption: '2022 I-Festival partner logos including Forbes and GSMA',        order: 8 },
-    { path: '/assets/projects/tbtm/festival-schedule-2022.jpg',     caption: '2022 I-Festival day schedule',                                  order: 9 },
-    { path: '/assets/projects/tbtm/festival-speakers-2022.jpg',     caption: '2022 I-Festival full speaker poster',                           order: 10 },
-    { path: '/assets/projects/tbtm/webby-nomination-1.png',         caption: 'Webby Award nomination',                                       order: 11 },
-    { path: '/assets/projects/tbtm/webby-nomination-2.png',         caption: 'Webby Award nomination campaign',                               order: 12 },
+    { path: '/assets/projects/tbtm/festival-flyer-2021.jpg',       alt: '2021 I-Festival campaign flyer with full speaker lineup',        order: 1,  cover: true },
+    { path: '/assets/projects/tbtm/nyc-billboard-01.jpg',           alt: 'NYC Times Square billboard placement',                          order: 2,  cover: false },
+    { path: '/assets/projects/tbtm/nyc-billboard-05.jpg',           alt: 'NYC Times Square billboard with featured artist',                order: 3,  cover: false },
+    { path: '/assets/projects/tbtm/nyc-billboard-08.jpg',           alt: 'Times Square building display for I-Festival',                   order: 4,  cover: false },
+    { path: '/assets/projects/tbtm/panel-culture-currency.jpg',     alt: 'Speaker panel: Turning Culture Into Currency',                   order: 5,  cover: false },
+    { path: '/assets/projects/tbtm/panel-innovation-africa.jpg',    alt: 'Speaker panel: Future of Innovation in Africa',                  order: 6,  cover: false },
+    { path: '/assets/projects/tbtm/festival-tile-2022.jpg',         alt: '2022 I-Festival hero tile',                                     order: 7,  cover: false },
+    { path: '/assets/projects/tbtm/festival-partners-2022.jpg',     alt: '2022 I-Festival partner logos including Forbes and GSMA',        order: 8,  cover: false },
+    { path: '/assets/projects/tbtm/festival-schedule-2022.jpg',     alt: '2022 I-Festival day schedule',                                  order: 9,  cover: false },
+    { path: '/assets/projects/tbtm/festival-speakers-2022.jpg',     alt: '2022 I-Festival full speaker poster',                           order: 10, cover: false },
+    { path: '/assets/projects/tbtm/webby-nomination-1.png',         alt: 'Webby Award nomination',                                       order: 11, cover: false },
+    { path: '/assets/projects/tbtm/webby-nomination-2.png',         alt: 'Webby Award nomination campaign',                               order: 12, cover: false },
   ];
 
   for (const img of tbtmImages) {
     await sql`
-      INSERT INTO project_media (project_id, media_url, caption, sort_order, media_type)
-      VALUES (${projectId}, ${img.path}, ${img.caption}, ${img.order}, 'image')
+      INSERT INTO project_media (project_id, image_url, alt_text, is_cover, sort_order)
+      VALUES (${projectId}, ${img.path}, ${img.alt}, ${img.cover}, ${img.order})
     `;
   }
   console.log(`  Inserted ${tbtmImages.length} media rows.`);
@@ -140,38 +140,31 @@ async function run() {
   // Check if a case study exists for this project
   const existingCs = await sql`SELECT id FROM case_studies WHERE project_id = ${projectId}`;
 
-  const csContent = JSON.stringify({
-    sections: [
-      {
-        title: 'The Brief',
-        content: 'Take Back the Mic is a pan-African music competition that ran across 50+ countries over three seasons, backed by MTN and partnered with Mastercard. The I-Festival was the culmination: an interactive festival experience combining live performances, industry panels, and digital engagement. The brief was to build a campaign system that could scale across outdoor, digital, and social channels while maintaining a cohesive identity across two consecutive festival years.'
-      },
-      {
-        title: 'Campaign Design',
-        content: 'The 2021 I-Festival campaign centred on large-format outdoor advertising, including placements in NYC Times Square. Each billboard used bold typography and high-contrast colour to cut through the visual noise of the location. Speaker panels like "Turning Culture Into Currency" and "Future of Innovation in Africa" needed their own promotional assets that sat within the overall campaign system without competing with the headline acts.'
-      },
-      {
-        title: '2022 Evolution',
-        content: 'The second year introduced a refreshed colour palette (teal and green replacing the earlier yellow and black) and a tighter grid system for social tiles. Partner integration became more prominent, with Forbes and GSMA logos featured alongside TBTM branding. The schedule design used a modular layout that could adapt to single-day or multi-day formats without redesign.'
-      },
-      {
-        title: 'Recognition',
-        content: 'The I-Festival digital experience received a Webby Award nomination, validating the campaign\'s reach and execution quality across its digital touchpoints.'
-      }
-    ]
-  });
+  const overview = 'Take Back the Mic is a pan-African music competition that ran across 50+ countries over three seasons, backed by MTN and partnered with Mastercard. The I-Festival was the culmination: an interactive festival experience combining live performances, industry panels, and digital engagement.';
+  const context = 'The brief was to build a campaign system that could scale across outdoor, digital, and social channels while maintaining a cohesive identity across two consecutive festival years (2021 and 2022).';
+  const objective = 'Design a multi-format campaign covering billboards, social media tiles, event schedules, speaker panel promotions, and partner integration graphics.';
+  const approach = 'The 2021 campaign centred on large-format outdoor advertising, including placements in NYC Times Square. Bold typography and high-contrast colour cut through the visual noise of the location. Speaker panels like "Turning Culture Into Currency" needed their own promotional assets that sat within the overall system.';
+  const execution = 'Year two introduced a refreshed colour palette (teal and green replacing yellow and black) and a tighter grid system for social tiles. Partner integration became more prominent, with Forbes and GSMA logos featured alongside TBTM branding. The schedule design used a modular layout that could adapt to single-day or multi-day formats without redesign.';
+  const outcome = 'The I-Festival digital experience received a Webby Award nomination. The campaign ran across outdoor, digital, and social channels in both years.';
+  const metrics = '[{"value":"50+","label":"Countries"},{"value":"2","label":"Festival Years"},{"value":"1","label":"Webby Nomination"}]';
 
   if (existingCs.length > 0) {
     await sql`
       UPDATE case_studies SET
-        content = ${csContent}::jsonb
+        overview = ${overview},
+        context = ${context},
+        objective = ${objective},
+        approach = ${approach},
+        execution = ${execution},
+        outcome = ${outcome},
+        metrics = ${metrics}::jsonb
       WHERE project_id = ${projectId}
     `;
     console.log('  Updated existing case study.');
   } else {
     await sql`
-      INSERT INTO case_studies (project_id, content)
-      VALUES (${projectId}, ${csContent}::jsonb)
+      INSERT INTO case_studies (project_id, overview, context, objective, approach, execution, outcome, metrics)
+      VALUES (${projectId}, ${overview}, ${context}, ${objective}, ${approach}, ${execution}, ${outcome}, ${metrics}::jsonb)
     `;
     console.log('  Created new case study.');
   }
@@ -229,14 +222,14 @@ async function run() {
 
   // List TBTM media
   const media = await sql`
-    SELECT media_url, caption, sort_order
+    SELECT image_url, alt_text, sort_order, is_cover
     FROM project_media
     WHERE project_id = ${projectId}
     ORDER BY sort_order
   `;
   console.log('\nTBTM media:');
   for (const m of media) {
-    console.log(`  ${m.sort_order}. ${m.media_url} — ${m.caption}`);
+    console.log(`  ${m.sort_order}. ${m.image_url} — ${m.alt_text}${m.is_cover ? ' [COVER]' : ''}`);
   }
 
   // Check case study
