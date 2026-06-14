@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { LightboxImage } from "@/types";
@@ -19,6 +20,12 @@ export function Lightbox({
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [imageError, setImageError] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Only render the portal on the client, after mount.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const goToPrevious = useCallback(() => {
     setImageError(false);
@@ -77,9 +84,14 @@ export function Lightbox({
   const currentImage = images[currentIndex];
   if (!currentImage) return null;
 
-  return (
+  // Render into document.body so the fixed overlay is positioned relative to the
+  // viewport. Without this, an ancestor with a CSS transform (e.g. ScrollReveal)
+  // becomes the containing block and the lightbox ends up misplaced/off-screen.
+  if (!mounted) return null;
+
+  const overlay = (
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 p-4"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 p-4"
       onClick={onClose}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -148,4 +160,6 @@ export function Lightbox({
       )}
     </div>
   );
+
+  return createPortal(overlay, document.body);
 }
