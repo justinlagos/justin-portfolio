@@ -3,8 +3,7 @@
 import { useState, useRef } from 'react'
 import { Upload, X, Film, Image as ImageIcon } from 'lucide-react'
 
-// TODO: Implement file storage uploads. Previously used Supabase Storage.
-// Options: Vercel Blob, Cloudinary, AWS S3, or similar.
+// TODO: Implement file storage uploads (e.g. Vercel Blob, Cloudinary, or AWS S3).
 // For now, files can only be added via URL input.
 
 interface FileUploadProps {
