@@ -698,11 +698,7 @@ ol {
   opacity: 1;
 }
 
-@media (max-width: 700px) {
-  .statement__band {
-    aspect-ratio: 4 / 3;
-  }
-}
+/* The band images are boards made at exactly 21:8, so they are shown whole at every width. */
 
 .facts-row {
   display: grid;
@@ -1158,7 +1154,7 @@ ol {
 
 .dated li {
   display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: 6.5rem minmax(0, 0.9fr) minmax(0, 1.3fr);
   gap: 4px 16px;
   padding: 11px 0;
   border-top: 1px solid var(--rule);

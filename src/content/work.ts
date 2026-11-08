@@ -52,10 +52,12 @@ export const work: Work[] = [
     line: 'A road sign for the route to net zero',
     summary:
       'The identity, guidelines, website and printed work for a business group that brings industry and government together to cut carbon.',
-    preview: p('route-to-zero', 'key-visual.jpg'),
+    preview: p('route-to-zero', 'road-sign.jpg'),
+    previewPosition: '30% 50%',
     cover: {
-      src: p('route-to-zero', 'key-visual.jpg'),
-      alt: 'The route to net zero, beside the Route to Zero logo on dark teal',
+      src: p('route-to-zero', 'road-sign.jpg'),
+      alt: 'The Route to Zero logo as a road sign beside a country road at dawn',
+      position: '30% 50%',
     },
     facts: [
       { label: 'Role', value: 'Brand designer, from first sketch to guidelines' },
@@ -132,6 +134,79 @@ export const work: Work[] = [
     link: { label: 'Open the brand guidelines', href: 'https://justinlagos.github.io/rtz-brand-guidelines/' },
   },
   {
+    slug: 'ryan-smith-racing',
+    title: 'Ryan Smith Racing',
+    kind: 'Sponsorship and helmet design',
+    years: '2024–25',
+    line: 'Helmets and race days for a ten-time British Truck Racing champion',
+    summary:
+      'Syntech Biofuel sponsors Ryan Smith, ten times British Truck Racing champion. I designed his helmets, the mark for his tenth title, and the work around each race weekend.',
+    preview: p('ryan-smith', 'champion-helmet.jpg'),
+    previewPosition: '50% 40%',
+    cover: {
+      src: p('ryan-smith', 'champion-helmet.jpg'),
+      alt: 'Ryan Smith holding the Union Jack championship helmet in the paddock',
+      position: '50% 38%',
+    },
+    facts: [
+      { label: 'Role', value: 'Designer for the sponsor, Syntech Biofuel' },
+      { label: 'Driver', value: 'Ryan Smith, British Truck Racing Championship' },
+      { label: 'Scope', value: 'Helmets, champion mark, race-day print and social, team kit, sponsor deck' },
+      { label: 'Result', value: 'Tenth title in a row, Brands Hatch, November 2025' },
+    ],
+    idea: 'Every camera finds the driver’s helmet, so that is where the story goes.',
+    brief:
+      'Syntech sponsors Ryan Smith’s racing. The job was to make that support visible on race weekends, on screens and in the paddock, without it looking like an advert stuck onto a sport.',
+    chapters: [
+      {
+        title: 'The 2025 helmet',
+        text: 'For the 2025 season I designed a black helmet with a lime strike across the shell, in Syntech’s colours, with each sponsor placed where the cab cameras catch it. I prepared flat artwork for every part of the shell so it could be made for real.',
+        images: [
+          img(p('ryan-smith', '2025-helmet-board.jpg'), 'The 2025 helmet from the side and from the back', 'wide'),
+          img(p('ryan-smith', '2025-helmet-built.jpg'), 'The 2025 helmet, made', 'half'),
+          img(p('ryan-smith', '2025-helmet-built-2.jpg'), 'The 2025 helmet from the front', 'half'),
+        ],
+      },
+      {
+        title: 'A mark for ten in a row',
+        text: 'As Ryan went for a tenth straight title, I designed a mark for the moment: a crown, a ring of stars, the number ten and his own signature. It works in gold for the celebration and in black for print and merchandise.',
+        images: [
+          img(p('ryan-smith', 'ten-mark-gold.jpg'), 'Ten times consecutive champion mark in gold on black', 'half'),
+          img(p('ryan-smith', 'ten-mark-black.jpg'), 'Ten times consecutive champion mark in black', 'half'),
+        ],
+      },
+      {
+        title: 'The championship helmet',
+        text: 'The title helmet carries the Union Jack, the gold ten on the back and Powered by Syntech ASB along the side, so the sponsor shows in photos from every angle.',
+        images: [
+          img(p('ryan-smith', 'ten-helmet-board.jpg'), 'The championship helmet from the side, the front and the back', 'wide'),
+          img(p('ryan-smith', 'handover.jpg'), 'Ryan Smith with the championship helmet in the paddock', 'half'),
+          img(p('ryan-smith', 'paddock.jpg'), 'Ryan Smith and the team with the helmet', 'half'),
+        ],
+      },
+      {
+        title: 'Race weekends',
+        text: 'Flyers, pop-up banners and good-luck posts for each round, all in the same green and black, so fans meet one story from the grandstand to their phone.',
+        images: [
+          img(p('ryan-smith', 'race-weekend-board.jpg'), 'Brands Hatch flyer, two good-luck posts and a pop-up banner', 'wide'),
+          img(p('ryan-smith', 'ten-titles-post.jpg'), 'Post: 10 years, 10 titles, unreal', 'half'),
+          img(p('ryan-smith', 'team-tshirt.jpg'), 'Ryan Smith Racing T-shirts, front and back', 'half'),
+        ],
+      },
+      {
+        title: 'Selling the next season',
+        text: 'A sponsorship deck for 2026 makes the case to new partners in plain numbers: ten titles, the crowds at each round and the reach of the broadcasts.',
+        images: [
+          img(p('ryan-smith', 'deck-1.jpg'), 'Sponsorship deck cover: 10x consecutive BTRC champion, 2026 sponsorship opportunity', 'wide'),
+          img(p('ryan-smith', 'deck-2.jpg'), 'Deck page: Why sponsor Ryan', 'half'),
+          img(p('ryan-smith', 'deck-4.jpg'), 'Deck page: audience and fan reach', 'half'),
+        ],
+      },
+    ],
+    outcome:
+      'Ryan sealed his tenth consecutive British Truck Racing title at Brands Hatch in November 2025. The helmets, the ten-title mark and the race-day work kept Syntech in the story all season, and the deck now takes that story to the next sponsors.',
+  },
+  {
     slug: 'take-back-the-mic',
     title: 'Take Back The Mic',
     kind: 'Festival and campaign',
@@ -165,9 +240,7 @@ export const work: Work[] = [
         title: 'A new look for 2022',
         text: 'For 2022 I moved the brand to green and teal and built a city skyline that runs along the bottom of every piece. Speakers, partners and the schedule share one layout, so each post reads in a glance.',
         images: [
-          img(p('tbtm', 'festival-partners-2022.jpg'), 'TBTM 2022 dates and partners post', 'third'),
-          img(p('tbtm', 'festival-speakers-2022.jpg'), 'TBTM 2022 speakers post', 'third'),
-          img(p('tbtm', 'festival-schedule-2022.jpg'), 'TBTM 2022 two-day schedule', 'third'),
+          img(p('boards', 'tbtm-2022.jpg'), 'TBTM 2022 posts: dates and partners, speakers, and the two-day schedule', 'wide'),
         ],
       },
       {
@@ -182,9 +255,7 @@ export const work: Work[] = [
         title: 'Panels, partners and a Webby',
         text: 'Each panel had its own card, with speakers set in the brand’s yellow frames so a full line-up reads at a glance. The festival itself was nominated for a Webby Award.',
         images: [
-          img(p('tbtm', 'panel-culture-currency.jpg'), 'Panel card: Turning culture into currency', 'third'),
-          img(p('tbtm', 'panel-innovation-africa.jpg'), 'Panel card: Future of innovation in Africa', 'third'),
-          img(p('tbtm', 'webby-nomination-2.png'), 'Vote for us now: Webby nomination post', 'third'),
+          img(p('boards', 'tbtm-panels.jpg'), 'Two panel cards and the Webby nomination post', 'wide'),
         ],
       },
     ],
@@ -235,9 +306,7 @@ export const work: Work[] = [
         title: 'Campaigns people stop for',
         text: 'Each social post leads with one plain, strong line, and the photography carries the feeling. The logo stays small, so the message comes first.',
         images: [
-          img(p('syntech', 'artboard-social-1.jpg'), 'Post: We’re producing too much carbon. We must decarbonise together.', 'third'),
-          img(p('syntech', 'artboard-social-2.jpg'), 'Post: Fossil fuel is dead, long live sustainability', 'third'),
-          img(p('syntech', 'artboard-social-3.jpg'), 'Post: Our version of the future is sustainable', 'third'),
+          img(p('boards', 'syntech-social.jpg'), 'Three Syntech posts: decarbonise together, fossil fuel is dead, our version of the future', 'wide'),
         ],
       },
       {
@@ -281,9 +350,10 @@ export const work: Work[] = [
     previewPosition: '50% 35%',
     cover: { src: p('access-bank', 'pdf-brand-guide-cover.png'), alt: 'Access Bank brand guide: More than banking' },
     facts: [
-      { label: 'Scope', value: 'Brand guidelines, sub-brand, press and outdoor campaigns' },
+      { label: 'Role', value: 'Designer on the merger team, then campaigns and design manager' },
+      { label: 'Scope', value: 'Merger communications, brand guide, sub-brand, campaigns' },
+      { label: 'Context', value: 'Access Bank and Diamond Bank merger, 2019' },
       { label: 'Market', value: 'Nigeria' },
-      { label: 'Context', value: 'Access Bank and Diamond Bank merger' },
     ],
     idea: 'Two banks, one name, and room in it for both sets of customers.',
     brief:
@@ -307,8 +377,7 @@ export const work: Work[] = [
         title: 'Access Closa, a brand for local agents',
         text: 'Access Closa is the name for the bank’s agents, who offer banking in markets and neighbourhoods. The campaign puts an agent at the centre of a giant map pin, so the message, there is an agent near you, lands before you read a word.',
         images: [
-          img(p('access-bank', 'photo-02.jpg'), 'Access Closa poster: Access Closa agent dey near you', 'half'),
-          img(p('access-bank', 'photo-03.jpg'), 'Access Closa poster: Become an Access Closa super agent', 'half'),
+          img(p('boards', 'access-closa.jpg'), 'Access Closa posters: Agent dey near you, and Become a super agent', 'wide'),
           img(p('access-bank', 'newspaper-mockup.jpg'), 'Access Closa press advert in a national newspaper', 'wide'),
         ],
       },
@@ -316,9 +385,7 @@ export const work: Work[] = [
         title: 'Campaigns',
         text: 'Press and outdoor work for the Visa World Cup cards and the Cashflow business loan.',
         images: [
-          img(p('access-bank', 'photo-01.jpg'), 'Access your Visa to Qatar campaign poster', 'third'),
-          img(p('access-bank', 'photo-05.jpg'), 'Access Visa World Cup themed cards poster', 'third'),
-          img(p('access-bank', 'photo-04.jpg'), 'Cashflow business loan poster', 'third'),
+          img(p('boards', 'access-campaigns.jpg'), 'Posters for the Visa World Cup cards and the Cashflow business loan', 'wide'),
         ],
       },
     ],
@@ -357,9 +424,10 @@ export const work: Work[] = [
         ],
       },
       {
-        title: 'The mark, explained',
-        text: 'A hand holds a heart. Inside it, one girl rises with her arms in the air and two more rise beside her. Beneath it, the founder’s name is written by hand, like a signature on a promise. I set out what each part means and seven versions for different backgrounds and printing.',
+        title: 'Drawing the mark',
+        text: 'I drew the mark by hand first. A hand holds a heart. Inside it, one girl rises with her arms in the air and two more rise beside her. Beneath it, the founder’s name is written like a signature on a promise. The guidelines explain what each part means and give seven versions for different backgrounds and printing.',
         images: [
+          img(p('jme-foundation', 'mark-sketch.jpg'), 'Pencil sketches of the heart, the hand and the three figures on a sketch pad', 'wide', 'Working the mark out in pencil: one stroke for the hand and the heart.'),
           img(p('jme-foundation', 'guide-mark.jpg'), 'The mark, with its six parts labelled', 'wide'),
           img(p('jme-foundation', 'guide-mark-versions.jpg'), 'Seven colour versions of the mark', 'wide'),
         ],
@@ -392,6 +460,50 @@ export const work: Work[] = [
     ],
     outcome:
       'The foundation now has a complete brand: a guideline book, a formal set of documents for its partner school, and a weekly series of quote carousels on Instagram.',
+  },
+  {
+    slug: 'kavlr',
+    title: 'Kavlr',
+    kind: 'Cards and product',
+    years: '2022–24',
+    line: 'Bank cards, packaging and a website for a UK fintech',
+    summary:
+      'Visa debit cards, the packs they arrive in, and the website for Kavlr, the consumer side of UK fintech Tryba Finance.',
+    preview: p('kavlr', 'debit-cards.png'),
+    cover: { src: p('kavlr', 'card-black.png'), alt: 'A hand holding the black Kavlr Visa business card' },
+    facts: [
+      { label: 'Role', value: 'Lead brand and product designer' },
+      { label: 'Client', value: 'Tryba Finance, Birmingham' },
+      { label: 'Scope', value: 'Logo, cards, packaging, website, product screens' },
+    ],
+    idea: 'A bank card that feels worth keeping.',
+    brief: 'Most bank cards look the same. Kavlr needed a card that felt special in the hand and a website people would trust on their first visit.',
+    chapters: [
+      {
+        title: 'Cards and the packs they come in',
+        text: 'Green for personal, blue, and a black card for business. The business card arrives in a wallet you pull open. The personal card comes in a folded mailer that shows the three steps to start using it.',
+        images: [
+          img(p('kavlr', 'debit-cards.png'), 'Blue and green Kavlr Visa debit cards', 'wide'),
+          img(p('kavlr', 'card-business.png'), 'Black business card in its pull-open wallet', 'half'),
+          img(p('kavlr', 'card-debit-green.png'), 'Green card in its folded mailer with three steps', 'half'),
+        ],
+      },
+      {
+        title: 'The mark',
+        text: 'I drew the K from pencil sketches, so it holds up on a card, an app icon and a website.',
+        images: [img(p('kavlr', 'logo-construction.png'), 'Pencil sketches of the Kavlr K', 'wide')],
+      },
+      {
+        title: 'Website and product',
+        text: 'I designed the website and pre-order pages for desktop, tablet and phone, and screens for the product itself.',
+        images: [
+          img(p('boards', 'kavlr-web.jpg'), 'Kavlr website on desktop and on three phones', 'wide'),
+          img(p('kavlr', 'dashboard.png'), 'Kavlr booking screen for business customers', 'wide'),
+        ],
+      },
+    ],
+    outcome:
+      'Across Tryba and Kavlr I made over 200 brand, campaign and investor pieces, including work approved for the Visa partnership, and a shared library that cut design time by about 30 percent.',
   },
   {
     slug: 'draw-in-the-air',
@@ -430,51 +542,6 @@ export const work: Work[] = [
     outcome:
       'It is approved on the Chrome Web Store and is being trialled in a primary school in Kent, in ten to fifteen minute sessions on laptops the school already has. A version that plays on a classroom TV is in development.',
     link: { label: 'Try it at drawintheair.com', href: 'https://drawintheair.com' },
-  },
-  {
-    slug: 'kavlr',
-    title: 'Kavlr',
-    kind: 'Cards and product',
-    years: '2022–24',
-    line: 'Bank cards, packaging and a website for a UK fintech',
-    summary:
-      'Visa debit cards, the packs they arrive in, and the website for Kavlr, the consumer side of UK fintech Tryba Finance.',
-    preview: p('kavlr', 'debit-cards.png'),
-    cover: { src: p('kavlr', 'card-black.png'), alt: 'A hand holding the black Kavlr Visa business card' },
-    facts: [
-      { label: 'Role', value: 'Lead brand and product designer' },
-      { label: 'Client', value: 'Tryba Finance, Birmingham' },
-      { label: 'Scope', value: 'Logo, cards, packaging, website, product screens' },
-    ],
-    idea: 'A bank card that feels worth keeping.',
-    brief: 'Most bank cards look the same. Kavlr needed a card that felt special in the hand and a website people would trust on their first visit.',
-    chapters: [
-      {
-        title: 'Cards and the packs they come in',
-        text: 'Green for personal, blue, and a black card for business. The business card arrives in a wallet you pull open. The personal card comes in a folded mailer that shows the three steps to start using it.',
-        images: [
-          img(p('kavlr', 'debit-cards.png'), 'Blue and green Kavlr Visa debit cards', 'wide'),
-          img(p('kavlr', 'card-business.png'), 'Black business card in its pull-open wallet', 'half'),
-          img(p('kavlr', 'card-debit-green.png'), 'Green card in its folded mailer with three steps', 'half'),
-        ],
-      },
-      {
-        title: 'The mark',
-        text: 'I drew the K from pencil sketches, so it holds up on a card, an app icon and a website.',
-        images: [img(p('kavlr', 'logo-construction.png'), 'Pencil sketches of the Kavlr K', 'wide')],
-      },
-      {
-        title: 'Website and product',
-        text: 'I designed the website and pre-order pages for desktop, tablet and phone, and screens for the product itself.',
-        images: [
-          img(p('kavlr', 'website-desktop-2.png'), 'Kavlr website: Launch your business with confidence', 'half'),
-          img(p('kavlr', 'website-mobile.png'), 'Kavlr website on three phones', 'half'),
-          img(p('kavlr', 'dashboard.png'), 'Kavlr booking screen for business customers', 'wide'),
-        ],
-      },
-    ],
-    outcome:
-      'Across Tryba and Kavlr I made over 200 brand, campaign and investor pieces, including work approved for the Visa partnership, and a shared library that cut design time by about 30 percent.',
   },
 ]
 

@@ -6,7 +6,7 @@ export const site = {
   name: 'Justin Ukaegbu',
   role: 'Design director',
   email: 'mrjustinukaegbu@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/justinukaegbu',
+  linkedin: 'https://www.linkedin.com/in/justin-ukaegbu',
   location: 'Kent, UK',
 }
 
@@ -14,7 +14,7 @@ export const hero = {
   chip: 'Design director in Kent, UK',
   lineOne: 'I design brands and products.',
   lineTwo: 'Then I build them.',
-  text: 'I’m Justin Ukaegbu. For twelve years I’ve designed for banks, energy companies, start-ups and a pan-African music festival. I lead the design, and when it needs to live on a screen, I build it too.',
+  text: 'I’m Justin Ukaegbu. Since 2009 I’ve designed for banks, energy companies, start-ups and a pan-African music festival. I lead the design, and when it needs to live on a screen, I build it too.',
   slides: [
     { src: p('tbtm', 'nyc-billboard-08.jpg'), caption: 'Take Back The Mic, on a screen in New York' },
     { src: p('kavlr', 'card-black.png'), caption: 'Kavlr business card' },
@@ -30,15 +30,15 @@ export const statement = {
   before: 'I design',
   after: 'people understand at a glance.',
   words: [
-    { word: 'brands', src: p('route-to-zero', 'logo-branding.png') },
-    { word: 'campaigns', src: p('access-bank', 'photo-02.jpg') },
-    { word: 'apps', src: p('kavlr', 'website-mobile.png') },
-    { word: 'guidelines', src: p('jme-foundation', 'guide-mark.jpg') },
-    { word: 'reports', src: p('syntech', 'brochure-spread.jpg') },
-    { word: 'games', src: p('draw-in-the-air', 'wave-to-start.jpg') },
+    { word: 'brands', src: p('boards', 'word-brands.jpg') },
+    { word: 'campaigns', src: p('boards', 'word-campaigns.jpg') },
+    { word: 'apps', src: p('boards', 'word-apps.jpg') },
+    { word: 'guidelines', src: p('boards', 'word-guidelines.jpg') },
+    { word: 'reports', src: p('boards', 'word-reports.jpg') },
+    { word: 'games', src: p('boards', 'word-games.jpg') },
   ],
   facts: [
-    { label: 'Experience', value: '12 years, from WPP in Lagos to in-house in Kent' },
+    { label: 'Experience', value: 'Since 2009, from WPP in Lagos to in-house in Kent' },
     { label: 'Based in', value: 'Kent, UK' },
     { label: 'Works with', value: 'Teams in the UK and Nigeria' },
   ],
@@ -46,6 +46,8 @@ export const statement = {
 
 export const clients = [
   'Access Bank',
+  'Fidelity Bank',
+  'Diamond Bank',
   'Take Back The Mic',
   'Syntech Biofuel',
   'Route to Zero',
@@ -60,6 +62,7 @@ export const clients = [
   'Cirquu',
   'AMP Global Tech',
   'Black Diamond Hotel',
+  'Godrej',
   '141 Worldwide (WPP)',
 ]
 
@@ -155,13 +158,14 @@ export const teaching: { name: string; what: string; href?: string }[] = [
 
 export const experience: { years: string; org: string; role: string }[] = [
   { years: '2025–now', org: 'DisruptDNA', role: 'Design director, contract' },
-  { years: '2022–now', org: 'Syntech Biofuel and Route to Zero', role: 'Only designer, reporting to the CEO' },
+  { years: '2022–now', org: 'Syntech Biofuel and Route to Zero', role: 'Senior brand and marketing designer, reporting to the CEO' },
   { years: '2021–now', org: 'Independent, now MotionPlay Labs', role: 'Brand, campaign and product design' },
-  { years: '2023–24', org: 'HashIT', role: 'Head of product design' },
-  { years: '2021–24', org: 'Take Back The Mic', role: 'Brand and UI design lead' },
-  { years: '2021–24', org: 'Tryba Finance and Kavlr', role: 'Lead brand and product designer' },
-  { years: '2021–24', org: 'AMP Global Tech', role: 'Graphic designer, contract' },
-  { years: '2014–20', org: '141 Worldwide (WPP), Lagos', role: 'Designer' },
+  { years: '2021–24', org: 'HashIT, Take Back The Mic, Tryba Finance and Kavlr', role: 'Lead brand and product designer across three start-ups' },
+  { years: '2019–22', org: 'DisruptDNA', role: 'Associate creative director, across Lagos, Nairobi and London' },
+  { years: '2017–19', org: 'Diamond Bank, then Access Bank', role: 'Designer on the merger team: internal and external communications for the merger and design for the new brand, then campaigns and design manager at Access' },
+  { years: '2015–17', org: 'Fidelity Bank', role: 'Senior creative designer. Joined as the rebrand launched and carried the new identity into branches and ATM galleries across Nigeria' },
+  { years: '2014–15', org: 'Godrej', role: 'Creative executive: packaging and digital' },
+  { years: '2009–13', org: '141 Worldwide (WPP), Lagos', role: 'Assistant art director' },
 ]
 
 export const education: { years: string; what: string; where: string }[] = [

@@ -249,13 +249,14 @@ export default function Home() {
               About me.
             </h2>
             <p className="card__text card__text--lead">
-              I started in 2014 as a designer at 141 Worldwide, WPP’s agency in Lagos. Since then I’ve led design for
-              clients in Nigeria, the UK, the UAE and the US. Since 2022 I’ve been the only designer at Syntech
-              Biofuel and Route to Zero, working with the CEO.
+              I started in 2009 as an assistant art director at 141 Worldwide, WPP’s agency in Lagos. I then spent
+              four years designing for Nigerian banks, through Fidelity’s rebrand and the merger of Diamond and Access,
+              before leading design for clients in Nigeria, the UK, the UAE and the US. Since 2022 I’ve been the
+              designer at Syntech Biofuel and Route to Zero, working with the CEO.
             </p>
             <p className="card__text">
-              I studied Computer Science and Education first, then took an MA in Graphic Design, so I build as well as
-              design. I run my own products through MotionPlay Labs, my studio in the UK and Nigeria.
+              I studied Computer Science and Education first, then took an MA in Graphic Design with a first, so I
+              build as well as design. I run my own products through MotionPlay Labs, my studio in the UK and Nigeria.
             </p>
             <h3 className="mini">Experience</h3>
             <ul className="dated">
