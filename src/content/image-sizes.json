@@ -1,0 +1,698 @@
+{
+"/assets/about/justin-portrait.jpg": [
+1024,
+1536
+],
+"/assets/apple-touch-icon.png": [
+180,
+180
+],
+"/assets/favicon.png": [
+32,
+32
+],
+"/assets/og-image.png": [
+1200,
+630
+],
+"/assets/projects/access-bank/brand-guide.png": [
+1010,
+1318
+],
+"/assets/projects/access-bank/branding.png": [
+1010,
+1318
+],
+"/assets/projects/access-bank/guideline-1.png": [
+1218,
+822
+],
+"/assets/projects/access-bank/guideline-2.png": [
+1218,
+822
+],
+"/assets/projects/access-bank/guideline-3.png": [
+1218,
+822
+],
+"/assets/projects/access-bank/guideline-4.png": [
+1218,
+822
+],
+"/assets/projects/access-bank/logo-mark.png": [
+1218,
+822
+],
+"/assets/projects/access-bank/logo.png": [
+1218,
+822
+],
+"/assets/projects/access-bank/newspaper-mockup.jpg": [
+3500,
+2300
+],
+"/assets/projects/access-bank/pdf-brand-guide-cover.png": [
+4001,
+2250
+],
+"/assets/projects/access-bank/pdf-brand-interior.png": [
+4001,
+2250
+],
+"/assets/projects/access-bank/pdf-merger-brief.png": [
+4001,
+2250
+],
+"/assets/projects/access-bank/pdf-merger-scope.png": [
+4001,
+2250
+],
+"/assets/projects/access-bank/photo-01.jpg": [
+854,
+1280
+],
+"/assets/projects/access-bank/photo-02.jpg": [
+882,
+1280
+],
+"/assets/projects/access-bank/photo-03.jpg": [
+882,
+1280
+],
+"/assets/projects/access-bank/photo-04.jpg": [
+903,
+1280
+],
+"/assets/projects/access-bank/photo-05.jpg": [
+854,
+1280
+],
+"/assets/projects/draw-in-the-air/camera-consent.jpg": [
+2400,
+1500
+],
+"/assets/projects/draw-in-the-air/for-teachers.jpg": [
+2400,
+1500
+],
+"/assets/projects/draw-in-the-air/home.jpg": [
+2400,
+1500
+],
+"/assets/projects/draw-in-the-air/wave-to-start.jpg": [
+2400,
+1500
+],
+"/assets/projects/hashit/app.png": [
+3814,
+2860
+],
+"/assets/projects/hashit/appstore-1.png": [
+1290,
+2796
+],
+"/assets/projects/hashit/appstore-2.png": [
+1293,
+2796
+],
+"/assets/projects/hashit/crowdpool.png": [
+1500,
+5808
+],
+"/assets/projects/hashit/navigation.png": [
+3814,
+2860
+],
+"/assets/projects/hashit/pdf-app-iteration.png": [
+2481,
+1754
+],
+"/assets/projects/hashit/pdf-app-ui.png": [
+2481,
+1754
+],
+"/assets/projects/hashit/pdf-landing-page.png": [
+2481,
+1754
+],
+"/assets/projects/hashit/pdf-logo.png": [
+2481,
+1754
+],
+"/assets/projects/hashit/pdf-merch.png": [
+2481,
+1754
+],
+"/assets/projects/hashit/pdf-pitch-deck.png": [
+1754,
+2580
+],
+"/assets/projects/hashit/pdf-social-media.png": [
+2481,
+1754
+],
+"/assets/projects/hashit/pdf-waitlist-confirm.png": [
+2481,
+1754
+],
+"/assets/projects/hashit/pdf-waitlist.png": [
+2481,
+1754
+],
+"/assets/projects/kavlr/booking-1.png": [
+1500,
+3249
+],
+"/assets/projects/kavlr/card-black.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/card-business.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/card-debit-green.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/card-green.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/dashboard.png": [
+5760,
+3672
+],
+"/assets/projects/kavlr/debit-cards.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/desktop-1.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/desktop-2.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/landing-page.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/landingpage-hero.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/logo-construction.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/logo.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/mobile.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/pdf-debit-cards.png": [
+1754,
+1241
+],
+"/assets/projects/kavlr/pdf-packaging.png": [
+1754,
+1241
+],
+"/assets/projects/kavlr/pdf-visa-black.png": [
+1754,
+1241
+],
+"/assets/projects/kavlr/phone-mockup.jpg": [
+4000,
+2250
+],
+"/assets/projects/kavlr/website-desktop-2.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/website-desktop-3.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/website-desktop-4.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/website-desktop.png": [
+1218,
+822
+],
+"/assets/projects/kavlr/website-mobile.png": [
+1218,
+822
+],
+"/assets/projects/polo-luxury/campaign-09.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-10.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-11.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-12.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-13.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-14.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-15.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-16.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/campaign-stay-home.jpg": [
+1807,
+2554
+],
+"/assets/projects/polo-luxury/newsletter-1.png": [
+892,
+2392
+],
+"/assets/projects/polo-luxury/newsletter-2.png": [
+747,
+2392
+],
+"/assets/projects/polo-luxury/pdf-omega-hero.png": [
+1754,
+1241
+],
+"/assets/projects/polo-luxury/pdf-omega-layout.png": [
+1754,
+1241
+],
+"/assets/projects/polo-luxury/pdf-omega-newsletter.png": [
+1754,
+1241
+],
+"/assets/projects/route-to-zero/business-card.png": [
+1500,
+1000
+],
+"/assets/projects/route-to-zero/email-sig.png": [
+2000,
+1414
+],
+"/assets/projects/route-to-zero/email-signature-mockup.png": [
+2000,
+1414
+],
+"/assets/projects/route-to-zero/img01_7aa7926323.jpg": [
+1920,
+1080
+],
+"/assets/projects/route-to-zero/img02_2b4f266ae1.jpg": [
+1897,
+1254
+],
+"/assets/projects/route-to-zero/img03_55dedd27fb.jpg": [
+1897,
+1254
+],
+"/assets/projects/route-to-zero/img04_b71d9e79a2.jpg": [
+1897,
+1254
+],
+"/assets/projects/route-to-zero/img05_dcd709fa54.png": [
+2906,
+1382
+],
+"/assets/projects/route-to-zero/img06_3f5b0ebe66.jpg": [
+1308,
+744
+],
+"/assets/projects/route-to-zero/img07_2ebae1afff.jpg": [
+1308,
+744
+],
+"/assets/projects/route-to-zero/img08_1aa3b4c927.jpg": [
+1308,
+744
+],
+"/assets/projects/route-to-zero/img09_65071b0b41.jpg": [
+1308,
+744
+],
+"/assets/projects/route-to-zero/img10_52f7d0e065.png": [
+2906,
+1382
+],
+"/assets/projects/route-to-zero/img11_9f9fbbbc01.jpg": [
+2000,
+1333
+],
+"/assets/projects/route-to-zero/img12_960650dee6.jpg": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/img13_36eaed09ef.jpg": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/img14_3712aef52d.gif": [
+600,
+337
+],
+"/assets/projects/route-to-zero/img15_2d1459d41a.jpg": [
+1500,
+1000
+],
+"/assets/projects/route-to-zero/img16_f62f6c4d51.jpg": [
+1536,
+1024
+],
+"/assets/projects/route-to-zero/img17_9ca63df8d4.jpg": [
+2000,
+1414
+],
+"/assets/projects/route-to-zero/img18_4f3be5af84.jpg": [
+1216,
+1294
+],
+"/assets/projects/route-to-zero/img19_4687f1c77c.jpg": [
+1536,
+1024
+],
+"/assets/projects/route-to-zero/img20_d364df4ce3.jpg": [
+1369,
+1149
+],
+"/assets/projects/route-to-zero/img21_0ad29d2d15.jpg": [
+1402,
+1122
+],
+"/assets/projects/route-to-zero/logo-branding.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/logo-construction-2.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/logo-construction.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/logo.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/newspaper.jpg": [
+3500,
+2300
+],
+"/assets/projects/route-to-zero/stylescape.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/web-1.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/web-2.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/web-3.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/website-full.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/website-home.png": [
+1218,
+822
+],
+"/assets/projects/route-to-zero/website-inner.png": [
+1218,
+822
+],
+"/assets/projects/sparkle/pdf-brand-guidelines.png": [
+4001,
+2250
+],
+"/assets/projects/sparkle/pdf-brand-overview.png": [
+4001,
+2250
+],
+"/assets/projects/sparkle/pdf-case-study.png": [
+4001,
+2250
+],
+"/assets/projects/sparkle/pdf-logo-construction.png": [
+4001,
+2250
+],
+"/assets/projects/syntech/artboard-social-1.jpg": [
+1080,
+1080
+],
+"/assets/projects/syntech/artboard-social-2.jpg": [
+1080,
+1080
+],
+"/assets/projects/syntech/artboard-social-3.jpg": [
+1080,
+1080
+],
+"/assets/projects/syntech/artboard-social-4.jpg": [
+1080,
+1080
+],
+"/assets/projects/syntech/brochure-cover-2.jpg": [
+2500,
+1667
+],
+"/assets/projects/syntech/brochure-cover.jpg": [
+2500,
+1667
+],
+"/assets/projects/syntech/brochure-spread-2.jpg": [
+2500,
+1667
+],
+"/assets/projects/syntech/brochure-spread.jpg": [
+2500,
+1667
+],
+"/assets/projects/syntech/logo-element.png": [
+954,
+585
+],
+"/assets/projects/syntech/logo-icon.png": [
+1462,
+1023
+],
+"/assets/projects/syntech/logo.png": [
+8334,
+8334
+],
+"/assets/projects/syntech/pdf-biocabby.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-brand-collateral.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-brand-elements.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-brochure.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-liquid-gold.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-logo.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-petrol-station.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-site-signs.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-social-campaign-2.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-social-campaign-3.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-social-campaign.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-strategy-doc.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/pdf-vehicle-livery.png": [
+1754,
+1241
+],
+"/assets/projects/syntech/social-1.jpg": [
+1080,
+1080
+],
+"/assets/projects/syntech/social-2.jpg": [
+1080,
+1080
+],
+"/assets/projects/syntech/social-design.png": [
+1218,
+822
+],
+"/assets/projects/syntech/social-grid-1.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-grid-2.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-grid-3.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-post-1.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-post-2.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-post-3.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-post-4.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-post-5.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-post-6.png": [
+1182,
+822
+],
+"/assets/projects/syntech/social-post-7.png": [
+1182,
+822
+],
+"/assets/projects/syntech/truck.png": [
+2887,
+1283
+],
+"/assets/projects/tbtm/festival-flyer-2021.jpg": [
+3000,
+1000
+],
+"/assets/projects/tbtm/festival-partners-2022.jpg": [
+1081,
+1080
+],
+"/assets/projects/tbtm/festival-schedule-2022.jpg": [
+1080,
+1080
+],
+"/assets/projects/tbtm/festival-speakers-2022.jpg": [
+1080,
+1080
+],
+"/assets/projects/tbtm/festival-tile-2022.jpg": [
+1080,
+1080
+],
+"/assets/projects/tbtm/nyc-billboard-01.jpg": [
+1080,
+1081
+],
+"/assets/projects/tbtm/nyc-billboard-05.jpg": [
+1080,
+1080
+],
+"/assets/projects/tbtm/nyc-billboard-08.jpg": [
+1080,
+1080
+],
+"/assets/projects/tbtm/panel-culture-currency.jpg": [
+1000,
+1000
+],
+"/assets/projects/tbtm/panel-innovation-africa.jpg": [
+1000,
+1000
+],
+"/assets/projects/tbtm/reachout.png": [
+1182,
+822
+],
+"/assets/projects/tbtm/webby-nomination-1.png": [
+1080,
+1920
+],
+"/assets/projects/tbtm/webby-nomination-2.png": [
+1080,
+1350
+],
+"/assets/projects/tryba/pdf-packaging-green.png": [
+1754,
+1241
+],
+"/assets/projects/tryba/pdf-visa-green.png": [
+1754,
+1241
+],
+"/assets/projects/voidcanvas/editor-start.jpg": [
+2400,
+1500
+],
+"/assets/projects/voidcanvas/effects-dither.jpg": [
+2400,
+1500
+],
+"/assets/projects/voidcanvas/effects-halftone.jpg": [
+2400,
+1500
+],
+"/assets/projects/voidcanvas/home.jpg": [
+2400,
+1500
+]
+}
