@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import Gallery, { type GalleryItem } from '@/components/site/Gallery'
+import CaseStory from '@/components/site/CaseStory'
 import { getWork, work } from '@/content/work'
 import { imgSize } from '@/lib/img'
 
@@ -21,13 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: w.title,
     description: w.summary,
-    openGraph: { title: `${w.title} | Justin Ukaegbu`, description: w.summary, images: [w.images[0].src] },
+    openGraph: { title: `${w.title} | Justin Ukaegbu`, description: w.summary, images: [w.cover.src] },
   }
-}
-
-// Landscape images run full width; portrait and square ones sit in pairs.
-function layout(images: GalleryItem[]): GalleryItem[] {
-  return images.map((img, i) => ({ ...img, span: i === 0 || img.width / img.height >= 1.25 ? 'wide' : 'half' }))
 }
 
 export default async function CaseStudy({ params }: Props) {
@@ -36,7 +31,12 @@ export default async function CaseStudy({ params }: Props) {
   if (!w) notFound()
   const index = work.findIndex((x) => x.slug === slug)
   const next = work[(index + 1) % work.length]
-  const images = layout(w.images.map((img) => ({ ...img, ...imgSize(img.src), span: 'half' as const })))
+
+  const cover = { ...w.cover, ...imgSize(w.cover.src), span: 'wide' as const }
+  const chapters = w.chapters.map((c) => ({
+    ...c,
+    images: c.images.map((im) => ({ ...im, ...imgSize(im.src), span: im.span ?? ('half' as const) })),
+  }))
 
   return (
     <article className="wrap case">
@@ -71,30 +71,29 @@ export default async function CaseStudy({ params }: Props) {
         </dl>
       </header>
 
-      <Gallery
-        items={images}
+      <CaseStory
         title={w.title}
-        interlude={
-          <div className="story">
-            <section className="card story__card">
-              <h2 className="story__label">The problem</h2>
-              <p className="story__text story__text--lead">{w.brief}</p>
-            </section>
-            <section className="card story__card">
-              <h2 className="story__label">What I did</h2>
-              {w.did.map((para) => (
-                <p key={para.slice(0, 24)} className="story__text">
-                  {para}
-                </p>
-              ))}
-            </section>
-            <section className="card card--ink story__card">
-              <h2 className="story__label">What changed</h2>
-              <p className="story__text">{w.outcome}</p>
-            </section>
-          </div>
+        cover={cover}
+        chapters={chapters}
+        intro={
+          <section className="idea" aria-label="The idea">
+            <p className="idea__line">{w.idea}</p>
+            <p className="idea__brief">{w.brief}</p>
+          </section>
         }
       />
+
+      <section className="outcome card card--ink" aria-labelledby="outcome-title">
+        <h2 id="outcome-title" className="outcome__label">
+          What changed
+        </h2>
+        <p className="outcome__text">{w.outcome}</p>
+        {w.link && (
+          <a href={w.link.href} className="pill pill--light outcome__link">
+            {w.link.label}
+          </a>
+        )}
+      </section>
 
       <Link href={`/work/${next.slug}`} className="next">
         <div className="next__text">
@@ -103,7 +102,13 @@ export default async function CaseStudy({ params }: Props) {
           <span className="next__line">{next.line}</span>
         </div>
         <div className="next__img">
-          <Image src={next.preview} alt="" {...imgSize(next.preview)} sizes="(min-width: 900px) 40vw, 100vw" />
+          <Image
+            src={next.preview}
+            alt=""
+            {...imgSize(next.preview)}
+            sizes="(min-width: 900px) 40vw, 100vw"
+            style={next.previewPosition ? { objectPosition: next.previewPosition } : undefined}
+          />
         </div>
       </Link>
     </article>

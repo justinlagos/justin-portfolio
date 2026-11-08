@@ -21,8 +21,11 @@ import {
 } from '@/content/site'
 import { imgSize } from '@/lib/img'
 
+const words = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve']
+
 export default function Home() {
   const portrait = '/assets/about/justin-portrait.jpg'
+  const count = words[work.length] ?? String(work.length)
 
   return (
     <>
@@ -93,21 +96,22 @@ export default function Home() {
             Selected work.
           </h2>
           <p className="section__intro">
-            Ten projects, from a bank merger to a learning game. Each one explains the problem, what I did and what
-            changed.
+            {count} projects I led from the first idea to the finished work. Each one shows the thinking as well as the
+            result.
           </p>
         </div>
         <ul className="tiles">
           {work.map((w, n) => (
-            <li key={w.slug} className="tile">
+            <li key={w.slug} className={n === 0 ? 'tile tile--feature' : 'tile'}>
               <Link href={`/work/${w.slug}`} className="tile__link">
                 <div className="tile__img">
                   <Image
                     src={w.preview}
                     alt=""
                     {...imgSize(w.preview)}
-                    sizes="(min-width: 900px) 50vw, 100vw"
-                    priority={n < 2}
+                    sizes={n === 0 ? '(min-width: 1300px) 1240px, 100vw' : '(min-width: 900px) 620px, 100vw'}
+                    priority={n < 1}
+                    style={w.previewPosition ? { objectPosition: w.previewPosition } : undefined}
                   />
                   <span className="chip chip--glass tile__kind">{w.kind}</span>
                 </div>

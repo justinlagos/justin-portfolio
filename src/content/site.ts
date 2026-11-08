@@ -19,7 +19,7 @@ export const hero = {
     { src: p('tbtm', 'nyc-billboard-08.jpg'), caption: 'Take Back The Mic, on a screen in New York' },
     { src: p('kavlr', 'card-black.png'), caption: 'Kavlr business card' },
     { src: p('route-to-zero', 'img15_2d1459d41a.jpg'), caption: 'Route to Zero business cards' },
-    { src: p('voidcanvas', 'effects-halftone.jpg'), caption: 'Voidcanvas, a design tool I built' },
+    { src: p('syntech', 'logo-icon.png'), caption: 'Syntech Biofuel vehicle livery' },
     { src: p('access-bank', 'pdf-brand-guide-cover.png'), caption: 'Access Bank brand guide' },
   ],
 }
@@ -32,7 +32,8 @@ export const statement = {
   words: [
     { word: 'brands', src: p('route-to-zero', 'logo-branding.png') },
     { word: 'campaigns', src: p('access-bank', 'photo-02.jpg') },
-    { word: 'apps', src: p('hashit', 'app.png') },
+    { word: 'apps', src: p('kavlr', 'website-mobile.png') },
+    { word: 'guidelines', src: p('jme-foundation', 'guide-mark.jpg') },
     { word: 'reports', src: p('syntech', 'brochure-spread.jpg') },
     { word: 'games', src: p('draw-in-the-air', 'wave-to-start.jpg') },
   ],
@@ -62,35 +63,42 @@ export const clients = [
   '141 Worldwide (WPP)',
 ]
 
-/** What I do: shown as tabs. */
+/** What I do: shown as tabs. Each one links to a case study. */
 export const services: { name: string; text: string; example: string; slug: string; src: string }[] = [
   {
     name: 'Brand identity',
-    text: 'How a company looks and sounds: its logo, colours, fonts, pictures and tone of voice, written down so anyone on the team can use them.',
+    text: 'How a company looks and sounds: its logo, colours, fonts, pictures and tone of voice, built to hold together everywhere it appears.',
     example: 'Route to Zero',
     slug: 'route-to-zero',
-    src: p('route-to-zero', 'logo-branding.png'),
+    src: p('route-to-zero', 'img20_d364df4ce3.jpg'),
+  },
+  {
+    name: 'Brand guidelines',
+    text: 'The rules that keep a brand consistent once it leaves my hands, written down and shown clearly enough for any team or supplier to follow.',
+    example: 'JaneMichael Ekanem Foundation',
+    slug: 'jme-foundation',
+    src: p('jme-foundation', 'guide-mark-versions.jpg'),
   },
   {
     name: 'Campaigns',
-    text: 'One idea told across billboards, social posts, emails and events, so people recognise it wherever they meet it.',
-    example: 'Access Bank',
-    slug: 'access-bank',
-    src: p('access-bank', 'photo-03.jpg'),
+    text: 'One idea told across billboards, social posts, press and events, so people recognise it wherever they meet it.',
+    example: 'Take Back The Mic',
+    slug: 'take-back-the-mic',
+    src: p('tbtm', 'nyc-billboard-05.jpg'),
   },
   {
-    name: 'Websites and apps',
-    text: 'Screens people can find their way around without thinking, from a waitlist page to a full money app.',
-    example: 'HashIT',
-    slug: 'hashit',
-    src: p('hashit', 'pdf-app-ui.png'),
-  },
-  {
-    name: 'Reports and presentations',
-    text: 'Turning technical ideas and numbers into documents a busy reader can follow, for boards, investors and government.',
+    name: 'Reports and documents',
+    text: 'Turning technical ideas and numbers into documents a busy reader can follow, for boards, investors, schools and government.',
     example: 'Syntech Biofuel',
     slug: 'syntech-biofuel',
     src: p('syntech', 'brochure-cover.jpg'),
+  },
+  {
+    name: 'Websites and apps',
+    text: 'Screens people can find their way around without thinking, from a pre-order page to a full banking product.',
+    example: 'Kavlr',
+    slug: 'kavlr',
+    src: p('kavlr', 'website-desktop-2.png'),
   },
   {
     name: 'Learning products',
@@ -98,13 +106,6 @@ export const services: { name: string; text: string; example: string; slug: stri
     example: 'Draw in the Air',
     slug: 'draw-in-the-air',
     src: p('draw-in-the-air', 'wave-to-start.jpg'),
-  },
-  {
-    name: 'Design tools',
-    text: 'Software that takes the slow, repetitive parts out of design work, so designers can spend their time on ideas.',
-    example: 'Voidcanvas',
-    slug: 'voidcanvas',
-    src: p('voidcanvas', 'effects-dither.jpg'),
   },
 ]
 
@@ -126,22 +127,20 @@ export const steps: { title: string; text: string }[] = [
 
 /** Smaller jobs, shown as a list. */
 export const recent: { name: string; via?: string; what: string }[] = [
-  { name: 'Cirquu', what: 'A stand, merchandise and motion graphics for TechCabal’s Moonshot 2026 conference.' },
-  { name: 'ionec', via: 'DisruptDNA', what: 'A 28-page brand guide, plus marks for its brands Insight360, I Am Loyal and Get A Bar.' },
-  { name: 'Learn Africa', via: 'DisruptDNA', what: 'A 19-slide proposal to Nigeria’s Federal Ministry of Education.' },
-  { name: 'Solina Group', what: 'A 15th anniversary identity, and event design for the REACH Annual Meeting.' },
-  { name: 'Black Diamond Hotel', what: 'The Beauty of Freedom, an Independence Day campaign for social, web and email.' },
-  { name: 'JaneMichael Ekanem Foundation', what: 'A brand book, documents and weekly social posts for a girls’ education scholarship in Lagos.' },
-  { name: 'AMP Global Tech', what: 'Investor presentations for a $5.6 million seed round, and short animations for social.' },
   { name: 'The Song Maiden', what: 'Art director on an animated short film. Best Animation at AFRIFF, nominated at the AMVCA 2023 and chosen for development at MIFA Annecy 2023.' },
+  { name: 'Cirquu', what: 'A stand, merchandise and motion graphics for TechCabal\u2019s Moonshot 2026 conference.' },
+  { name: 'ionec', via: 'DisruptDNA', what: 'A 28-page brand guide, plus marks for its brands Insight360, I Am Loyal and Get A Bar.' },
+  { name: 'Learn Africa', via: 'DisruptDNA', what: 'A 19-slide proposal to Nigeria\u2019s Federal Ministry of Education.' },
+  { name: 'Solina Group', what: 'A 15th anniversary identity, and event design for the REACH Annual Meeting.' },
+  { name: 'AMP Global Tech', what: 'Investor presentations for a $5.6 million seed round, and short animations for social.' },
 ]
 
 /** My own products that are not case studies yet. */
 export const building: { name: string; what: string; status: string }[] = [
+  { name: 'Voidcanvas', what: 'Free design tools that run in a web browser: image effects, an editor and an art director\u2019s studio.', status: 'Live' },
   { name: 'Election Day: Naija', what: 'A 3D game in the browser about a fictional election day in Lagos and Abuja.', status: 'In development' },
   { name: 'A STEM story game', what: 'Young children pick a character and travel through five worlds of science, technology, engineering and maths.', status: 'In development' },
   { name: 'TollPilot', what: 'Tells UK drivers what tolls, ULEZ and congestion charges a journey will cost before they set off.', status: 'Launching' },
-  { name: 'Pamiit', what: 'Event ticketing that organisers in the UK and Nigeria can set up themselves.', status: 'Prototype' },
 ]
 
 export const teaching: { name: string; what: string; href?: string }[] = [
@@ -166,7 +165,7 @@ export const experience: { years: string; org: string; role: string }[] = [
 ]
 
 export const education: { years: string; what: string; where: string }[] = [
-  { years: '2022', what: 'MA Design in Graphic Design', where: 'University of Hertfordshire' },
+  { years: '2022', what: 'MA Design in Graphic Design, first class', where: 'University of Hertfordshire' },
   { years: '2007', what: 'BSc Computer Science and Education', where: 'Enugu State University of Science and Technology' },
 ]
 
