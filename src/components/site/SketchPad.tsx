@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-// The hero is a sketchbook page: the cursor (or a hand, through the webcam) leaves ink that fades.
+// A small sketchbook: the cursor, a finger, or a hand seen by the webcam leaves ink that fades.
+// It is the idea behind Draw in the Air, in a panel the visitor can try.
 
 type Pt = { x: number; y: number; t: number; w: number }
 type Stroke = Pt[]
@@ -19,8 +20,8 @@ const MODEL =
 
 const dist = (a: Landmark, b: Landmark) => Math.hypot(a.x - b.x, a.y - b.y)
 
-export default function SketchHero({ children }: { children: React.ReactNode }) {
-  const sectionRef = useRef<HTMLElement>(null)
+export default function SketchPad() {
+  const sectionRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -29,6 +30,7 @@ export default function SketchHero({ children }: { children: React.ReactNode }) 
   const raf = useRef<number | null>(null)
   const ink = useRef('#2232E6')
   const stopHand = useRef<(() => void) | null>(null)
+  const touched = useRef(false) // true once the visitor has drawn anything
 
   const [coarse, setCoarse] = useState(false)
   const [touchDraw, setTouchDraw] = useState(false)
@@ -86,6 +88,7 @@ export default function SketchHero({ children }: { children: React.ReactNode }) 
   const addPoint = useCallback(
     (source: Source, x: number, y: number, at?: number) => {
       const now = at ?? performance.now()
+      if (source !== 'intro') touched.current = true
       let s = current.current[source]
       const last = s?.[s.length - 1]
       if (!s || (last && (now - last.t > 160 || Math.hypot(x - last.x, y - last.y) > 180))) {
@@ -140,30 +143,40 @@ export default function SketchHero({ children }: { children: React.ReactNode }) 
     }
   }, [kick])
 
-  // ── A short line drawn on load, so the page shows what it does ──
+  // ── A demo line, drawn when the pad comes into view and repeated until the visitor draws ──
   useEffect(() => {
     const section = sectionRef.current
     if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     let frame = 0
-    let start = 0
+    let timer = 0
+    let visible = false
+    let running = false
     const duration = 1500
-    const timer = window.setTimeout(() => {
+    const gap = 6200
+    const run = () => {
+      if (!visible || touched.current || running) return
+      running = true
       const w = section.clientWidth
       const h = section.clientHeight
-      const wide = w > 820
-      const x0 = wide ? w * 0.5 : w * 0.12
-      const len = wide ? w * 0.38 : w * 0.74
-      const yc = wide ? h * 0.3 : h * 0.24
-      const r = Math.min(wide ? w * 0.024 : w * 0.05, 34)
+      const x0 = w * 0.14
+      const len = w * 0.72
+      const yc = h * 0.42
+      const r = Math.min(w * 0.045, 36)
       const loops = 4
+      let start = 0
+      let done = 0
       const point = (u: number) => {
         // A run of cursive loops (a prolate trochoid) with a slight fall, like a pen warming up.
         const a = u * loops * Math.PI * 2
         addPoint('intro', x0 + len * u - r * Math.sin(a), yc + r * Math.cos(a) + u * r * 1.2, start + u * duration)
       }
-      let done = 0
       const step = (ts: number) => {
         if (!start) start = ts
+        if (touched.current) {
+          endStroke('intro')
+          running = false
+          return
+        }
         const t = Math.min(1, (ts - start) / duration)
         while (done + 0.003 <= t) {
           done += 0.003
@@ -173,11 +186,23 @@ export default function SketchHero({ children }: { children: React.ReactNode }) 
         else {
           point(1)
           endStroke('intro')
+          running = false
+          timer = window.setTimeout(run, gap)
         }
       }
       frame = requestAnimationFrame(step)
-    }, 650)
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        visible = entries.some((e) => e.isIntersecting)
+        window.clearTimeout(timer)
+        if (visible) timer = window.setTimeout(run, 250)
+      },
+      { threshold: 0.6 },
+    )
+    io.observe(section)
     return () => {
+      io.disconnect()
       window.clearTimeout(timer)
       cancelAnimationFrame(frame)
     }
@@ -300,17 +325,17 @@ export default function SketchHero({ children }: { children: React.ReactNode }) 
 
   let status = coarse
     ? touchDraw
-      ? 'Draw with your finger. Turn drawing off to scroll.'
-      : 'This page is a sketchbook.'
-    : 'Move your cursor to draw.'
+      ? 'Draw with your finger.'
+      : 'Tap “Draw here” to start.'
+    : 'Move your cursor over this panel.'
   if (hand === 'loading') status = 'Starting the camera…'
-  if (hand === 'on') status = 'Pinch your thumb and finger to draw. Open them to lift the pen.'
-  if (hand === 'error') status = 'The camera didn’t start. Check your browser’s camera permission, then try again.'
+  if (hand === 'on') status = 'Pinch your thumb and finger to draw. Open them to stop.'
+  if (hand === 'error') status = 'The camera didn’t start. Check the camera permission, then try again.'
 
   return (
-    <section
+    <div
       ref={sectionRef}
-      className="hero"
+      className="pad"
       data-touch-draw={touchDraw ? 'true' : 'false'}
       onPointerMove={onPointerMove}
       onPointerDown={onPointerDown}
@@ -318,41 +343,35 @@ export default function SketchHero({ children }: { children: React.ReactNode }) 
       onPointerLeave={onPointerEnd}
       onPointerCancel={onPointerEnd}
     >
-      <canvas ref={canvasRef} className="hero__canvas" aria-hidden="true" />
-      <div ref={cursorRef} className="hero__hand-cursor" aria-hidden="true" />
-      <div className="hero__inner">
-        {children}
-        <div className="hero__tools">
-          <p className="hero__status" aria-live="polite">
-            {status}
-          </p>
-          <div className="hero__buttons">
-            {coarse && hand !== 'on' && (
-              <button type="button" className="pill" onClick={() => setTouchDraw((v) => !v)} aria-pressed={touchDraw}>
-                {touchDraw ? 'Stop drawing' : 'Draw here'}
-              </button>
-            )}
-            {hand === 'on' ? (
-              <button type="button" className="pill" onClick={turnOffHand}>
-                Turn camera off
-              </button>
-            ) : (
-              <button type="button" className="pill pill--ink" onClick={startHand} disabled={hand === 'loading'}>
-                {hand === 'error' ? 'Try the camera again' : 'Draw with your hand'}
-              </button>
-            )}
-          </div>
-          {hand === 'off' && <p className="hero__note">Uses your camera. The video stays on your device.</p>}
-          <video
-            ref={videoRef}
-            className="hero__video"
-            hidden={hand !== 'on'}
-            playsInline
-            muted
-            aria-label="Your webcam, mirrored"
-          />
-        </div>
+      <canvas ref={canvasRef} className="pad__canvas" aria-hidden="true" />
+      <div ref={cursorRef} className="pad__cursor" aria-hidden="true" />
+      <p className="chip pad__status" aria-live="polite">
+        {status}
+      </p>
+      <div className="pad__controls">
+        {coarse && hand !== 'on' && (
+          <button type="button" className="pill" onClick={() => setTouchDraw((v) => !v)} aria-pressed={touchDraw}>
+            {touchDraw ? 'Stop drawing' : 'Draw here'}
+          </button>
+        )}
+        {hand === 'on' ? (
+          <button type="button" className="pill" onClick={turnOffHand}>
+            Turn camera off
+          </button>
+        ) : (
+          <button type="button" className="pill pill--ink" onClick={startHand} disabled={hand === 'loading'}>
+            {hand === 'error' ? 'Try the camera again' : 'Use my camera'}
+          </button>
+        )}
       </div>
-    </section>
+      <video
+        ref={videoRef}
+        className="pad__video"
+        hidden={hand !== 'on'}
+        playsInline
+        muted
+        aria-label="Your camera, mirrored"
+      />
+    </div>
   )
 }

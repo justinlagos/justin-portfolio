@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="site">
       <Header />
-      <main className="case">
+      <main className="wrap case lost">
         <div className="case__head">
           <h1 className="case__title">Not here.</h1>
           <p className="case__summary">

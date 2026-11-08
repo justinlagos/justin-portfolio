@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Justin Ukaegbu, design director who builds'
+export const alt = 'Justin Ukaegbu. I design brands and products. Then I build them.'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -15,8 +15,9 @@ export default function OpenGraphImage() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: 72,
-          background: '#fbfbf9',
-          color: '#17171c',
+          background: '#0a0a0b',
+          color: '#ffffff',
+          borderRadius: 0,
         }}
       >
         <div style={{ fontSize: 34, fontWeight: 600 }}>Justin Ukaegbu</div>
@@ -24,17 +25,17 @@ export default function OpenGraphImage() {
           <path
             d="M6 60 C 40 10, 70 10, 60 50 S 110 90, 130 40 S 180 0, 190 45 S 240 85, 260 40 S 310 5, 320 45 S 380 80, 420 50 S 500 30, 552 44"
             fill="none"
-            stroke="#2232e6"
+            stroke="#5865ff"
             strokeWidth="6"
             strokeLinecap="round"
           />
         </svg>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 112, fontWeight: 700, letterSpacing: -4, lineHeight: 0.95 }}>Design director</div>
-          <div style={{ fontSize: 112, fontWeight: 700, letterSpacing: -4, lineHeight: 0.95 }}>who builds.</div>
-          <div style={{ fontSize: 30, color: '#64646e', marginTop: 28 }}>
-            Brand systems, campaigns and interactive products. Kent, UK.
+          <div style={{ fontSize: 84, fontWeight: 700, letterSpacing: -3, lineHeight: 1, color: '#a1a1a8' }}>
+            I design brands and products.
           </div>
+          <div style={{ fontSize: 84, fontWeight: 700, letterSpacing: -3, lineHeight: 1 }}>Then I build them.</div>
+          <div style={{ fontSize: 30, color: '#a1a1a8', marginTop: 28 }}>Design director. Kent, UK.</div>
         </div>
       </div>
     ),

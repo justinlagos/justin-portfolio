@@ -3,15 +3,20 @@ import { site } from '@/content/site'
 
 export default function Header() {
   return (
-    <header className="masthead">
-      <Link href="/" className="masthead__name">
+    <header className="nav">
+      <Link href="/" className="nav__pill nav__name">
         {site.name}
       </Link>
-      <nav className="masthead__nav" aria-label="Main">
+      <nav className="nav__pill nav__links" aria-label="Main">
         <Link href="/#work">Work</Link>
+        <Link href="/#try">Try it</Link>
+        <Link href="/#how">How I work</Link>
         <Link href="/#about">About</Link>
-        <a href="#contact">Contact</a>
+        <Link href="/#faq">FAQ</Link>
       </nav>
+      <a href={`mailto:${site.email}`} className="nav__pill nav__cta">
+        Email me
+      </a>
     </header>
   )
 }
