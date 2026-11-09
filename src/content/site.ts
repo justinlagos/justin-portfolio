@@ -169,7 +169,7 @@ export const experience: { years: string; org: string; role: string }[] = [
 ]
 
 export const education: { years: string; what: string; where: string }[] = [
-  { years: '2022', what: 'MA Design in Graphic Design, first class', where: 'University of Hertfordshire' },
+  { years: '2022', what: 'MA Design in Graphic Design, Distinction', where: 'University of Hertfordshire' },
   { years: '2007', what: 'BSc Computer Science and Education', where: 'Enugu State University of Science and Technology' },
 ]
 

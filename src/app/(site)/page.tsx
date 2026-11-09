@@ -255,7 +255,7 @@ export default function Home() {
               designer at Syntech Biofuel and Route to Zero, working with the CEO.
             </p>
             <p className="card__text">
-              I studied Computer Science and Education first, then took an MA in Graphic Design with a first, so I
+              I studied Computer Science and Education first, then took an MA in Graphic Design with Distinction, so I
               build as well as design. I run my own products through MotionPlay Labs, my studio in the UK and Nigeria.
             </p>
             <h3 className="mini">Experience</h3>
