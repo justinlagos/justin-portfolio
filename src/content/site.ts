@@ -175,7 +175,6 @@ export const education: { years: string; what: string; where: string }[] = [
 
 export const recognition: string[] = [
   'Webby Award nomination, 2023, for the TBTM Interactive Festival',
-  'Member, Chartered Society of Designers',
   'Member, Design Research Society',
   'Certificate of Appreciation, United Nations Volunteers, for an education project (SDG 4)',
 ]
