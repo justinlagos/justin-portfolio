@@ -365,7 +365,7 @@ async function run() {
           story_1: "Started in Nigeria, studied in the UK, and worked across the Middle East and Europe. Early career covered print, brand identity, and editorial design before shifting into digital product and interaction work.",
           story_2: "Take Back The Mic was a defining project. Three seasons of brand, digital product, interactive festival, and campaign work spanning virtual environments, crypto rewards, and a Mastercard partnership. The campaign reached over 1.1 billion impressions across 50+ countries and earned a Webby nomination in 2023.",
           story_3: "In the UK, created the brand identity, website, and communications design for Route to Zero, a business-led membership organisation operating at government level, engaging Westminster and industry leaders on net zero policy.",
-          story_4: "Holds an MA in Graphic Design (Distinction) from University of Hertfordshire and B.Sc. in Computer Science and Education from Enugu University of Science and Technology. Member of Chartered Society of Designers and Design Research Society."
+          story_4: "Holds an MA in Graphic Design (Distinction) from University of Hertfordshire and B.Sc. in Computer Science and Education from Enugu University of Science and Technology. Member of the Design Research Society."
         })}
       ),
       (
@@ -468,8 +468,7 @@ async function run() {
       ('Mastercard Partnership', 'Digital card product design', 2),
       ('1.1 Billion Impressions', 'Across fifty countries', 3),
       ('Government-Level Work', 'Westminster engagement on net zero policy', 4),
-      ('Chartered Designer', 'Member, Chartered Society of Designers', 5),
-      ('MA Graphic Design', 'Distinction, University of Hertfordshire', 6)
+      ('MA Graphic Design', 'Distinction, University of Hertfordshire', 5)
   `;
 
   // --- Products (column is "title" in schema, seed used "name") ---
