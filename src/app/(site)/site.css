@@ -420,6 +420,7 @@ ol {
   color: #fff;
 }
 
+.stage,
 .show,
 .show::after {
   position: absolute;
@@ -555,13 +556,145 @@ ol {
   gap: 10px;
 }
 
-@media (max-width: 860px) {
+@media (min-width: 761px) and (max-width: 860px) {
   .hero__content {
     padding-bottom: 104px;
   }
 
   .show__bar .chip {
     max-width: 62vw;
+  }
+}
+
+/* Phones: the work sits in its own frame at the top of the card, and the words sit on solid ground below it.
+   Nothing is laid over the pictures except the caption. */
+@media (max-width: 760px) {
+  .hero-wrap {
+    padding: 8px;
+  }
+
+  .hero {
+    flex-direction: column;
+    min-height: 0;
+    border-radius: 28px;
+  }
+
+  .stage {
+    position: relative;
+    inset: auto;
+    flex: none;
+    aspect-ratio: 1 / 1.08;
+    max-height: 60svh;
+    margin: 6px 6px 0;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #1a1a1c;
+  }
+
+  .show::after {
+    background:
+      linear-gradient(180deg, rgba(10, 10, 11, 0.5) 0%, rgba(10, 10, 11, 0) 26%),
+      linear-gradient(0deg, rgba(10, 10, 11, 0.62) 0%, rgba(10, 10, 11, 0) 30%);
+  }
+
+  .show__img {
+    transform: none;
+    transition: opacity 0.9s ease;
+  }
+
+  .show__bar {
+    inset: auto 12px 12px;
+    gap: 10px;
+  }
+
+  .show__bar .chip {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .show__bar .chip .chip__dot {
+    flex: none;
+  }
+
+  .show__dots {
+    flex: none;
+    padding: 7px 9px;
+  }
+
+  .hero__content {
+    gap: 16px;
+    padding: 26px 22px 26px;
+  }
+
+  .hero__content > .chip {
+    padding: 5px 11px;
+    font-size: 0.75rem;
+  }
+
+  .hero__split {
+    gap: 20px;
+  }
+
+  .hero__title {
+    font-size: clamp(2.125rem, 10.2vw, 2.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+  }
+
+  .hero__one,
+  .hero__two {
+    text-wrap: balance;
+  }
+
+  .hero__one {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .hero__side {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+  }
+
+  .hero__text {
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .hero__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .hero__actions .pill {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .show__dots {
+    gap: 4px;
+    padding: 6px 7px;
+  }
+
+  .show__dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .show__dot[data-on='true'] {
+    width: 16px;
+  }
+
+  .show__bar .chip {
+    font-size: 0.6875rem;
   }
 }
 

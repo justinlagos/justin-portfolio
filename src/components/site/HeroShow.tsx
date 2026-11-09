@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 export type Slide = { src: string; caption: string; width: number; height: number }
 
-// The images behind the hero text. They change every few seconds; the caption says what you are looking at.
+// The images behind the hero text (on phones, a framed picture above it). They change every few seconds; the caption says what you are looking at.
 export default function HeroShow({ slides }: { slides: Slide[] }) {
   const [i, setI] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -24,7 +24,7 @@ export default function HeroShow({ slides }: { slides: Slide[] }) {
   }, [paused, slides.length])
 
   return (
-    <>
+    <div className="stage">
       <div className="show" aria-hidden="true">
         {slides.map((s, n) => (
           <Image
@@ -61,6 +61,6 @@ export default function HeroShow({ slides }: { slides: Slide[] }) {
           ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }

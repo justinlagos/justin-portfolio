@@ -16,11 +16,11 @@ export const hero = {
   lineTwo: 'Then I build them.',
   text: 'I’m Justin Ukaegbu. Since 2009 I’ve designed for banks, energy companies, start-ups and a pan-African music festival. I lead the design, and when it needs to live on a screen, I build it too.',
   slides: [
-    { src: p('tbtm', 'nyc-billboard-08.jpg'), caption: 'Take Back The Mic, on a screen in New York' },
-    { src: p('kavlr', 'card-black.png'), caption: 'Kavlr business card' },
     { src: p('route-to-zero', 'img15_2d1459d41a.jpg'), caption: 'Route to Zero business cards' },
     { src: p('syntech', 'logo-icon.png'), caption: 'Syntech Biofuel vehicle livery' },
     { src: p('access-bank', 'pdf-brand-guide-cover.png'), caption: 'Access Bank brand guide' },
+    { src: p('kavlr', 'card-black.png'), caption: 'Kavlr business card' },
+    { src: p('tbtm', 'nyc-billboard-08.jpg'), caption: 'Take Back The Mic, New York' },
   ],
 }
 
